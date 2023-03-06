@@ -41,7 +41,7 @@ To run this project on a Google Compute Engine, I followed these steps:
    <img src = "Readme_images/ssh.PNG" width = "250" title="Connect via SSH.">
 	
    - Install docker-compose on the instance:
-	  - I folowed the steps described [here](https://levelup.gitconnected.com/the-easiest-docker-docker-compose-setup-on-compute-engine-ec171c09a29a):
+	  - I followed the steps described [here](https://levelup.gitconnected.com/the-easiest-docker-docker-compose-setup-on-compute-engine-ec171c09a29a):
 	     - `curl -L "https://github.com/docker/compose/releases/download/1.26.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose`
 	     - `chmod +x /usr/local/bin/docker-compose`
 	     - You might need to add `sudo` in front of the commands to make them work.
@@ -49,10 +49,11 @@ To run this project on a Google Compute Engine, I followed these steps:
       - Follow the instructions here: https://cloud.google.com/compute/docs/ip-addresses/reserve-static-external-ip-address.
 	  - You have to pay for every month, but it is rather cheap.
    - Make sure you turn off your instance whenever you do not need it, as you are charged for the time that it is up.
-   - Create your own branch from this project.
+   - Create your own branch/fork from this project.
    - In your branch, set the IP address of your Google Compute Engine instance in the function `send(message)` in the file frontend/static/js/script.js: `url: "http://<your_instance_IP>:5005/webhooks/rest/webhook"`. This is why it helps to have a static IP address.
    - Clone your project from Github on the Google Compute Engine instance.
    - Navigate to your project folder on the Compute Engine instance and start your project with `docker-compose up`.
+   - Check if all your containers are running via `docker container ls`.
    - You can access the frontend from your browser via `http://<your_instance_IP>:3000/?userid=<some_user_id>`.
    - Open the chat here:
    
