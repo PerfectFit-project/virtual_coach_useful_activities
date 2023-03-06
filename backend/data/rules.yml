@@ -127,3 +127,55 @@ rules:
   - action: utter_thank_activity_experience_mod
   - action: utter_state_question_intro
   - action: utter_state_question_1
+  
+
+- rule: state 2
+  steps:
+  - intent: confirm_state_1
+  - action: utter_state_question_2
+
+- rule: state 3
+  steps:
+  - intent: confirm_state_2
+  - action: utter_state_question_3
+  
+- rule: state 4
+  steps:
+  - intent: confirm_state_3
+  - action: utter_state_question_4
+  
+- rule: state 5
+  steps:
+  - intent: confirm_state_4
+  - action: utter_state_question_5
+  
+- rule: state 6
+  steps:
+  - intent: confirm_state_5
+  - action: utter_state_question_6
+  
+- rule: state 7
+  steps:
+  - intent: confirm_state_6
+  - action: utter_state_questions_more_than_halfway
+  - action: utter_state_question_7
+  
+- rule: state 8
+  steps:
+  - intent: confirm_state_7
+  - action: utter_state_question_8
+  
+- rule: state 9
+  steps:
+  - intent: confirm_state_8
+  - action: utter_state_question_9
+  
+- rule: state busy
+  steps:
+  - intent: confirm_state_9
+  - action: utter_state_question_busy
+  
+- rule: state energy
+  steps:
+  - intent: confirm_state_busy
+  - action: utter_state_question_energy

@@ -18,6 +18,19 @@ intents:
 - confirm_activity_experience
 - deny_activity_experience
 
+### states
+- confirm_state_1
+- confirm_state_2
+- confirm_state_3
+- confirm_state_4
+- confirm_state_5
+- confirm_state_6
+- confirm_state_7
+- confirm_state_8
+- confirm_state_9
+- confirm_state_busy
+- confirm_state_energy
+
 entities:
 - session_num:
     influence_conversation: false
@@ -28,6 +41,26 @@ entities:
     influence_conversation: false
 
 - state_1:
+    influence_conversation: false
+- state_2:
+    influence_conversation: false
+- state_3:
+    influence_conversation: false
+- state_4:
+    influence_conversation: false
+- state_5:
+    influence_conversation: false
+- state_6:
+    influence_conversation: false
+- state_7:
+    influence_conversation: false
+- state_8:
+    influence_conversation: false
+- state_9:
+    influence_conversation: false
+- state_busy:
+    influence_conversation: false
+- state_energy:
     influence_conversation: false
 
 - effort:
@@ -396,32 +429,284 @@ responses:
     
   ### Ask state questions
   utter_state_question_intro:
-  - text: "Now I will ask you a few questions about your current situation regarding preparing for quitting smoking.\nIt's 9 questions overall so I can get a good grasp of where you stand."
+  - text: "Now I will ask you a few questions about your current situation regarding preparing for quitting smoking.\nIt's 11 questions overall so I can get a good grasp of where you stand."
   utter_state_question_1:
   - buttons:
-    - payload: /confirm{"state_1":"-5"}
-      title: "-5 (Extremely harmful)"
-    - payload: /confirm{"state_1":"-4"}
+    - payload: /confirm_state_1{"state_1":"-5"}
+      title: "-5 (make it a lot harder)"
+    - payload: /confirm_state_1{"state_1":"-4"}
       title: "-4"
-    - payload: /confirm{"state_1":"-3"}
+    - payload: /confirm_state_1{"state_1":"-3"}
       title: "-3"
-    - payload: /confirm{"state_1":"-2"}
+    - payload: /confirm_state_1{"state_1":"-2"}
       title: "-2"
-    - payload: /confirm{"state_1":"-1"}
+    - payload: /confirm_state_1{"state_1":"-1"}
       title: "-1"
-    - payload: /confirm{"state_1":"0"}
-      title: "0 (Neutral)"
-    - payload: /confirm{"state_1":"1"}
+    - payload: /confirm_state_1{"state_1":"0"}
+      title: "0 (neutral)"
+    - payload: /confirm_state_1{"state_1":"1"}
       title: "1"
-    - payload: /confirm{"state_1":"2"}
+    - payload: /confirm_state_1{"state_1":"2"}
       title: "2"
-    - payload: /confirm{"state_1":"3"}
+    - payload: /confirm_state_1{"state_1":"3"}
       title: "3"
-    - payload: /confirm{"state_1":"4"}
+    - payload: /confirm_state_1{"state_1":"4"}
       title: "4"
-    - payload: /confirm{"state_1":"5"}
-      title: "5 (Extremely helpful)"
-    text: "How helpful or harmful do you think xxx is for successfully quitting smoking?"
+    - payload: /confirm_state_1{"state_1":"5"}
+      title: "5 (make it a lot easier)"
+    text: "How do you think do self-confidence and motivation affect quitting smoking?"
+  utter_state_question_2:
+  - buttons:
+    - payload: /confirm_state_2{"state_2":"-5"}
+      title: "-5 (make it a lot harder)"
+    - payload: /confirm_state_2{"state_2":"-4"}
+      title: "-4"
+    - payload: /confirm_state_2{"state_2":"-3"}
+      title: "-3"
+    - payload: /confirm_state_2{"state_2":"-2"}
+      title: "-2"
+    - payload: /confirm_state_2{"state_2":"-1"}
+      title: "-1"
+    - payload: /confirm_state_2{"state_2":"0"}
+      title: "0 (neutral)"
+    - payload: /confirm_state_2{"state_2":"1"}
+      title: "1"
+    - payload: /confirm_state_2{"state_2":"2"}
+      title: "2"
+    - payload: /confirm_state_2{"state_2":"3"}
+      title: "3"
+    - payload: /confirm_state_2{"state_2":"4"}
+      title: "4"
+    - payload: /confirm_state_2{"state_2":"5"}
+      title: "5 (make it a lot easier)"
+    text: "How do you think does practical preparation affect quitting smoking?"
+  utter_state_question_3:
+  - buttons:
+    - payload: /confirm_state_3{"state_3":"-5"}
+      title: "-5 (make it a lot harder)"
+    - payload: /confirm_state_3{"state_3":"-4"}
+      title: "-4"
+    - payload: /confirm_state_3{"state_3":"-3"}
+      title: "-3"
+    - payload: /confirm_state_3{"state_3":"-2"}
+      title: "-2"
+    - payload: /confirm_state_3{"state_3":"-1"}
+      title: "-1"
+    - payload: /confirm_state_3{"state_3":"0"}
+      title: "0 (neutral)"
+    - payload: /confirm_state_3{"state_3":"1"}
+      title: "1"
+    - payload: /confirm_state_3{"state_3":"2"}
+      title: "2"
+    - payload: /confirm_state_3{"state_3":"3"}
+      title: "3"
+    - payload: /confirm_state_3{"state_3":"4"}
+      title: "4"
+    - payload: /confirm_state_3{"state_3":"5"}
+      title: "5 (make it a lot easier)"
+    text: "How do you think does keeping a positive outlook and being aware of positive outcomes of one's behavior change affect quitting smoking?"
+  utter_state_question_4:
+  - buttons:
+    - payload: /confirm_state_4{"state_4":"-5"}
+      title: "-5 (make it a lot harder)"
+    - payload: /confirm_state_4{"state_4":"-4"}
+      title: "-4"
+    - payload: /confirm_state_4{"state_4":"-3"}
+      title: "-3"
+    - payload: /confirm_state_4{"state_4":"-2"}
+      title: "-2"
+    - payload: /confirm_state_4{"state_4":"-1"}
+      title: "-1"
+    - payload: /confirm_state_4{"state_4":"0"}
+      title: "0 (neutral)"
+    - payload: /confirm_state_4{"state_4":"1"}
+      title: "1"
+    - payload: /confirm_state_4{"state_4":"2"}
+      title: "2"
+    - payload: /confirm_state_4{"state_4":"3"}
+      title: "3"
+    - payload: /confirm_state_4{"state_4":"4"}
+      title: "4"
+    - payload: /confirm_state_4{"state_4":"5"}
+      title: "5 (make it a lot easier)"
+    text: "How do you think does thinking about 'negative' things affect quitting smoking?"
+  utter_state_question_5:
+  - buttons:
+    - payload: /confirm_state_5{"state_5":"-5"}
+      title: "-5 (make it a lot harder)"
+    - payload: /confirm_state_5{"state_5":"-4"}
+      title: "-4"
+    - payload: /confirm_state_5{"state_5":"-3"}
+      title: "-3"
+    - payload: /confirm_state_5{"state_5":"-2"}
+      title: "-2"
+    - payload: /confirm_state_5{"state_5":"-1"}
+      title: "-1"
+    - payload: /confirm_state_5{"state_5":"0"}
+      title: "0 (neutral)"
+    - payload: /confirm_state_5{"state_5":"1"}
+      title: "1"
+    - payload: /confirm_state_5{"state_5":"2"}
+      title: "2"
+    - payload: /confirm_state_5{"state_5":"3"}
+      title: "3"
+    - payload: /confirm_state_5{"state_5":"4"}
+      title: "4"
+    - payload: /confirm_state_5{"state_5":"5"}
+      title: "5 (make it a lot easier)"
+    text: "How do you think does motivation affect quitting smoking?"
+  utter_state_question_6:
+  - buttons:
+    - payload: /confirm_state_6{"state_6":"-5"}
+      title: "-5 (make it a lot harder)"
+    - payload: /confirm_state_6{"state_6":"-4"}
+      title: "-4"
+    - payload: /confirm_state_6{"state_6":"-3"}
+      title: "-3"
+    - payload: /confirm_state_6{"state_6":"-2"}
+      title: "-2"
+    - payload: /confirm_state_6{"state_6":"-1"}
+      title: "-1"
+    - payload: /confirm_state_6{"state_6":"0"}
+      title: "0 (neutral)"
+    - payload: /confirm_state_6{"state_6":"1"}
+      title: "1"
+    - payload: /confirm_state_6{"state_6":"2"}
+      title: "2"
+    - payload: /confirm_state_6{"state_6":"3"}
+      title: "3"
+    - payload: /confirm_state_6{"state_6":"4"}
+      title: "4"
+    - payload: /confirm_state_6{"state_6":"5"}
+      title: "5 (make it a lot easier)"
+    text: "How do you think does knowledge of how to manage cravings and the resultant negative feelings affect quitting smoking?"
+  utter_state_questions_more_than_halfway:
+  - text: "Nice, now we're more than halfway!"
+  utter_state_question_7:
+  - buttons:
+    - payload: /confirm_state_7{"state_7":"-5"}
+      title: "-5 (make it a lot harder)"
+    - payload: /confirm_state_7{"state_7":"-4"}
+      title: "-4"
+    - payload: /confirm_state_7{"state_7":"-3"}
+      title: "-3"
+    - payload: /confirm_state_7{"state_7":"-2"}
+      title: "-2"
+    - payload: /confirm_state_7{"state_7":"-1"}
+      title: "-1"
+    - payload: /confirm_state_7{"state_7":"0"}
+      title: "0 (neutral)"
+    - payload: /confirm_state_7{"state_7":"1"}
+      title: "1"
+    - payload: /confirm_state_7{"state_7":"2"}
+      title: "2"
+    - payload: /confirm_state_7{"state_7":"3"}
+      title: "3"
+    - payload: /confirm_state_7{"state_7":"4"}
+      title: "4"
+    - payload: /confirm_state_7{"state_7":"5"}
+      title: "5 (make it a lot easier)"
+    text: "How do you think does knowledge of how physical activity helps to quit smoking affect quitting smoking?"
+  utter_state_question_8:
+  - buttons:
+    - payload: /confirm_state_8{"state_8":"-5"}
+      title: "-5 (make it a lot harder)"
+    - payload: /confirm_state_8{"state_8":"-4"}
+      title: "-4"
+    - payload: /confirm_state_8{"state_8":"-3"}
+      title: "-3"
+    - payload: /confirm_state_8{"state_8":"-2"}
+      title: "-2"
+    - payload: /confirm_state_8{"state_8":"-1"}
+      title: "-1"
+    - payload: /confirm_state_8{"state_8":"0"}
+      title: "0 (neutral)"
+    - payload: /confirm_state_8{"state_8":"1"}
+      title: "1"
+    - payload: /confirm_state_8{"state_8":"2"}
+      title: "2"
+    - payload: /confirm_state_8{"state_8":"3"}
+      title: "3"
+    - payload: /confirm_state_8{"state_8":"4"}
+      title: "4"
+    - payload: /confirm_state_8{"state_8":"5"}
+      title: "5 (make it a lot easier)"
+    text: "How do you think does thinking of possible obstacles affect quitting smoking?"
+  utter_state_question_9:
+  - buttons:
+    - payload: /confirm_state_9{"state_9":"-5"}
+      title: "-5 (make it a lot harder)"
+    - payload: /confirm_state_9{"state_9":"-4"}
+      title: "-4"
+    - payload: /confirm_state_9{"state_9":"-3"}
+      title: "-3"
+    - payload: /confirm_state_9{"state_9":"-2"}
+      title: "-2"
+    - payload: /confirm_state_9{"state_9":"-1"}
+      title: "-1"
+    - payload: /confirm_state_9{"state_9":"0"}
+      title: "0 (neutral)"
+    - payload: /confirm_state_9{"state_9":"1"}
+      title: "1"
+    - payload: /confirm_state_9{"state_9":"2"}
+      title: "2"
+    - payload: /confirm_state_9{"state_9":"3"}
+      title: "3"
+    - payload: /confirm_state_9{"state_9":"4"}
+      title: "4"
+    - payload: /confirm_state_9{"state_9":"5"}
+      title: "5 (make it a lot easier)"
+    text: "How do you think does knowledge of steps to reduce possible short-term adverse effects on your mental and physical well-being affect quitting smoking?"
+  utter_state_question_busy:
+  - buttons:
+    - payload: /confirm_state_busy{"state_busy":"-5"}
+      title: "-5 (much less)"
+    - payload: /confirm_state_busy{"state_busy":"-4"}
+      title: "-4"
+    - payload: /confirm_state_busy{"state_busy":"-3"}
+      title: "-3"
+    - payload: /confirm_state_busy{"state_busy":"-2"}
+      title: "-2"
+    - payload: /confirm_state_busy{"state_busy":"-1"}
+      title: "-1"
+    - payload: /confirm_state_busy{"state_busy":"0"}
+      title: "0 (neutral)"
+    - payload: /confirm_state_busy{"state_busy":"1"}
+      title: "1"
+    - payload: /confirm_state_busy{"state_busy":"2"}
+      title: "2"
+    - payload: /confirm_state_busy{"state_busy":"3"}
+      title: "3"
+    - payload: /confirm_state_busy{"state_busy":"4"}
+      title: "4"
+    - payload: /confirm_state_busy{"state_busy":"5"}
+      title: "5 (much more)"
+    text: "How busy are you compared to your normal situation?"
+  utter_state_question_energy:
+  - buttons:
+    - payload: /confirm_state_energy{"state_energy":"0"}
+      title: "0 (none)"
+    - payload: /confirm_state_energy{"state_energy":"1"}
+      title: "1"
+    - payload: /confirm_state_energy{"state_energy":"2"}
+      title: "2"
+    - payload: /confirm_state_energy{"state_energy":"3"}
+      title: "3"
+    - payload: /confirm_state_energy{"state_energy":"4"}
+      title: "4"
+    - payload: /confirm_state_energy{"state_energy":"5"}
+      title: "5"
+    - payload: /confirm_state_energy{"state_energy":"6"}
+      title: "6"
+    - payload: /confirm_state_energy{"state_energy":"7"}
+      title: "7"
+    - payload: /confirm_state_energy{"state_energy":"8"}
+      title: "8"
+    - payload: /confirm_state_energy{"state_energy":"9"}
+      title: "9"
+    - payload: /confirm_state_energy{"state_energy":"10"}
+      title: "10 (extremely much)"
+    text: "How much energy do you have?"
 
   
   ### Mood
