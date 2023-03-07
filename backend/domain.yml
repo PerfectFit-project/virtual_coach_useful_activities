@@ -201,7 +201,7 @@ responses:
     text: "Let me know when you've finished reading our plan for today's session."
     
 
-  ### Intro second session
+  ### Intro later sessions
   utter_greet_repeat:
     - condition:
         - type: slot
