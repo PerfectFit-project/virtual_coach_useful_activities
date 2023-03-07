@@ -81,6 +81,11 @@ entities:
 
 slots:
   ### intro/general
+  session_loaded:
+    type: bool
+    influence_conversation: true
+    mappings:
+    - type: custom
   session_num:
     type: text
     initial_value: ''

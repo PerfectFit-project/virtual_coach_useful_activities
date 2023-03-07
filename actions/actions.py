@@ -97,7 +97,12 @@ class ActionLoadSessionNotFirst(Action):
         cur.execute(query, [prolific_id])
         result = cur.fetchone()
         
-        return [SlotSet("user_name_slot_not_first", result)]
+        session_loaded = True
+        if result == "None":
+            session_loaded = False
+        
+        return [SlotSet("user_name_slot_not_first", result),
+                SlotSet("session_loaded", session_loaded)]
         
         
     
