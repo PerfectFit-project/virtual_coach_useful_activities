@@ -94,7 +94,7 @@ class ActionLoadSessionNotFirst(Action):
         cur = conn.cursor(prepared=True)
         
         query = ("SELECT name FROM users WHERE prolific_id = %s")
-        cur.execute(query, prolific_id)
+        cur.execute(query, [prolific_id])
         result = cur.fetchone()
         
         return [SlotSet("user_name_slot_not_first", result)]
