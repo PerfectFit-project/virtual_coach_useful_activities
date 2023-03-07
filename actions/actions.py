@@ -98,7 +98,7 @@ class ActionLoadSessionNotFirst(Action):
         result = cur.fetchone()
         
         session_loaded = True
-        if result == "None":
+        if result is None:
             session_loaded = False
         
         return [SlotSet("user_name_slot_not_first", result),
