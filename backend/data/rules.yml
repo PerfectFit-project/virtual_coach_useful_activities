@@ -66,6 +66,7 @@ rules:
 - rule: start session 2
   steps:
   - intent: start_session2
+  - action: action_load_session_not_first
   - action: utter_greet_repeat
   - action: utter_ask_for_mood_session2
   
@@ -103,10 +104,16 @@ rules:
   - active_loop: null
   - action: utter_repeat_activity_completion_answer
   
-- rule: activity experience confirmed so start state questions
+- rule: activity experience confirmed so give dropout question
   steps:
   - intent: confirm_activity_experience
   - action: utter_great
+  - action: utter_ask_dropout
+  
+- rule: response dropout question and start state questions
+  steps:
+  - intent: confirm_dropout
+  - action: action_save_activity_experience_mood
   - action: utter_state_question_intro
   - action: utter_state_question_1
   
@@ -118,15 +125,14 @@ rules:
   wait_for_user_input: false
   
   
-- rule: activity experience modified so start state questions
+- rule: activity experience modified so give dropout question
   condition:
     - active_loop: activity_experience_mod_form
   steps:
   - action: activity_experience_mod_form
   - active_loop: null
   - action: utter_thank_activity_experience_mod
-  - action: utter_state_question_intro
-  - action: utter_state_question_1
+  - action: utter_ask_dropout
   
 
 - rule: state 2
@@ -195,10 +201,12 @@ rules:
   - action: utter_cool
   - action: utter_advise_activity
   - action: utter_email_reminder
+  - action: utter_remind_next_part
   
-- rule: confirm next part
+- rule: confirm next part and save states to db
   steps:
   - intent: confirm_next_part
+  - action: action_save_session
   - action: utter_prolific_link
   - action: utter_goodbye
   

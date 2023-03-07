@@ -13,10 +13,11 @@ intents:
 - mood_curr_session2
 - confirm_intro_session2
 
-### activity experience
+### activity experience and dropout
 - effort_answer
 - confirm_activity_experience
 - deny_activity_experience
+- confirm_dropout
 
 ### states
 - confirm_state_1
@@ -74,6 +75,8 @@ entities:
     influence_conversation: false
 - effort_level:
     influence_conversation: false
+- dropout_response:
+    influence_conversation: false
 
 
 slots:
@@ -107,6 +110,13 @@ slots:
     - type: from_text
       conditions:
         - active_loop: user_name_form
+  # User name in later sessions
+  user_name_slot_not_first:
+    type: text
+    initial_value: ''
+    influence_conversation: false
+    mappings:
+    - type: custom
         
   ### states
   state_1:
@@ -116,6 +126,76 @@ slots:
     mappings:
     - type: from_entity
       entity: state_1
+  state_2:
+    type: text
+    initial_value: ''
+    influence_conversation: false
+    mappings:
+    - type: from_entity
+      entity: state_2
+  state_3:
+    type: text
+    initial_value: ''
+    influence_conversation: false
+    mappings:
+    - type: from_entity
+      entity: state_3
+  state_4:
+    type: text
+    initial_value: ''
+    influence_conversation: false
+    mappings:
+    - type: from_entity
+      entity: state_4
+  state_5:
+    type: text
+    initial_value: ''
+    influence_conversation: false
+    mappings:
+    - type: from_entity
+      entity: state_5
+  state_6:
+    type: text
+    initial_value: ''
+    influence_conversation: false
+    mappings:
+    - type: from_entity
+      entity: state_6
+  state_7:
+    type: text
+    initial_value: ''
+    influence_conversation: false
+    mappings:
+    - type: from_entity
+      entity: state_7
+  state_8:
+    type: text
+    initial_value: ''
+    influence_conversation: false
+    mappings:
+    - type: from_entity
+      entity: state_8
+  state_9:
+    type: text
+    initial_value: ''
+    influence_conversation: false
+    mappings:
+    - type: from_entity
+      entity: state_9
+  state_busy:
+    type: text
+    initial_value: ''
+    influence_conversation: false
+    mappings:
+    - type: from_entity
+      entity: state_busy
+  state_energy:
+    type: text
+    initial_value: ''
+    influence_conversation: false
+    mappings:
+    - type: from_entity
+      entity: state_energy
       
   ### activity experience
   # effort
@@ -133,6 +213,7 @@ slots:
     mappings:
     - type: from_entity
       entity: effort_level
+  # activity experience
   activity_experience_slot:
     type: text
     initial_value: ''
@@ -149,6 +230,14 @@ slots:
     - type: from_text
       conditions:
         - active_loop: activity_experience_mod_form  
+  # dropout
+  dropout_response:
+    type: text
+    initial_value: ''
+    influence_conversation: false
+    mappings:
+    - type: from_entity
+      entity: dropout_response
     
 
 responses:
@@ -400,42 +489,54 @@ responses:
         value: "low"
     text: "How did you approach, do, or experience your assigned activity? If you have no feedback on the activity, just type 'None' in the text field."
   utter_repeat_activity_completion_answer:
-  - text: "This is what I got: {activity_experience_slot}\nWould you like to add or change anything?"
-    buttons:
-    - payload: /confirm_activity_experience
-      title: Yes
-    - payload: /deny_activity_experience
-      title: No
-  - text: "I got this: {activity_experience_slot}\nDo you want to add or modify anything?"
-    buttons:
-    - payload: /confirm_activity_experience
-      title: Yes
-    - payload: /deny_activity_experience
-      title: No
-  - text: "I received this: {activity_experience_slot}\nIs there something that you'd like to add or change?"
-    buttons:
-    - payload: /confirm_activity_experience
-      title: Yes
-    - payload: /deny_activity_experience
-      title: No
-  - text: "This is what you told me: {activity_experience_slot}\nIs there anything that you want to add or alter?"
-    buttons:
-    - payload: /confirm_activity_experience
-      title: Yes
-    - payload: /deny_activity_experience
-      title: No
-  - text: "I got this from you: {activity_experience_slot}\nIs there anything that I should add or modify about your response?"
-    buttons:
-    - payload: /confirm_activity_experience
-      title: Yes
-    - payload: /deny_activity_experience
-      title: No
-  - text: "This is the response I got: {activity_experience_slot}\nDo you want to add or change anything?"
-    buttons:
-    - payload: /confirm_activity_experience
-      title: Yes
-    - payload: /deny_activity_experience
-      title: No
+    - condition:
+        - type: slot
+          name: session_num
+          value: "2"
+      text: "This is what I got: {activity_experience_slot}\nWould you like to add or change anything?"
+      buttons:
+      - payload: /confirm_activity_experience
+        title: Yes
+      - payload: /deny_activity_experience
+        title: No
+    - condition:
+        - type: slot
+          name: session_num
+          value: "3"
+      text: "I got this: {activity_experience_slot}\nDo you want to add or modify anything?"
+      buttons:
+      - payload: /confirm_activity_experience
+        title: Yes
+      - payload: /deny_activity_experience
+        title: No
+    - condition:
+        - type: slot
+          name: session_num
+          value: "4"
+      text: "I received this: {activity_experience_slot}\nIs there something that you'd like to add or change?"
+      buttons:
+      - payload: /confirm_activity_experience
+        title: Yes
+      - payload: /deny_activity_experience
+        title: No
+    - condition:
+        - type: slot
+          name: session_num
+          value: "5"
+      text: "I got this from you: {activity_experience_slot}\nIs there anything that I should add or modify about your response?"
+      buttons:
+      - payload: /confirm_activity_experience
+        title: Yes
+      - payload: /deny_activity_experience
+        title: No
+        
+    - text: "This is the response I got: {activity_experience_slot}\nDo you want to add or change anything?"
+      buttons:
+      - payload: /confirm_activity_experience
+        title: Yes
+      - payload: /deny_activity_experience
+        title: No
+
   utter_ask_experience_mod_slot:
     - condition:
         - type: slot
@@ -492,6 +593,32 @@ responses:
       text: "I see. Thank you for the clarification."
       
     - text: "Got it! Thanks for letting me know."
+
+  utter_ask_dropout:
+  - text: "Currently you are taking part in a paid experiment. Imagine this was an unpaid smoking cessation program.\nHow likely would you then have quit the program or returned to this session?"
+    buttons:
+    - payload: /confirm_dropout{"dropout_response":"-5"}
+      title: "-5 (definitely would have quit the program)"
+    - payload: /confirm_dropout{"dropout_response":"-4"}
+      title: "-4"
+    - payload: /confirm_dropout{"dropout_response":"-3"}
+      title: "-3"
+    - payload: /confirm_dropout{"dropout_response":"-2"}
+      title: "-2"
+    - payload: /confirm_dropout{"dropout_response":"-1"}
+      title: "-1"
+    - payload: /confirm_dropout{"dropout_response":"0"}
+      title: "0 (neutral)"
+    - payload: /confirm_dropout{"dropout_response":"1"}
+      title: "1"
+    - payload: /confirm_dropout{"dropout_response":"2"}
+      title: "2"
+    - payload: /confirm_dropout{"dropout_response":"3"}
+      title: "3"
+    - payload: /confirm_dropout{"dropout_response":"4"}
+      title: "4"
+    - payload: /confirm_dropout{"dropout_response":"5"}
+      title: "5 (definitely would have returned to this session)"
     
   ### Ask state questions
   utter_state_question_intro:
@@ -1551,7 +1678,10 @@ forms:
 
 
 actions:
+- action_load_session_not_first
+- action_save_activity_experience_mood
 - action_save_name_to_db
+- action_save_session
 - validate_user_name_form
 - validate_activity_experience_form
 - validate_activity_experience_mod_form

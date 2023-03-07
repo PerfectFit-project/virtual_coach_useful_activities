@@ -71,9 +71,37 @@ def get_latest_bot_utterance(events) -> Optional[Any]:
         last_utterance = None
 
     return last_utterance
+
+
+class ActionLoadSessionNotFirst(Action):
+
+    def name(self) -> Text:
+        return "action_load_session_not_first"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        
+        prolific_id = tracker.current_state()['sender_id']
+        
+        conn = mysql.connector.connect(
+            user=DATABASE_USER,
+            password=DATABASE_PASSWORD,
+            host=DATABASE_HOST,
+            port=DATABASE_PORT,
+            database='db'
+        )
+        cur = conn.cursor(prepared=True)
+        
+        query = ("SELECT name FROM users WHERE prolific_id = %s")
+        cur.execute(query, prolific_id)
+        result = cur.fetchone()
+        
+        return [SlotSet("user_name_slot_not_first", result)]
+        
+        
     
-    
-class ActionNameMood(Action):
+class ActionSaveNameToDB(Action):
 
     def name(self) -> Text:
         return "action_save_name_to_db"
@@ -102,6 +130,84 @@ class ActionNameMood(Action):
         conn.close()
 
         return []
+    
+
+class ActionSaveActivityExperienceMood(Action):
+    def name(self):
+        return "action_save_activity_experience_mood"
+
+    async def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        
+        now = datetime.now()
+        formatted_date = now.strftime('%Y-%m-%d %H:%M:%S')
+
+        conn = mysql.connector.connect(
+            user=DATABASE_USER,
+            password=DATABASE_PASSWORD,
+            host=DATABASE_HOST,
+            port=DATABASE_PORT,
+            database='db'
+        )
+        cur = conn.cursor(prepared=True)
+        
+        prolific_id = tracker.current_state()['sender_id']
+        session_num = tracker.get_slot("session_num")
+        
+        slots_to_save = ["mood", "effort", "activity_experience_slot",
+                         "activity_experience_mod_slot",
+                         "dropout_response"]
+        for slot in slots_to_save:
+        
+            save_sessiondata_entry(cur, conn, prolific_id, session_num,
+                                   slot, tracker.get_slot(slot),
+                                   formatted_date)
+
+        conn.close()
+    
+    
+def save_sessiondata_entry(cur, conn, prolific_id, session_num, response_type,
+                           response_value, time):
+    query = "INSERT INTO sessiondata(prolific_id, session_num, response_type, response_value, time) VALUES(%s, %s, %s, %s, %s)"
+    cur.execute(query, [prolific_id, session_num, response_type,
+                        response_value, time])
+    conn.commit()
+    
+
+class ActionSaveSession(Action):
+    def name(self):
+        return "action_save_session"
+
+    async def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        
+        now = datetime.now()
+        formatted_date = now.strftime('%Y-%m-%d %H:%M:%S')
+
+        conn = mysql.connector.connect(
+            user=DATABASE_USER,
+            password=DATABASE_PASSWORD,
+            host=DATABASE_HOST,
+            port=DATABASE_PORT,
+            database='db'
+        )
+        cur = conn.cursor(prepared=True)
+        
+        prolific_id = tracker.current_state()['sender_id']
+        session_num = tracker.get_slot("session_num")
+        
+        slots_to_save = ["state_1", "state_2", "state_3",
+                         "state_4", "state_5", "state_6", "state_7",
+                         "state_8", "state_9", "state_busy", "state_energy"]
+        for slot in slots_to_save:
+        
+            save_sessiondata_entry(cur, conn, prolific_id, session_num,
+                                   slot, tracker.get_slot(slot),
+                                   formatted_date)
+
+        conn.close()
     
 
 class ValidateUserNameForm(FormValidationAction):
