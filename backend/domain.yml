@@ -107,6 +107,12 @@ slots:
     mappings:
     - type: from_entity
       entity: mood_quadrant
+  mood_prev_session:
+    type: text
+    initial_value: ''
+    influence_conversation: false
+    mappings:
+    - type: custom
   user_name_slot:
     type: text
     initial_value: ''
@@ -254,6 +260,9 @@ responses:
   - text: "How may I call you?"
   utter_confirm_name:
   - text: "Hi {user_name_slot}, it's nice to meet you."
+  utter_longer_name:
+  - text: "Please let me know how I can call you. It does not need to be your real name."
+  - text: "Kindly tell me how I can call you. This does not need to be your real name. A nickname works too."
   utter_purpose_1:
   - text: "I have mentioned by name, but let me also tell you bit about what I do: My goal is to help people prepare for quitting smoking. And since becoming more physically active may make it easier to quit smoking, I also want to prepare people for becoming more physically active."
   utter_purpose_2:
@@ -301,24 +310,23 @@ responses:
         - type: slot
           name: session_num
           value: "2"
-      text: "Hi, nice to see you again!"
+      text: "Hi {user_name_slot_not_first}, nice to see you again!"
     - condition:
         - type: slot
           name: session_num
           value: "3"
-      text: "Hello there, welcome back!"
+      text: "Hello {user_name_slot_not_first}, welcome back!"
     - condition:
         - type: slot
           name: session_num
           value: "4"
-      text: "Hello, it's great to see you again!"
+      text: "Hello, it's great to see you again {user_name_slot_not_first}!"
     - condition:
         - type: slot
           name: session_num
           value: "5"
-      text: "Hi there, welcome back!"
-      
-    - text: "Hi, I'm happy to see you again!"
+      text: "Hi {user_name_slot_not_first}, I'm happy to see you again!"
+
     - text: "Hey there, good to see you again!"
     - text: "Welcome back! It's good to see you again."
   utter_intro_session2_1:
@@ -1402,7 +1410,7 @@ responses:
       title: Content
     - payload: /mood_curr_session2{"mood":"neutral", "mood_quadrant":"neutral"}
       title: Neutral
-    text: "How are you feeling today?"
+    text: "Last time you felt {mood_prev_session}. How are you feeling today?"
   # Response depends on quadrant that mood falls in
   utter_mood_response:
   # high arousal, high valence
@@ -1683,6 +1691,7 @@ forms:
 
 
 actions:
+- action_load_session_first
 - action_load_session_not_first
 - action_save_activity_experience_mood
 - action_save_name_to_db

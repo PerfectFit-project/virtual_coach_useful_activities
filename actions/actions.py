@@ -73,15 +73,31 @@ def get_latest_bot_utterance(events) -> Optional[Any]:
     return last_utterance
 
 
-class ActionLoadSessionNotFirst(Action):
+def check_session_not_done_before(cur, prolific_id, session_num):
+    
+    query = ("SELECT * FROM sessiondata WHERE prolific_id = %s and session_num = %s")
+    cur.execute(query, [prolific_id, session_num])
+    done_before_result = cur.fetchone()
+    
+    not_done_before = True
 
+    # user has done the session before
+    if done_before_result is not None:
+        not_done_before = False
+        
+    return not_done_before
+    
+
+
+class ActionLoadSessionFirst(Action):
+    
     def name(self) -> Text:
-        return "action_load_session_not_first"
+        return "action_load_session_first"
 
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        
+    
         prolific_id = tracker.current_state()['sender_id']
         
         conn = mysql.connector.connect(
@@ -93,15 +109,71 @@ class ActionLoadSessionNotFirst(Action):
         )
         cur = conn.cursor(prepared=True)
         
+        session_loaded = check_session_not_done_before(cur, prolific_id, 1)
+
+        return [SlotSet("session_loaded", session_loaded)]
+
+
+class ActionLoadSessionNotFirst(Action):
+
+    def name(self) -> Text:
+        return "action_load_session_not_first"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        
+        prolific_id = tracker.current_state()['sender_id']
+        session_num = tracker.get_slot("session_num")
+        session_loaded = True
+        mood_prev = ""
+        
+        conn = mysql.connector.connect(
+            user=DATABASE_USER,
+            password=DATABASE_PASSWORD,
+            host=DATABASE_HOST,
+            port=DATABASE_PORT,
+            database='db'
+        )
+        cur = conn.cursor(prepared=True)
+        
+        # get user name from database
+        # should be possible
         query = ("SELECT name FROM users WHERE prolific_id = %s")
         cur.execute(query, [prolific_id])
-        result = cur.fetchone()
+        user_name_result = cur.fetchone()
         
-        session_loaded = True
-        if result is None:
+        if user_name_result is None:
             session_loaded = False
+            
+        else:
+            # check if user has done previous session before '
+            # (i.e., if session data is saved from previous session)
+            query = ("SELECT * FROM sessiondata WHERE prolific_id = %s and session_num = %s and response_type = %s")
+            cur.execute(query, [prolific_id, str(int(session_num) - 1), "state_5"])
+            done_previous_result = cur.fetchone()
+            
+            if done_previous_result is None:
+                session_loaded = False
+                
+            else:
+                # check if user has not done this session before
+                # checks if some data on this session is already saved in database
+                # this basically means that it checks whether the user has already 
+                # completed the session part until the dropout question before,
+                # since that is when we first save something to the database
+                session_loaded = check_session_not_done_before(cur, prolific_id, 
+                                                               session_num)
+                
+                if session_loaded:
+                    # Get mood from previous session
+                    query = ("SELECT response_value FROM sessiondata WHERE prolific_id = %s and session_num = %s and response_type = %s")
+                    cur.execute(query, [prolific_id, str(int(session_num) - 1), "mood"])
+                    mood_prev = cur.fetchone()
+
         
-        return [SlotSet("user_name_slot_not_first", result),
+        return [SlotSet("user_name_slot_not_first", user_name_result),
+                SlotSet("mood_prev_session", mood_prev),
                 SlotSet("session_loaded", session_loaded)]
         
         
@@ -229,7 +301,8 @@ class ValidateUserNameForm(FormValidationAction):
         if last_utterance != 'utter_ask_user_name_slot':
             return {"user_name_slot": None}
 
-        if not len(value) >= 2:
+        if not len(value) >= 1:
+            dispatcher.utter_message(response="utter_longer_name")
             return {"user_name_slot": None}
 
         return {"user_name_slot": value}
