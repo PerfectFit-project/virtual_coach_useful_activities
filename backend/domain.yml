@@ -31,6 +31,13 @@ intents:
 - confirm_state_busy
 - confirm_state_energy
 
+# propose new activity
+- confirm_activity_read
+
+# end session
+- confirm_next_part
+- confirm_goodbye
+
 entities:
 - session_num:
     influence_conversation: false
@@ -196,13 +203,30 @@ responses:
 
   ### Intro second session
   utter_greet_repeat:
-  - text: "Hi, nice to see you again!"
-  - text: "Hello there, welcome back!"
-  - text: "Hello, it's great to see you again!"
-  - text: "Hi there, welcome back!"
-  - text: "Hi, I'm happy to see you again!"
-  - text: "Hey there, good to see you again!"
-  - text: "Welcome back! It's good to see you again."
+    - condition:
+        - type: slot
+          name: session_num
+          value: "2"
+      text: "Hi, nice to see you again!"
+    - condition:
+        - type: slot
+          name: session_num
+          value: "3"
+      text: "Hello there, welcome back!"
+    - condition:
+        - type: slot
+          name: session_num
+          value: "4"
+      text: "Hello, it's great to see you again!"
+    - condition:
+        - type: slot
+          name: session_num
+          value: "5"
+      text: "Hi there, welcome back!"
+      
+    - text: "Hi, I'm happy to see you again!"
+    - text: "Hey there, good to see you again!"
+    - text: "Welcome back! It's good to see you again."
   utter_intro_session2_1:
   - text: "Before we begin, let me quickly give you an overview of what this session looks like."
   utter_intro_session2_2:
@@ -413,19 +437,61 @@ responses:
     - payload: /deny_activity_experience
       title: No
   utter_ask_experience_mod_slot:
-  - text: "Okay, please tell me what you'd like to add or alter."
-  - text: "OK, what would you like to add or change? Use the text field."
-  - text: "Okay, what is it that you'd like to add or alter? Use the text field."
-  - text: "Okay, kindly tell me what it is that you'd like to add or modify."
-  - text: "I see, what do you want to modify or add?"
-  - text: "Alright, can you tell me what modifications or additions you'd like to make?"
+    - condition:
+        - type: slot
+          name: session_num
+          value: "1"
+      text: "Okay, please tell me what you'd like to add or alter."
+    - condition:
+        - type: slot
+          name: session_num
+          value: "2"
+      text: "OK, what would you like to add or change? Use the text field."
+    - condition:
+        - type: slot
+          name: session_num
+          value: "3"
+      text: "Okay, what is it that you'd like to add or alter? Use the text field."
+    - condition:
+        - type: slot
+          name: session_num
+          value: "4"
+      text: "Okay, kindly tell me what it is that you'd like to add or modify."
+    - condition:
+        - type: slot
+          name: session_num
+          value: "5"
+      text: "I see, what do you want to modify or add?"
+      
+    - text: "Alright, can you tell me what modifications or additions you'd like to make?"
   utter_thank_activity_experience_mod:
-  - text: Alright, thanks for the clarification!
-  - text: Cool, thanks for clarifying that.
-  - text: Cool, thanks for making that clear.
-  - text: Alright, good that you point that out!
-  - text: "I see. Thank you for the clarification."
-  - text: "Got it! Thanks for letting me know."
+    - condition:
+        - type: slot
+          name: session_num
+          value: "1"
+      text: "Alright, thanks for the clarification!"
+    - condition:
+        - type: slot
+          name: session_num
+          value: "2"
+      text: "Cool, thanks for clarifying that."
+    - condition:
+        - type: slot
+          name: session_num
+          value: "3"
+      text: "Cool, thanks for making that clear."
+    - condition:
+        - type: slot
+          name: session_num
+          value: "4"
+      text: "Alright, good that you point that out!"
+    - condition:
+        - type: slot
+          name: session_num
+          value: "5"
+      text: "I see. Thank you for the clarification."
+      
+    - text: "Got it! Thanks for letting me know."
     
   ### Ask state questions
   utter_state_question_intro:
@@ -581,7 +647,35 @@ responses:
       title: "5 (make it a lot easier)"
     text: "How do you think does knowledge of how to manage cravings and the resultant negative feelings affect quitting smoking?"
   utter_state_questions_more_than_halfway:
-  - text: "Nice, now we're more than halfway!"
+    - condition:
+        - type: slot
+          name: session_num
+          value: "1"
+      text: "Nice, now we're more than halfway with the questions!"
+    - condition:
+        - type: slot
+          name: session_num
+          value: "2"
+      text: "Just 5 more questions to go!"
+    - condition:
+        - type: slot
+          name: session_num
+          value: "3"
+      text: "We're making great strides, we're done with more than half of the questions!"
+    - condition:
+        - type: slot
+          name: session_num
+          value: "4"
+      text: "We're over the halfway mark on the questions!"
+    - condition:
+        - type: slot
+          name: session_num
+          value: "5"
+      text: "Nice, now we've already tackled over half of the questions!"
+      
+    - text: "Nice, we're already more than halfway through the questions!"
+    - text: "Now we've passed the halfway point on the questions!"
+    - text: "6 questions down, just 5 more to go!"
   utter_state_question_7:
   - buttons:
     - payload: /confirm_state_7{"state_7":"-5"}
@@ -707,8 +801,353 @@ responses:
     - payload: /confirm_state_energy{"state_energy":"10"}
       title: "10 (extremely much)"
     text: "How much energy do you have?"
-
+  utter_thank_state_question_answering:
+    - condition:
+        - type: slot
+          name: session_num
+          value: "1"
+      text: "This was the last question. Thank you so much for answering these questions!"
+    - condition:
+        - type: slot
+          name: session_num
+          value: "2"
+      text: "We've reached the end of the questions. Thanks for answering all of them."
+    - condition:
+        - type: slot
+          name: session_num
+          value: "3"
+      text: "And that concludes our set of 11 questions. Thank you for your answers!"
+    - condition:
+        - type: slot
+          name: session_num
+          value: "4"
+      text: "Thanks, you're the best for answering all these questions!"
+    - condition:
+        - type: slot
+          name: session_num
+          value: "5"
+      text: "And with that, we have finished the 11 questions. Thanks for answering all of them."
+      
+    - text: "Awesome, I really appreciate you answering these questions!"
+    - text: "Thank you, you rock for helping me with these questions!"
+    - text: "Fantastic, thank you for hanging in there! I know those were quite a few questions."
+    - text: "That brings us to the end of the 11 questions. Thank you for taking the time to answer them all"
+    - text: "We've reached the end of the 11 questions. Thanks for helping me by answering them all."
   
+  ### Propose activity
+  utter_transition_new_activity:
+    - condition:
+        - type: slot
+          name: session_num
+          value: "1"
+      text: "Now let's look at a preparatory activity that can help you in your current situation."
+    - condition:
+        - type: slot
+          name: session_num
+          value: "2"
+      text: "Our next step is to look at a new activity that will help you prepare for quitting smoking."
+    - condition:
+        - type: slot
+          name: session_num
+          value: "3"
+      text: "Next, we'll look at a new activity that will help you get ready for quitting smoking."
+    - condition:
+        - type: slot
+          name: session_num
+          value: "4"
+      text: "Let's move on to looking at a new activity that will help you get ready for quitting smoking."
+    - condition:
+        - type: slot
+          name: session_num
+          value: "5"
+      text: "We'll now look at a new preparatory activity that I think is relevant to your current situation."
+      
+    - text: "Now let's turn our attention to an activity that can benefit your current situation."
+    - text: "Let's move on to an activity that can support you in your efforts to prepare for quitting smoking."
+    - text: "Next, we'll take a closer look at an activity that can assist you in preparing to quit smoking."
+  utter_propose_new_activity_intro:
+    - condition:
+        - type: slot
+          name: session_num
+          value: "1"
+      text: "I think that this activity would be beneficial for you:"
+    - condition:
+        - type: slot
+          name: session_num
+          value: "2"
+      text: "This is the new activity that I think would help you:"
+    - condition:
+        - type: slot
+          name: session_num
+          value: "3"
+      text: "Here is the new activity that I think would help you prepare for quitting smoking:"
+    - condition:
+        - type: slot
+          name: session_num
+          value: "4"
+      text: "I believe this new activity would help you:"
+    - condition:
+        - type: slot
+          name: session_num
+          value: "5"
+      text: "I expect that this new activity is helpful for you:"
+      
+    - text: "I think that this activity would be useful for you:"
+  utter_activity:
+    - text: "... activity ..."
+  utter_activity_read:
+    - condition:
+        - type: slot
+          name: session_num
+          value: "1"
+      text: "I'll continue when you're done reading about your first activity."
+      buttons:
+      - payload: /confirm_activity_read
+        title: "I'm done"
+    - condition:
+        - type: slot
+          name: session_num
+          value: "2"
+      text: "Let me know once you're done reading your activity."
+      buttons:
+      - payload: /confirm_activity_read
+        title: "I'm done!"
+    - condition:
+        - type: slot
+          name: session_num
+          value: "3"
+      text: "Just use the button below to continue after you've read the activity description."
+      buttons:
+      - payload: /confirm_activity_read
+        title: "I've finished reading"
+    - condition:
+        - type: slot
+          name: session_num
+          value: "4"
+      text: "Please tell me when you've finished reading the description."
+      buttons:
+      - payload: /confirm_activity_read
+        title: "I've read everything"
+    - condition:
+        - type: slot
+          name: session_num
+          value: "5"
+      text: "Once you're done reading about your activity, let me know."
+      buttons:
+      - payload: /confirm_activity_read
+        title: "Done!"
+
+    - text: "Use the button below once you've finished reading, then I'll continue."
+      buttons:
+      - payload: /confirm_activity_read
+        title: "Finished!"
+    - text: "Let me know when you've finished reading the description and we can continue."
+      buttons:
+      - payload: /confirm_activity_read
+        title: "Let's continue"
+
+  utter_advise_activity:
+    - condition:
+        - type: slot
+          name: session_num
+          value: "1"
+      text: "So after this and before the next session, I suggest that you ... ."
+    - condition:
+        - type: slot
+          name: session_num
+          value: "2"
+      text: "So after this and before the next session, I advise you to ... ."
+    - condition:
+        - type: slot
+          name: session_num
+          value: "3"
+      text: "So I suggest you ... after this and before the next session."
+    - condition:
+        - type: slot
+          name: session_num
+          value: "4"
+      text: "So I recommend you ... after this and before the next session."
+    - condition:
+        - type: slot
+          name: session_num
+          value: "5"
+      text: "So after this session, I advise you to ... ."
+      
+    - text: "So I recommend you ... after this session with me."
+    
+    
+  ### End session
+  utter_email_reminder:
+    - condition:
+        - type: slot
+          name: session_num
+          value: "1"
+      text: "This is all for this session. Of course, I'll send you a message with your activity on Prolific."
+    - condition:
+        - type: slot
+          name: session_num
+          value: "2"
+      text: "Then that's it for this session. Naturally, I'll send you a reminder with your activity on Prolific."
+    - condition:
+        - type: slot
+          name: session_num
+          value: "3"
+      text: "I've said all I wanted for this session. Of course, I'll send you a reminder with your activity on Prolific."
+    - condition:
+        - type: slot
+          name: session_num
+          value: "4"
+      text: "You've made it to the end of this session! Needless to say, you'll get a message with your activity on Prolific."
+    - condition:
+        - type: slot
+          name: session_num
+          value: "5"
+      text: "That concludes our session. I'll send you a message shortly with your activity on Prolific."
+    
+    - text: "That's all for this session. I'll be sending you a message with your activity on Prolific right after this session."
+  
+  utter_remind_next_part:
+    - condition:
+        - type: slot
+          name: session_num
+          value: "1"
+      text: "Oh, and besides the activity reminder message, keep an eye out for the invitation to your next session with me. Sounds good?"
+      buttons:
+      - payload: /confirm_next_part
+        title: "Sure!"
+      - payload: /confirm_next_part
+        title: "Yes!"
+    - condition:
+        - type: slot
+          name: session_num
+          value: "2"
+      text: "Also watch out for the invitation to you next session with me. Okay?"
+      buttons:
+      - payload: /confirm_next_part
+        title: "Alright!"
+      - payload: /confirm_next_part
+        title: "Sure!"
+    - condition:
+        - type: slot
+          name: session_num
+          value: "3"
+      text: "And remember that there's another conversation with me that you'll get invited to. Okay?"
+      buttons:
+      - payload: /confirm_next_part
+        title: "Yes!"
+      - payload: /confirm_next_part
+        title: "Sounds good!"
+    - condition:
+        - type: slot
+          name: session_num
+          value: "4"
+      text: "And recall that you'll also get invited to another session with me. Sounds good?"
+      buttons:
+      - payload: /confirm_next_part
+        title: "Yes!"
+      - payload: /confirm_next_part
+        title: "OK!"
+    - condition:
+        - type: slot
+          name: session_num
+          value: "5" 
+      text: "Oh, and besides the activity reminder message, keep an eye out for the invitation to the post-questionnaire. Invitations will be sent about 2 days from now. Okay?"
+      buttons:
+      - payload: /confirm_next_part
+        title: "Alright!"
+      - payload: /confirm_next_part
+        title: "Yes!"
+    
+    - text: "And remember to look out for the invitation to your next conversation with me. Alright?"
+      buttons:
+      - payload: /confirm_next_part
+        title: "Sure!"
+      - payload: /confirm_next_part
+        title: "Okay!"
+        
+  utter_prolific_link:
+    - condition:
+        - type: slot
+          name: session_num
+          value: "1" 
+      text: "Cool! Here is your Prolific completion link: ... ."
+    - condition:
+        - type: slot
+          name: session_num
+          value: "2" 
+      text: "Cool! And here is your completion link: ... ."
+    - condition:
+        - type: slot
+          name: session_num
+          value: "3" 
+      text: "Perfect! And this is your Prolific completion link: ... ."
+    - condition:
+        - type: slot
+          name: session_num
+          value: "4" 
+      text: "Nice! And here you have your completion link: ... ."
+    - condition:
+        - type: slot
+          name: session_num
+          value: "5" 
+      text: "Perfect! Here is your completion link for this session: ... ."
+     
+    - text: "Alright! Then here is your completion link: ... ."
+    
+  utter_goodbye:
+    - condition:
+        - type: slot
+          name: session_num
+          value: "1" 
+      text: "Bye, see you in the next session!"
+      buttons:
+      - payload: /confirm_goodbye
+        title: "Goodbye!"
+      - payload: /confirm_goodbye
+        title: "Bye, see you next time!"
+    - condition:
+        - type: slot
+          name: session_num
+          value: "2" 
+      text: "Bye, see you next time!"
+      buttons:
+      - payload: /confirm_goodbye
+        title: "Goodbye!"
+    - condition:
+        - type: slot
+          name: session_num
+          value: "3" 
+      text: "Goodbye, until next time!"
+      buttons:
+      - payload: /confirm_goodbye
+        title: "Bye!"
+    - condition:
+        - type: slot
+          name: session_num
+          value: "4" 
+      text: "Looking forward to our next session already, bye for now!"
+      buttons:
+      - payload: /confirm_goodbye
+        title: "Until nex time!"
+    - condition:
+        - type: slot
+          name: session_num
+          value: "5" 
+      text: "Thanks for taking the time to talk to me in our 5 sessions together. Goodbye!"
+      buttons:
+      - payload: /confirm_goodbye
+        title: "Bye!"
+        
+    - text: "Bye!"
+      buttons:
+      - payload: /confirm_goodbye
+        title: "Goodbye!"
+
+  utter_final_close_session:
+  - text: "THIS IS THE END OF THIS SESSION. PLEASE CLOSE THIS WINDOW.\nANY FURTHER TYPING IN THIS CHAT RENDERS THIS SESSION INVALID. IF YOU HAVE QUESTIONS, CONTACT THE RESEARCHER PER MESSAGE ON PROLIFIC."
+
+
+
   ### Mood
   utter_ask_for_mood_session1:
   - buttons:
@@ -834,7 +1273,7 @@ responses:
     text: "How are you feeling today?"
   # Response depends on quadrant that mood falls in
   utter_mood_response:
-    # high arousal, high valence
+  # high arousal, high valence
     - condition:
         - type: slot
           name: mood_quadrant
@@ -1067,14 +1506,17 @@ responses:
   - text: Perfect!
   - text: Awesome!
   
+  utter_cool:
+  - text: Nice!
+  - text: Cool!
+  - text: Perfect!
+  
   utter_provide_more_detail:
   - text: "Hmm, can you describe this in a bit more detail?"
   - text: "I see, could you elaborate a little more on this?"
   - text: "I'd like to understand better, can you give me more details on this?"
   - text: "I'm not quite following, could you provide more details?"
   
-  utter_goodbye:
-  - text: "Bye!"
   
   utter_default:
   - text: "There is a problem with this session."

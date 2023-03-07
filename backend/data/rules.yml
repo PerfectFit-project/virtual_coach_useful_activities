@@ -179,3 +179,32 @@ rules:
   steps:
   - intent: confirm_state_busy
   - action: utter_state_question_energy
+  
+- rule: end state answering
+  steps:
+  - intent: confirm_state_energy
+  - action: utter_thank_state_question_answering
+  - action: utter_transition_new_activity
+  - action: utter_propose_new_activity_intro
+  - action: utter_activity
+  - action: utter_activity_read
+  
+- rule: read activity
+  steps:
+  - intent: confirm_activity_read
+  - action: utter_cool
+  - action: utter_advise_activity
+  - action: utter_email_reminder
+  
+- rule: confirm next part
+  steps:
+  - intent: confirm_next_part
+  - action: utter_prolific_link
+  - action: utter_goodbye
+  
+- rule: end
+  steps:
+  - intent: confirm_goodbye
+  - action: utter_final_close_session
+  - action: action_end_dialog
+  
