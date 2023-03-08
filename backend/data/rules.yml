@@ -137,7 +137,7 @@ rules:
 - rule: response dropout question and start state questions
   steps:
   - intent: confirm_dropout
-  - action: action_save_activity_experience_mood
+  - action: action_save_activity_experience
   - action: utter_state_question_intro
   - action: utter_state_question_1
   

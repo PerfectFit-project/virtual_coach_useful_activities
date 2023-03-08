@@ -220,9 +220,9 @@ class ActionSaveNameToDB(Action):
         return []
     
 
-class ActionSaveActivityExperienceMood(Action):
+class ActionSaveActivityExperienc(Action):
     def name(self):
-        return "action_save_activity_experience_mood"
+        return "action_save_activity_experience"
 
     async def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
@@ -243,7 +243,7 @@ class ActionSaveActivityExperienceMood(Action):
         prolific_id = tracker.current_state()['sender_id']
         session_num = tracker.get_slot("session_num")
         
-        slots_to_save = ["mood", "effort", "activity_experience_slot",
+        slots_to_save = ["effort", "activity_experience_slot",
                          "activity_experience_mod_slot",
                          "dropout_response"]
         for slot in slots_to_save:
@@ -286,7 +286,7 @@ class ActionSaveSession(Action):
         prolific_id = tracker.current_state()['sender_id']
         session_num = tracker.get_slot("session_num")
         
-        slots_to_save = ["state_1", "state_2", "state_3",
+        slots_to_save = ["mood", "state_1", "state_2", "state_3",
                          "state_4", "state_5", "state_6", "state_7",
                          "state_8", "state_9", "state_busy", "state_energy",
                          "activity_new_index"]
@@ -298,12 +298,15 @@ class ActionSaveSession(Action):
 
         conn.close()
         
+        return []
+        
 
 def get_previous_activity_indices_from_db(prolific_id):
     
     conn = mysql.connector.connect(
         user=DATABASE_USER,
         password=DATABASE_PASSWORD,
+        host=DATABASE_HOST,
         port=DATABASE_PORT,
         database='db'
     )

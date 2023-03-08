@@ -1731,7 +1731,7 @@ actions:
 
 - action_load_session_first
 - action_load_session_not_first
-- action_save_activity_experience_mood
+- action_save_activity_experience
 - action_save_name_to_db
 - action_save_session
 
