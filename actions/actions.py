@@ -307,7 +307,7 @@ def get_previous_activity_indices_from_db(prolific_id):
     
     # get user name from database
     # should be possible
-    query = ("SELECT activity_new_index FROM sessiondata WHERE prolific_id = %s")
+    query = ("SELECT response_value FROM sessiondata WHERE prolific_id = %s")
     cur.execute(query, [prolific_id])
     result = cur.fetchall()
     
