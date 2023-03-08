@@ -142,7 +142,6 @@ class ActionLoadSessionNotFirst(Action):
         cur = conn.cursor(prepared=True)
         
         # get user name from database
-        # should be possible
         query = ("SELECT name FROM users WHERE prolific_id = %s")
         cur.execute(query, [prolific_id])
         user_name_result = cur.fetchone()
@@ -174,13 +173,19 @@ class ActionLoadSessionNotFirst(Action):
                     query = ("SELECT response_value FROM sessiondata WHERE prolific_id = %s and session_num = %s and response_type = %s")
                     cur.execute(query, [prolific_id, str(int(session_num) - 1), "mood"])
                     mood_prev = cur.fetchone()
+                    # Get activity index from previous session
+                    query = ("SELECT response_value FROM sessiondata WHERE prolific_id = %s and session_num = %s and response_type = %s")
+                    cur.execute(query, [prolific_id, str(int(session_num) - 1), "activity_new_index"])
+                    act_index = cur.fetchone()[0]
+                    
         
         conn.close()
 
         
         return [SlotSet("user_name_slot_not_first", user_name_result[0]),
                 SlotSet("mood_prev_session", mood_prev[0]),
-                SlotSet("session_loaded", session_loaded)]
+                SlotSet("session_loaded", session_loaded),
+                SlotSet("activity_prev_verb", df_act.iloc[act_index]["Verb"])]
         
         
     

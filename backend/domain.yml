@@ -209,6 +209,13 @@ slots:
       entity: state_energy
       
   ### activity experience
+  # Verb to mention the previous activity
+  activity_prev_verb:
+    type: text
+    initial_value: ''
+    influence_conversation: false
+    mappings:
+    - type: custom
   # effort
   effort:
     type: text
@@ -375,7 +382,7 @@ responses:
     
   ### Ask activity experience (effort, experience, dropout)
   utter_last_activity_short:
-  - text: "Great! Last time I suggested you to ... ."
+  - text: "Great! Last time I suggested you to {activity_prev_verb}."
   utter_last_activity_effort_intro:
   - text: "Please rate the overall effort you put into doing this activity."
   utter_last_activity_effort:
