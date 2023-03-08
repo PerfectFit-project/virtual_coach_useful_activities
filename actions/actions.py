@@ -358,8 +358,6 @@ class ActionChooseActivity(Action):
                 SlotSet("activity_formulation_new_email", df_act.loc[act_index, 'Formulation Email']),
                 SlotSet("activity_new_index", act_index),
                 SlotSet("activity_new_verb", df_act.loc[act_index, "Verb"])]
-        
-        return []
     
 
 class ValidateUserNameForm(FormValidationAction):
