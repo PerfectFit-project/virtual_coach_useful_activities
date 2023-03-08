@@ -16,9 +16,9 @@ $(document).ready(function () {
 	const session_num = urlParams.get('sessionnum');
 	
 	//start a session
-	if (session_num == 1){
+	if (session_num == "1"){
 		send('/start_session1{"session_num":"1"}');
-	} else if (session_num == 2){
+	} else if (session_num == "2"){
 		send('/start_session2{"session_num":"2"}');
 	}
 	
