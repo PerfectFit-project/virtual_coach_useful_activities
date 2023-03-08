@@ -299,7 +299,6 @@ def get_previous_activity_indices_from_db(prolific_id):
     conn = mysql.connector.connect(
         user=DATABASE_USER,
         password=DATABASE_PASSWORD,
-        host=DATABASE_HOST,
         port=DATABASE_PORT,
         database='db'
     )
