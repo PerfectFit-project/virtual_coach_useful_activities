@@ -176,7 +176,7 @@ class ActionLoadSessionNotFirst(Action):
                     # Get activity index from previous session
                     query = ("SELECT response_value FROM sessiondata WHERE prolific_id = %s and session_num = %s and response_type = %s")
                     cur.execute(query, [prolific_id, str(int(session_num) - 1), "activity_new_index"])
-                    act_index = cur.fetchone()[0]
+                    act_index = int(cur.fetchone()[0])
                     
         
         conn.close()
