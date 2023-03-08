@@ -5,7 +5,7 @@ FROM rasa/rasa-sdk:3.2.1
 WORKDIR /app
 
 # Copy actions requirements
-COPY actions/requirements-actions.txt ./
+COPY requirements-actions.txt ./
 
 # Change to root user to install dependencies
 USER root
