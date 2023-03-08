@@ -311,6 +311,8 @@ def get_previous_activity_indices_from_db(prolific_id):
     cur.execute(query, [prolific_id])
     result = cur.fetchall()
     
+    conn.close()
+    
     return result
 
 
