@@ -215,6 +215,7 @@ rules:
   - intent: confirm_state_energy
   - action: utter_thank_state_question_answering
   - action: utter_transition_new_activity
+  - action: action_choose_activity
   - action: utter_propose_new_activity_intro
   - action: utter_activity
   - action: utter_activity_read

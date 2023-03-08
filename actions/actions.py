@@ -7,13 +7,15 @@
 
 from datetime import datetime
 from definitions import (DATABASE_HOST, DATABASE_PASSWORD, 
-                         DATABASE_PORT, DATABASE_USER)
+                         DATABASE_PORT, DATABASE_USER, df_act)
 from rasa_sdk import Action, FormValidationAction, Tracker
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.events import FollowupAction, SlotSet
 from typing import Any, Dict, List, Optional, Text
 
 import mysql.connector
+import pandas as pd
+import random
 
 
 class ActionEndDialog(Action):
@@ -110,6 +112,8 @@ class ActionLoadSessionFirst(Action):
         cur = conn.cursor(prepared=True)
         
         session_loaded = check_session_not_done_before(cur, prolific_id, 1)
+        
+        conn.close()
 
         return [SlotSet("session_loaded", session_loaded)]
 
@@ -170,10 +174,12 @@ class ActionLoadSessionNotFirst(Action):
                     query = ("SELECT response_value FROM sessiondata WHERE prolific_id = %s and session_num = %s and response_type = %s")
                     cur.execute(query, [prolific_id, str(int(session_num) - 1), "mood"])
                     mood_prev = cur.fetchone()
+        
+        conn.close()
 
         
-        return [SlotSet("user_name_slot_not_first", user_name_result),
-                SlotSet("mood_prev_session", mood_prev),
+        return [SlotSet("user_name_slot_not_first", user_name_result[0]),
+                SlotSet("mood_prev_session", mood_prev[0]),
                 SlotSet("session_loaded", session_loaded)]
         
         
@@ -277,7 +283,8 @@ class ActionSaveSession(Action):
         
         slots_to_save = ["state_1", "state_2", "state_3",
                          "state_4", "state_5", "state_6", "state_7",
-                         "state_8", "state_9", "state_busy", "state_energy"]
+                         "state_8", "state_9", "state_busy", "state_energy",
+                         "activity_new_index"]
         for slot in slots_to_save:
         
             save_sessiondata_entry(cur, conn, prolific_id, session_num,
@@ -285,6 +292,74 @@ class ActionSaveSession(Action):
                                    formatted_date)
 
         conn.close()
+        
+
+def get_previous_activity_indices_from_db(prolific_id):
+    
+    conn = mysql.connector.connect(
+        user=DATABASE_USER,
+        password=DATABASE_PASSWORD,
+        host=DATABASE_HOST,
+        port=DATABASE_PORT,
+        database='db'
+    )
+    cur = conn.cursor(prepared=True)
+    
+    # get user name from database
+    # should be possible
+    query = ("SELECT activity_new_index FROM sessiondata WHERE prolific_id = %s")
+    cur.execute(query, [prolific_id])
+    result = cur.fetchall()
+    
+    return result
+
+
+class ActionChooseActivity(Action):
+    def name(self):
+        return "action_choose_activity"
+
+    async def run(self, dispatcher, tracker, domain):
+        
+        prolific_id = tracker.current_state()['sender_id']
+        num_act = len(df_act)
+        
+        # get indices of previously assigned activities
+        curr_act_ind_list = get_previous_activity_indices_from_db(prolific_id)
+        
+        if curr_act_ind_list is None:
+            curr_act_ind_list = []
+        
+        # check excluded activities for previously assigned activities
+        excluded = []
+        for i in curr_act_ind_list:
+            excluded += df_act.loc[i, 'Exclusion']
+            
+        # get eligible activities (not done before and not excluded)
+        remaining_indices = [i for i in range(num_act) if not str(i) in curr_act_ind_list and not str(i) in excluded]
+            
+        # Check if prerequisites for remaining activities are met
+        for i in remaining_indices:
+            # Get prerequisites that are met
+            preq = [j for j in df_act.loc[i, 'Prerequisite'] if j in curr_act_ind_list]
+            # Exclude activities for which there is at least one prerequisite and
+            # not at least one prerequisite is met.
+            if (len(df_act.loc[i, 'Prerequisite']) > 0 and len(preq) == 0):
+                excluded.append(str(i))
+            
+        # Get activities that also meet the prerequisites
+        remaining_indices = [i for i in remaining_indices if not str(i) in excluded]
+        
+        # reset random seed
+        random.seed(datetime.now())
+        # chose random new activity
+        act_index = random.choice([i for i in remaining_indices])
+        
+        return [SlotSet("activity_formulation_new_session", df_act.loc[act_index, 'Formulation Session']), 
+                SlotSet("activity_formulation_new_email", df_act.loc[act_index, 'Formulation Email']),
+                SlotSet("activity_new_index", act_index),
+                SlotSet("activity_new_verb", df_act.loc[act_index, "Verb"])]
+        
+        return []
     
 
 class ValidateUserNameForm(FormValidationAction):
