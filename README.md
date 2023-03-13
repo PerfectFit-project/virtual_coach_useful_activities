@@ -36,6 +36,7 @@ To run this project on a Google Compute Engine, I followed these steps:
    
    <img src = "Readme_images/firewall_rule_3.PNG" width = "250" title="Creating a firewall rule 3.">
 	
+   - Do the same with port 3000.
    - Follow the instructions from [here](https://github.com/AmirStudy/Rasa_Deployment) for installing Docker on the Google Compute Engine instance. You can do this via the command line that opens after you click on "SSH":
    
    <img src = "Readme_images/ssh.PNG" width = "250" title="Connect via SSH.">
