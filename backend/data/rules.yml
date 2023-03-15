@@ -169,6 +169,7 @@ rules:
   steps:
   - intent: confirm_dropout
   - action: action_save_activity_experience
+  - action: utter_thanks
   - action: utter_state_question_intro
   - action: utter_state_question_1
   

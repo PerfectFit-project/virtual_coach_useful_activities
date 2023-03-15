@@ -13,6 +13,7 @@ from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.events import FollowupAction, SlotSet
 from typing import Any, Dict, List, Optional, Text
 
+import logging
 import mysql.connector
 import pandas as pd
 import random
@@ -337,14 +338,20 @@ class ActionChooseActivity(Action):
         
         if curr_act_ind_list is None:
             curr_act_ind_list = []
+            
+        logging.info(str(curr_act_ind_list))
         
         # check excluded activities for previously assigned activities
         excluded = []
         for i in curr_act_ind_list:
             excluded += df_act.loc[i, 'Exclusion']
             
+        logging.info(str(excluded))
+            
         # get eligible activities (not done before and not excluded)
         remaining_indices = [i for i in range(num_act) if not str(i) in curr_act_ind_list and not str(i) in excluded]
+        
+        logging.info("remaining 1: " + str(remaining_indices))
             
         # Check if prerequisites for remaining activities are met
         for i in remaining_indices:
@@ -358,10 +365,14 @@ class ActionChooseActivity(Action):
         # Get activities that also meet the prerequisites
         remaining_indices = [i for i in remaining_indices if not str(i) in excluded]
         
+        logging.info("remaining 2: " + str(remaining_indices))
+        
         # reset random seed
         random.seed(datetime.now())
         # chose random new activity
         act_index = random.choice([i for i in remaining_indices])
+        
+        logging.info("act index: " + str(act_index))
         
         return [SlotSet("activity_formulation_new_session", df_act.loc[act_index, 'Formulation Session']), 
                 SlotSet("activity_formulation_new_email", df_act.loc[act_index, 'Formulation Email']),

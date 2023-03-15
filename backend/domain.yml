@@ -1976,6 +1976,12 @@ responses:
   - text: Cool!
   - text: Perfect!
   
+  utter_thanks:
+  - text: "Thanks!"
+  - text: "Thanks for letting me know!"
+  - text: "Okay thanks!"
+  - text: "Thanks for sharing that with me!"
+  
   utter_provide_more_detail:
   - text: "Hmm, can you describe this in a bit more detail?"
   - text: "I see, could you elaborate a little more on this?"
