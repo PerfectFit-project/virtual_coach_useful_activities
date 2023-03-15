@@ -17,6 +17,7 @@ intents:
 
 ### Last session
 - start_session_last
+- mood_curr_session_last
 
 ### activity experience and dropout
 - effort_answer
@@ -1283,37 +1284,37 @@ responses:
         - type: slot
           name: session_num
           value: "1"
-      text: "Oh, and besides the activity reminder message, keep an eye out for the invitation to your next session with me. Sounds good?"
+      text: "Oh, and besides the activity reminder message, keep an eye out for the invitation to your next session with me."
       buttons:
       - payload: /confirm_next_part
         title: "Sure!"
       - payload: /confirm_next_part
-        title: "Yes!"
+        title: "Yes"
     - condition:
         - type: slot
           name: session_num
           value: "2"
-      text: "Also watch out for the invitation to you next session with me. Okay?"
+      text: "Also watch out for the invitation to you next session with me."
       buttons:
       - payload: /confirm_next_part
         title: "Alright!"
       - payload: /confirm_next_part
-        title: "Sure!"
+        title: "Sure"
     - condition:
         - type: slot
           name: session_num
           value: "3"
-      text: "And remember that there's another conversation with me that you'll get invited to. Okay?"
+      text: "And remember that there's another conversation with me that you'll get invited to."
       buttons:
       - payload: /confirm_next_part
         title: "Yes!"
       - payload: /confirm_next_part
-        title: "Sounds good!"
+        title: "Sounds good"
     - condition:
         - type: slot
           name: session_num
           value: "4"
-      text: "And recall that you'll also get invited to another session with me. Sounds good?"
+      text: "And recall that you'll also get invited to another session with me."
       buttons:
       - payload: /confirm_next_part
         title: "Yes!"
@@ -1326,7 +1327,7 @@ responses:
       text: "Oh, and besides the activity reminder message, keep an eye out for the invitation to the post-questionnaire. Invitations will be sent about 2 days from now. Okay?"
       buttons:
       - payload: /confirm_next_part
-        title: "Alright!"
+        title: "Alright"
       - payload: /confirm_next_part
         title: "Yes!"
     
@@ -1551,7 +1552,7 @@ responses:
         - type: slot
           name: session_num
           value: "3" 
-      text: "Last time you said you were feeling {mood_prev_session}. How are you feeling today?"
+      text: "How are you feeling today?"
       buttons:
         - payload: /mood_curr_session_mid{"mood":"satisfied", "mood_quadrant":"ha_hv"}
           title: Satisfied
