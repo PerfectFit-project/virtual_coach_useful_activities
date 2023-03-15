@@ -1,7 +1,7 @@
 // ========================== start session ========================
 $(document).ready(function () {
 
-	//drop down menu for close, restart conversation & clear the chats.
+	//drop down menu
 	$('.dropdown-trigger').dropdown();
 
 	//enable this if u have configured the bot to start the conversation. 
@@ -13,13 +13,19 @@ $(document).ready(function () {
     const urlParams = new URLSearchParams(queryString);
     const userid = urlParams.get('userid');
 	user_id = userid;
-	const session_num = urlParams.get('sessionnum');
+	const session_num = urlParams.get('n');
 	
 	//start a session
 	if (session_num == "1"){
 		send('/start_session1{"session_num":"1"}');
 	} else if (session_num == "2"){
-		send('/start_session2{"session_num":"2"}');
+		send('/start_session_mid{"session_num":"2"}');
+    } else if (session_num == "3"){
+		send('/start_session_mid{"session_num":"3"}');
+    } else if (session_num == "4"){
+		send('/start_session_mid{"session_num":"4"}');
+    } else if (session_num == "5"){
+		send('/start_session_last{"session_num":"5"}');
 	}
 	
 

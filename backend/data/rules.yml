@@ -76,37 +76,68 @@ rules:
   - action: utter_state_question_1
   
 
-- rule: start session 2 session loaded
+- rule: start session mid (2, 3, 4) session loaded
   steps:
-  - intent: start_session2
+  - intent: start_session_mid
   - action: action_load_session_not_first
   - slot_was_set: 
     - session_loaded: true
   - action: utter_greet_repeat
-  - action: utter_ask_for_mood_session2
+  - action: utter_ask_for_mood_session_mid
   
-- rule: start session 2 session not loaded so end dialog
+- rule: start session mid (2, 3, 4) session not loaded so end dialog
   steps:
-  - intent: start_session2
+  - intent: start_session_mid
   - action: action_load_session_not_first
   - slot_was_set: 
     - session_loaded: false
   - action: utter_default_close_session
   - action: action_end_dialog
   
-- rule: mood and intro session 2
-  steps:
-  - intent: mood_curr_session2
-  - action: utter_mood_response
-  - action: utter_intro_session2_1
-  - action: utter_intro_session2_2
-  - action: utter_intro_session2_3
-  - action: utter_intro_session2_4
-  - action: utter_intro_session2_5
 
-- rule: activity effort session 2
+- rule: start session last session loaded
   steps:
-  - intent: confirm_intro_session2
+  - intent: start_session_last
+  - action: action_load_session_not_first
+  - slot_was_set: 
+    - session_loaded: true
+  - action: utter_greet_repeat
+  - action: utter_ask_for_mood_session_last
+  
+- rule: start session last session not loaded so end dialog
+  steps:
+  - intent: start_session_last
+  - action: action_load_session_not_first
+  - slot_was_set: 
+    - session_loaded: false
+  - action: utter_default_close_session
+  - action: action_end_dialog
+  
+  
+- rule: mood and intro session mid
+  steps:
+  - intent: mood_curr_session_mid
+  - action: utter_mood_response
+  - action: utter_intro_session_mid_1
+  - action: utter_intro_session_mid_2
+  - action: utter_intro_session_mid_3
+  - action: utter_intro_session_mid_4
+  - action: utter_intro_session_mid_5
+  
+  
+- rule: mood and intro session last
+  steps:
+  - intent: mood_curr_session_last
+  - action: utter_mood_response
+  - action: utter_intro_session_last_1
+  - action: utter_intro_session_last_2
+  - action: utter_intro_session_last_3
+  - action: utter_intro_session_last_4
+  
+
+- rule: activity effort session notfirst
+  steps:
+  - intent: confirm_intro_session_notfirst
   - action: utter_last_activity_short
   - action: utter_last_activity_effort_intro
   - action: utter_last_activity_effort
