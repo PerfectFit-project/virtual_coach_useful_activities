@@ -346,7 +346,7 @@ class ActionChooseActivity(Action):
         # check excluded activities for previously assigned activities
         excluded = []
         for i in curr_act_ind_list:
-            excluded += df_act.loc[i, 'Exclusion']
+            excluded += df_act.loc[int(i), 'Exclusion']
             
         logging.info(str(excluded))
             
