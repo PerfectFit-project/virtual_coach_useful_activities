@@ -55,7 +55,7 @@ To run this project on a Google Compute Engine, I followed these steps:
    - Clone your project from Github on the Google Compute Engine instance.
    - Navigate to your project folder on the Compute Engine instance and start your project with `docker-compose up`.
    - Check if all your containers are running on your Google Compute Engine instance via `docker container ls`.
-   - You can access the frontend from your browser via `http://<your_instance_IP>:3000/?userid=<some_user_id>&sn=1`. `n` determines which session is started (1-5). Earlier sessions need to be completed by a user to be able to access later ones.
+   - You can access the frontend from your browser via `http://<your_instance_IP>:3000/?userid=<some_user_id>&n=1`. `n` determines which session is started (1-5). Earlier sessions need to be completed by a user to be able to access later ones.
    - Open the chat here:
    
    <img src = "Readme_images/open_chat.PNG" width = "250" title="Open chat.">
