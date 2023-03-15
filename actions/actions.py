@@ -318,6 +318,9 @@ def get_previous_activity_indices_from_db(prolific_id):
     cur.execute(query, [prolific_id, "activity_new_index"])
     result = cur.fetchall()
     
+    # So far, we have sth. like [('49',), ('44',)]
+    result = [i[0] for i in result]
+    
     conn.close()
     
     return result
