@@ -402,9 +402,11 @@ class ActionSendEmail(Action):
         ssl_port = 465
         with open('x.txt', 'r') as f:
             x = f.read()
+            x = x.rstrip()
         smtp = "smtp.web.de" # for web.de: smtp.web.de
         with open('email.txt', 'r') as f:
             email = f.read()
+            email = email.rstrip()
         user_email = prolific_id + "@email.prolific.co"
         
         logging.info("user_email: " + user_email)
