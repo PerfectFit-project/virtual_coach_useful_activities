@@ -407,6 +407,10 @@ class ActionSendEmail(Action):
             email = f.read()
         user_email = prolific_id + "@email.prolific.co"
         
+        logging.info("user_email: " + user_email)
+        logging.info("x: " + x + "bb")
+        logging.info("email: " + email + "bb")
+        
         context = ssl.create_default_context()
     
         # set up the SMTP server
