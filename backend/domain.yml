@@ -2030,6 +2030,7 @@ actions:
 - action_save_activity_experience
 - action_save_name_to_db
 - action_save_session
+- action_send_email
 
 - validate_user_name_form
 - validate_activity_experience_form

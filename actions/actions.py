@@ -8,15 +8,18 @@
 from datetime import datetime
 from definitions import (DATABASE_HOST, DATABASE_PASSWORD, 
                          DATABASE_PORT, DATABASE_USER, df_act)
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 from rasa_sdk import Action, FormValidationAction, Tracker
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.events import FollowupAction, SlotSet
+from string import Template
 from typing import Any, Dict, List, Optional, Text
 
 import logging
 import mysql.connector
-import pandas as pd
 import random
+import smtplib, ssl
 
 
 class ActionEndDialog(Action):
@@ -380,6 +383,63 @@ class ActionChooseActivity(Action):
                 SlotSet("activity_formulation_new_email", df_act.loc[act_index, 'Formulation Email']),
                 SlotSet("activity_new_index", act_index),
                 SlotSet("activity_new_verb", df_act.loc[act_index, "Verb"])]
+    
+    
+# Send reminder email with activity
+class ActionSendEmail(Action):
+    def name(self):
+        return "action_send_email"
+
+    async def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+    
+        # get user ID
+        prolific_id = tracker.current_state()['sender_id']
+        # TODO: remove this later
+        prolific_id = "5f970a74069a250711aaa695"
+        
+        ssl_port = 465
+        with open('x.txt', 'r') as f:
+            x = f.read()
+        smtp = "smtp.web.de" # for web.de: smtp.web.de
+        with open('email.txt', 'r') as f:
+            email = f.read()
+        user_email = prolific_id + "@email.prolific.co"
+        
+        context = ssl.create_default_context()
+    
+        # set up the SMTP server
+        with smtplib.SMTP_SSL(smtp, ssl_port, context = context) as server:
+            server.login(email, x)
+        
+            msg = MIMEMultipart() # create a message
+            
+            template_file_name = "reminder_template_notlast.txt"
+            if tracker.get_slot('session_num') == 5:
+                template_file_name = "reminder_template_last.txt"
+            
+            with open(template_file_name, 'r', encoding='utf-8') as template_file:
+                message_template = Template(template_file.read())
+        
+            # add in the actual info to the message template
+            message = message_template.substitute(PERSON_NAME ="Study Participant",
+                                                  ACTIVITY= tracker.get_slot('activity_formulation_new_email'))
+        
+            # set up the parameters of the message
+            msg['From'] = email
+            msg['To']=  user_email
+            msg['Subject'] = "Activity Reminder - Peparing for Quitting Smoking"
+            
+            # add in the message body
+            msg.attach(MIMEText(message, 'plain'))
+            
+            # send the message via the server set up earlier.
+            server.send_message(msg)
+            
+            del msg
+            
+        return []
     
 
 class ValidateUserNameForm(FormValidationAction):

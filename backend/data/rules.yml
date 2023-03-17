@@ -263,6 +263,7 @@ rules:
 - rule: confirm next part and save states to db
   steps:
   - intent: confirm_next_part
+  - action: action_send_email
   - action: action_save_session
   - action: utter_prolific_link
   - action: utter_goodbye
