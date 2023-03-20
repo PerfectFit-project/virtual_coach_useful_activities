@@ -13,14 +13,14 @@ $(document).ready(function () {
 	const session_num = urlParams.get('n');
 	
 	
-	if ($('.widget').width() == 350) {
+	//if ($('.widget').width() == 350) {
 		// This determines the width and height of the window when opened in browser on a laptop
-		$('.widget').css("width" , "98%");
-		$('.widget').css("height" , "100%");
-	} else {
-		$('.widget').css("width" , "350px");
-		$('.widget').css("height" , "100%");
-	}
+	//	$('.widget').css("width" , "98%");
+	//	$('.widget').css("height" , "100%");
+	//} else {
+	//	$('.widget').css("width" , "350px");
+	//	$('.widget').css("height" , "100%");
+	//}
 	
 	//start a session
 	if (session_num == "1"){
