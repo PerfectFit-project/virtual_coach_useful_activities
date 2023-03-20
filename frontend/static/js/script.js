@@ -202,6 +202,10 @@ function setBotResponse(response) {
 		setTimeout(function () {
 		hideBotTyping();
 		
+		console.log(k)
+		console.log(response)
+		console.log("response: " + response[k])
+		
 		//check if the response contains "text"
 		if (response[k].hasOwnProperty("text")) {
 			var response_text = response[k].text.split("\n")
