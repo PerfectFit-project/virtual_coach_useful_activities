@@ -210,16 +210,16 @@ function setBotResponse(response) {
 	if (response.length > 1){
 		setTimeout(function () {
 		showBotTyping();
-		}, 500)
+		}, 1000)
 	}
 	
-	for (i = 1; i < response.length; i++){
+	for (k = 1; k < response.length; k++){
 		setTimeout(function () {
 		hideBotTyping();
 		
 		//check if the response contains "text"
-		if (response[i].hasOwnProperty("text")) {
-			var response_text = response[i].text.split("\n")
+		if (response[k].hasOwnProperty("text")) {
+			var response_text = response[k].text.split("\n")
 			for (j = 0; j < response_text.length; j++){
 				var BotResponse = '<img class="botAvatar" src="/img/chatbot_picture.png"/><p class="botMsg">' + response_text[j] + '</p><div class="clearfix"></div>';
 				$(BotResponse).appendTo(".chats").hide().fadeIn(1000);
@@ -227,13 +227,13 @@ function setBotResponse(response) {
 		}
 
 		//check if the response contains "buttons" 
-		if (response[i].hasOwnProperty("buttons")) {
-			addSuggestion(response[i].buttons);
+		if (response[k].hasOwnProperty("buttons")) {
+			addSuggestion(response[k].buttons);
 		}
 		
 		scrollToBottomOfResults();
 		
-		if (i < response.length - 1){
+		if (k < response.length - 1){
 			showBotTyping();
 		}
 		
