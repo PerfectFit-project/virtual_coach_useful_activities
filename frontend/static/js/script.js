@@ -194,7 +194,7 @@ function setBotResponse(response) {
 	if (response.length > 1){
 		setTimeout(function () {
 		showBotTyping();
-		}, 1000)
+		}, 500)
 	}
 	
 	for (k = 1; k < response.length; k++){
