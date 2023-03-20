@@ -162,30 +162,6 @@ function setBotResponse(response) {
 					addSuggestion(response[i].buttons);
 				}
 
-				//check if the response contains "custom" message  
-				if (response[i].hasOwnProperty("custom")) {
-
-					//check if the custom payload type is "quickReplies"
-					if (response[i].custom.payload == "quickReplies") {
-						quickRepliesData = response[i].custom.data;
-						showQuickReplies(quickRepliesData);
-						return;
-					}
-
-					//check if the custom payload type is "dropDown"
-					if (response[i].custom.payload == "dropDown") {
-						dropDownData = response[i].custom.data;
-						renderDropDwon(dropDownData);
-						return;
-					}
-
-					//check of the custom payload type is "collapsible"
-					if (response[i].custom.payload == "collapsible") {
-						data = (response[i].custom.data);
-						//pass the data variable to createCollapsible function
-						createCollapsible(data);
-					}
-				}
 			}
 			scrollToBottomOfResults();
 		}
@@ -221,7 +197,7 @@ function setBotResponse(response) {
 			showBotTyping();
 		}
 		
-		}, 500);
+		}, 500 * i);
 	}
 }
 
