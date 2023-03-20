@@ -12,6 +12,16 @@ $(document).ready(function () {
 	//get session number
 	const session_num = urlParams.get('n');
 	
+	
+	if ($('.widget').width() == 350) {
+		// This determines the width and height of the window when opened in browser on a laptop
+		$('.widget').css("width" , "98%");
+		$('.widget').css("height" , "100%");
+	} else {
+		$('.widget').css("width" , "350px");
+		$('.widget').css("height" , "100%");
+	}
+	
 	//start a session
 	if (session_num == "1"){
 		send('/start_session1{"session_num":"1"}');
