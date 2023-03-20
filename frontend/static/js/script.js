@@ -229,7 +229,11 @@ function setBotResponse(response) {
 			addSuggestion(response[i].buttons);
 		}
 		
-		showBotTyping();
+		scrollToBottomOfResults();
+		
+		if (i < response.length - 1){
+			showBotTyping();
+		}
 		
 		''}, 500);
 	}
