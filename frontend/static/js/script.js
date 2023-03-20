@@ -128,9 +128,9 @@ function setBotResponse(response) {
 		}
 		//if we get response from Rasa
 		else {
-
-			processSingleBotMessage(response[0]);
+			
 			delay_first_message = Math.min(Math.max(response[0].text.length * 45, 800), 5000);
+			processSingleBotMessage(response[0], delay_first_message);
 		}
 	}, delay_first_message);
 	
@@ -157,23 +157,25 @@ function setBotResponse(response) {
 }
 
 //====================================== Process single message =========
-function processSingleBotMessage(response_i) {
+function processSingleBotMessage(response_i, summed_timeout) {
 	
-	//check if the response contains "text"
-	if (response_i.hasOwnProperty("text")) {
-		var response_text = response_i.text.split("\n")
-		for (j = 0; j < response_text.length; j++){
-			var BotResponse = '<img class="botAvatar" src="/img/chatbot_picture.png"/><p class="botMsg">' + response_text[j] + '</p><div class="clearfix"></div>';
-			$(BotResponse).appendTo(".chats").hide().fadeIn(1000);
+	setTimeout(function() {
+		//check if the response contains "text"
+		if (response_i.hasOwnProperty("text")) {
+			var response_text = response_i.text.split("\n")
+			for (j = 0; j < response_text.length; j++){
+				var BotResponse = '<img class="botAvatar" src="/img/chatbot_picture.png"/><p class="botMsg">' + response_text[j] + '</p><div class="clearfix"></div>';
+				$(BotResponse).appendTo(".chats").hide().fadeIn(1000);
+			}
 		}
-	}
 
-	//check if the response contains "buttons" 
-	if (response_i.hasOwnProperty("buttons")) {
-		addSuggestion(response[i].buttons);
-	}
+		//check if the response contains "buttons" 
+		if (response_i.hasOwnProperty("buttons")) {
+			addSuggestion(response[i].buttons);
+		}
 
-	scrollToBottomOfResults();
+		scrollToBottomOfResults();
+	}
 }
 
 //====================================== Scaled timeout for showing messages from bot =========
