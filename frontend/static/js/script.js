@@ -149,23 +149,29 @@ function setBotResponse(response) {
 		}
 	}, 500);
 	
-	// Show bot typing again if there is more than 1 message from the bot
+	//show bot typing again if there is more than 1 message from the bot
 	if (response.length > 1){
+		// Adjust delay based on message length
+		var delay_first_message = Math.min(Math.max(response[0].text.length * 45, 800), 5000);
 		setTimeout(function () {
 		showBotTyping();
-		}, 2000)
+		}, delay_first_message)
+		
+		//send remaining bot messages if there are more than 1
+		var summed_timeout = delay_first_message
+		for (var i = 1; i < response.length; i++){
+			summed_timeout += doScaledTimeout(i, response, summed_timeout)
+		}
 	}
 	
-	//send remaining bot messages if there are more than 1
-	var summed_timeout = 2000
-	for (var i = 1; i < response.length; i++){
-		summed_timeout += doScaledTimeout(i, response, summed_timeout)
-	}
 }
 
 
 //====================================== Scaled timeout for showing messages from bot =========
+// See here for an explanation on timeout functions in javascript: https://stackoverflow.com/questions/5226285/settimeout-in-for-loop-does-not-print-consecutive-values.
 function doScaledTimeout(i, response, summed_timeout) {
+	
+	// Adjust delay based on message length
     delay = Math.min(Math.max(response[i].text.length * 45, 800), 5000);
 	
 	setTimeout(function() {
