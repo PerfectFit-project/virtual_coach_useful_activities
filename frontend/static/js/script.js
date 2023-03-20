@@ -162,7 +162,7 @@ function setBotResponse(response) {
 		else {
 
 			//if we get response from Rasa
-			for (i = 0; i < response.length; i++) {
+			for (i = 0; i < 1; i++) {
 
 				//check if the response contains "text"
 				if (response[i].hasOwnProperty("text")) {
@@ -172,13 +172,6 @@ function setBotResponse(response) {
 						$(BotResponse).appendTo(".chats").hide().fadeIn(1000);
 					}
 				}
-
-				//check if the response contains "images"
-				if (response[i].hasOwnProperty("image")) {
-					var BotResponse = '<div class="singleCard">' + '<img class="imgcard" src="' + response[i].image + '">' + '</div><div class="clearfix">';
-					$(BotResponse).appendTo(".chats").hide().fadeIn(1000);
-				}
-
 
 				//check if the response contains "buttons" 
 				if (response[i].hasOwnProperty("buttons")) {
@@ -213,6 +206,29 @@ function setBotResponse(response) {
 			scrollToBottomOfResults();
 		}
 	}, 500);
+	
+	for (i = 1; i < response.length; i++){
+		setTimeout(function () {
+		hideBotTyping();
+		
+		//check if the response contains "text"
+		if (response[i].hasOwnProperty("text")) {
+			var response_text = response[i].text.split("\n")
+			for (j = 0; j < response_text.length; j++){
+				var BotResponse = '<img class="botAvatar" src="/img/chatbot_picture.png"/><p class="botMsg">' + response_text[j] + '</p><div class="clearfix"></div>';
+				$(BotResponse).appendTo(".chats").hide().fadeIn(1000);
+			}
+		}
+
+		//check if the response contains "buttons" 
+		if (response[i].hasOwnProperty("buttons")) {
+			addSuggestion(response[i].buttons);
+		}
+		
+		showBotTyping();
+		
+		}, 500);
+	}
 }
 
 //====================================== Toggle chatbot =======================================
