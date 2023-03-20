@@ -116,26 +116,10 @@ function send(message) {
 		success: function (botResponse, status) {
 			console.log("Response from Rasa: ", botResponse, "\nStatus: ", status);
 
-			// if user wants to restart the chat and clear the existing chat contents
-			if (message.toLowerCase() == '/restart') {
-				$("#userInput").prop('disabled', false);
-
-				//if you want the bot to start the conversation after restart
-				// action_trigger();
-				return;
-			}
 			setBotResponse(botResponse);
 
 		},
 		error: function (xhr, textStatus, errorThrown) {
-
-			if (message.toLowerCase() == '/restart') {
-				// $("#userInput").prop('disabled', false);
-
-				//if you want the bot to start the conversation after the restart action.
-				// action_trigger();
-				// return;
-			}
 
 			// if there is no response from rasa server
 			setBotResponse("");
@@ -237,7 +221,7 @@ function setBotResponse(response) {
 			showBotTyping();
 		}
 		
-		}, 1000);
+		}, 2000);
 	}
 }
 
