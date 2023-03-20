@@ -175,7 +175,7 @@ function processSingleBotMessage(response_i, summed_timeout) {
 		}
 
 		scrollToBottomOfResults();
-	}
+	}, summed_timeout)
 }
 
 //====================================== Scaled timeout for showing messages from bot =========
