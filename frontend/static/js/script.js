@@ -207,6 +207,10 @@ function setBotResponse(response) {
 		}
 	}, 500);
 	
+	if (response.length > 1){
+		showBotTyping();
+	}
+	
 	for (i = 1; i < response.length; i++){
 		setTimeout(function () {
 		hideBotTyping();
@@ -227,7 +231,7 @@ function setBotResponse(response) {
 		
 		showBotTyping();
 		
-		}, 500);
+		''}, 500);
 	}
 }
 
