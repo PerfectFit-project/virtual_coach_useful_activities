@@ -429,8 +429,17 @@ class ActionSendEmail(Action):
                 message_template = Template(template_file.read())
         
             # add in the actual info to the message template
-            message = message_template.substitute(PERSON_NAME ="Study Participant",
-                                                  ACTIVITY= tracker.get_slot('activity_formulation_new_email'))
+            message_part1 = message_template.substitute(PERSON_NAME ="Study Participant",
+                                                        ACTIVITY= tracker.get_slot('activity_formulation_new_email'))
+           
+            html = """\
+            <html>
+              <body>
+                <p><em>Please do not reply to this message.</em>
+                </p>
+              </body>
+            </html>
+            """
         
             # set up the parameters of the message
             msg['From'] = email
@@ -438,7 +447,8 @@ class ActionSendEmail(Action):
             msg['Subject'] = "Activity Reminder - Peparing for Quitting Smoking"
             
             # add in the message body
-            msg.attach(MIMEText(message, 'plain'))
+            msg.attach(MIMEText(message_part1, 'plain'))
+            msg.attach(MIMEText(html, 'html'))
             
             # send the message via the server set up earlier.
             server.send_message(msg)
