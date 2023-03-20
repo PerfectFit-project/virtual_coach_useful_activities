@@ -115,6 +115,9 @@ function setBotResponse(response) {
 
 	//display bot response after the number of miliseconds caputred by the variable 'delay_first_message'
 	var delay_first_message = 500
+	if (response.length >=1 {
+		delay_first_message = Math.min(Math.max(response[0].text.length * 45, 800), 5000);
+	}
 	setTimeout(function () {
 		hideBotTyping();
 		if (response.length < 1) {
@@ -128,8 +131,6 @@ function setBotResponse(response) {
 		}
 		//if we get response from Rasa
 		else {
-			
-			delay_first_message = Math.min(Math.max(response[0].text.length * 45, 800), 5000);
 			//check if the response contains "text"
 			if (response[0].hasOwnProperty("text")) {
 				var response_text = response[0].text.split("\n")
