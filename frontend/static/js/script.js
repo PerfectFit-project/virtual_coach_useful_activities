@@ -170,7 +170,7 @@ function setBotResponse(response) {
 	if (response.length > 1){
 		setTimeout(function () {
 		showBotTyping();
-		}, 500)
+		}, 2000)
 	}
 	
 	for (var i = 1; i < response.length; i++){
@@ -178,6 +178,8 @@ function setBotResponse(response) {
 	}
 }
 
+
+//====================================== Scaled timeout for showing messages from bot =========
 function doScaledTimeout(i, response) {
  setTimeout(function() {
     hideBotTyping();
@@ -201,7 +203,7 @@ function doScaledTimeout(i, response) {
 	if (i < response.length - 1){
 		showBotTyping();
 	}
- }, i * 5000);
+ }, i * 2000);
 }
 
 //====================================== Toggle chatbot =======================================
