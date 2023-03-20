@@ -4,15 +4,12 @@ $(document).ready(function () {
 	//drop down menu
 	$('.dropdown-trigger').dropdown();
 
-	//enable this if u have configured the bot to start the conversation. 
-	//showBotTyping();
-	//$("#userInput").prop('disabled', true);
-
 	//get user ID
 	const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     const userid = urlParams.get('userid');
 	user_id = userid;
+	//get session number
 	const session_num = urlParams.get('n');
 	
 	//start a session
@@ -42,18 +39,9 @@ $(".usrInput").on("keyup keypress", function (e) {
 			e.preventDefault();
 			return false;
 		} else {
-			//destroy the existing chart, if yu are not using charts, then comment the below lines
-			$('.collapsible').remove();
-			if (typeof chatChart !== 'undefined') { chatChart.destroy(); }
-
-			$(".chart-container").remove();
-			if (typeof modalChart !== 'undefined') { modalChart.destroy(); }
-
-
 
 			$("#paginated_cards").remove();
 			$(".suggestions").remove();
-			$(".quickReplies").remove();
 			$(".usrInput").blur();
 			setUserResponse(text);
 			send(text);
@@ -70,15 +58,9 @@ $("#sendButton").on("click", function (e) {
 		return false;
 	}
 	else {
-		//destroy the existing chart
-
-		chatChart.destroy();
-		$(".chart-container").remove();
-		if (typeof modalChart !== 'undefined') { modalChart.destroy(); }
-
+		
 		$(".suggestions").remove();
 		$("#paginated_cards").remove();
-		$(".quickReplies").remove();
 		$(".usrInput").blur();
 		setUserResponse(text);
 		send(text);
@@ -167,12 +149,14 @@ function setBotResponse(response) {
 		}
 	}, 500);
 	
+	// Show bot typing again if there is more than 1 message from the bot
 	if (response.length > 1){
 		setTimeout(function () {
 		showBotTyping();
 		}, 2000)
 	}
 	
+	//send remaining bot messages if there are more than 1
 	for (var i = 1; i < response.length; i++){
 		doScaledTimeout(i, response)
 	}
@@ -203,7 +187,7 @@ function doScaledTimeout(i, response) {
 	if (i < response.length - 1){
 		showBotTyping();
 	}
- }, i * 2000);
+ }, i * 3000);
 }
 
 //====================================== Toggle chatbot =======================================
@@ -211,31 +195,6 @@ $("#profile_div").click(function () {
 	$(".profile_div").toggle();
 	$(".widget").toggle();
 });
-
-//====================================== DropDown ==================================================
-//render the dropdown messageand handle user selection
-function renderDropDwon(data) {
-	var options = "";
-	for (i = 0; i < data.length; i++) {
-		options += '<option value="' + data[i].value + '">' + data[i].label + '</option>'
-	}
-	var select = '<div class="dropDownMsg"><select class="browser-default dropDownSelect"> <option value="" disabled selected>Choose your option</option>' + options + '</select></div>'
-	$(".chats").append(select);
-
-	//add event handler if user selects a option.
-	$("select").change(function () {
-		var value = ""
-		var label = ""
-		$("select option:selected").each(function () {
-			label += $(this).text();
-			value += $(this).val();
-		});
-
-		setUserResponse(label);
-		send(value);
-		$(".dropDownMsg").remove();
-	});
-}
 
 //====================================== Suggestions ===========================================
 
@@ -283,60 +242,6 @@ $("#fullscreen").click(function () {
 	}
 });
 
-//====================================== Quick Replies ==================================================
-
-function showQuickReplies(quickRepliesData) {
-	var chips = ""
-	for (i = 0; i < quickRepliesData.length; i++) {
-		var chip = '<div class="chip" data-payload=\'' + (quickRepliesData[i].payload) + '\'>' + quickRepliesData[i].title + '</div>'
-		chips += (chip)
-	}
-
-	var quickReplies = '<div class="quickReplies">' + chips + '</div><div class="clearfix"></div>'
-	$(quickReplies).appendTo(".chats").fadeIn(1000);
-	scrollToBottomOfResults();
-	const slider = document.querySelector('.quickReplies');
-	let isDown = false;
-	let startX;
-	let scrollLeft;
-
-	slider.addEventListener('mousedown', (e) => {
-		isDown = true;
-		slider.classList.add('active');
-		startX = e.pageX - slider.offsetLeft;
-		scrollLeft = slider.scrollLeft;
-	});
-	slider.addEventListener('mouseleave', () => {
-		isDown = false;
-		slider.classList.remove('active');
-	});
-	slider.addEventListener('mouseup', () => {
-		isDown = false;
-		slider.classList.remove('active');
-	});
-	slider.addEventListener('mousemove', (e) => {
-		if (!isDown) return;
-		e.preventDefault();
-		const x = e.pageX - slider.offsetLeft;
-		const walk = (x - startX) * 3; //scroll-fast
-		slider.scrollLeft = scrollLeft - walk;
-	});
-
-}
-
-// on click of quickreplies, get the value and send to rasa
-$(document).on("click", ".quickReplies .chip", function () {
-	var text = this.innerText;
-	var payload = this.getAttribute('data-payload');
-	console.log("chip payload: ", this.getAttribute('data-payload'))
-	setUserResponse(text);
-	send(payload);
-
-	//delete the quickreplies
-	$(".quickReplies").remove();
-
-});
-
 //======================================bot typing animation ======================================
 function showBotTyping() {
 
@@ -349,27 +254,4 @@ function showBotTyping() {
 function hideBotTyping() {
 	$('#botAvatar').remove();
 	$('.botTyping').remove();
-}
-
-//====================================== Collapsible =========================================
-
-// function to create collapsible,
-// for more info refer:https://materializecss.com/collapsible.html
-function createCollapsible(data) {
-	//sample data format:
-	//var data=[{"title":"abc","description":"xyz"},{"title":"pqr","description":"jkl"}]
-	list = "";
-	for (i = 0; i < data.length; i++) {
-		item = '<li>' +
-			'<div class="collapsible-header">' + data[i].title + '</div>' +
-			'<div class="collapsible-body"><span>' + data[i].description + '</span></div>' +
-			'</li>'
-		list += item;
-	}
-	var contents = '<ul class="collapsible">' + list + '</uL>';
-	$(contents).appendTo(".chats");
-
-	// initialize the collapsible
-	$('.collapsible').collapsible();
-	scrollToBottomOfResults();
 }
