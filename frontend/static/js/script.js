@@ -138,7 +138,7 @@ function setBotResponse(response) {
 	//if there is more than 1 message from the bot
 	if (response.length > 1){
 		//show typing symbol again
-		var delay_typing = 600;
+		var delay_typing = 600 + delay_first_message;
 		setTimeout(function () {
 		showBotTyping();
 		}, delay_typing)
