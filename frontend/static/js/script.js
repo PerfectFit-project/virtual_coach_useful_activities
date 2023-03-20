@@ -130,7 +130,21 @@ function setBotResponse(response) {
 		else {
 			
 			delay_first_message = Math.min(Math.max(response[0].text.length * 45, 800), 5000);
-			processSingleBotMessage(response[0], delay_first_message);
+			//check if the response contains "text"
+			if (response[0].hasOwnProperty("text")) {
+				var response_text = response[0].text.split("\n")
+				for (j = 0; j < response_text.length; j++){
+					var BotResponse = '<img class="botAvatar" src="/img/chatbot_picture.png"/><p class="botMsg">' + response_text[j] + '</p><div class="clearfix"></div>';
+					$(BotResponse).appendTo(".chats").hide().fadeIn(1000);
+				}
+			}
+
+			//check if the response contains "buttons" 
+			if (response[0].hasOwnProperty("buttons")) {
+				addSuggestion(response[i].buttons);
+			}
+
+		scrollToBottomOfResults();
 		}
 	}, delay_first_message);
 	
@@ -156,27 +170,6 @@ function setBotResponse(response) {
 	
 }
 
-//====================================== Process single message =========
-function processSingleBotMessage(response_i, summed_timeout) {
-	
-	setTimeout(function() {
-		//check if the response contains "text"
-		if (response_i.hasOwnProperty("text")) {
-			var response_text = response_i.text.split("\n")
-			for (j = 0; j < response_text.length; j++){
-				var BotResponse = '<img class="botAvatar" src="/img/chatbot_picture.png"/><p class="botMsg">' + response_text[j] + '</p><div class="clearfix"></div>';
-				$(BotResponse).appendTo(".chats").hide().fadeIn(1000);
-			}
-		}
-
-		//check if the response contains "buttons" 
-		if (response_i.hasOwnProperty("buttons")) {
-			addSuggestion(response[i].buttons);
-		}
-
-		scrollToBottomOfResults();
-	}, summed_timeout)
-}
 
 //====================================== Scaled timeout for showing messages from bot =========
 // See here for an explanation on timeout functions in javascript: https://stackoverflow.com/questions/5226285/settimeout-in-for-loop-does-not-print-consecutive-values.
@@ -207,11 +200,13 @@ function doScaledTimeout(i, response, summed_timeout) {
 	}, summed_timeout);
 }
 
+
 //====================================== Toggle chatbot =======================================
 $("#profile_div").click(function () {
 	$(".profile_div").toggle();
 	$(".widget").toggle();
 });
+
 
 //====================================== Suggestions ===========================================
 
