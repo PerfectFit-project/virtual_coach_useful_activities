@@ -166,7 +166,7 @@ function setBotResponse(response) {
 
 //====================================== Scaled timeout for showing messages from bot =========
 function doScaledTimeout(i, response, summed_timeout) {
-    delay = Math.min(Math.max(response.length * 45, 800), 5000);
+    delay = Math.min(Math.max(response[i].text.length * 45, 800), 5000);
 	
 	setTimeout(function() {
 		hideBotTyping();
