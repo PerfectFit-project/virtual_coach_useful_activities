@@ -306,7 +306,7 @@ responses:
   - text: "Please let me know how I can call you. It does not need to be your real name."
   - text: "Kindly tell me how I can call you. This does not need to be your real name. A nickname works too."
   utter_purpose_1:
-  - text: "I have mentioned by name, but let me also tell you bit about what I do: My goal is to help people prepare for quitting smoking. And since becoming more physically active may make it easier to quit smoking, I also want to prepare people for becoming more physically active."
+  - text: "I have mentioned my name, but let me also tell you bit about what I do: My goal is to help people prepare for quitting smoking. And since becoming more physically active may make it easier to quit smoking, I also want to prepare people for becoming more physically active."
   utter_purpose_2:
   - text: "Why prepare to quit? Because proper preparation can help to quit successfully."
   utter_purpose_3:
