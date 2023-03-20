@@ -114,8 +114,8 @@ function send(message) {
 function setBotResponse(response) {
 
 	//display bot response after the number of miliseconds caputred by the variable 'delay_first_message'
-	var delay_first_message = 500
-	if (response.length >=1 {
+	var delay_first_message = 500;
+	if (response.length >=1) {
 		delay_first_message = Math.min(Math.max(response[0].text.length * 45, 800), 5000);
 	}
 	setTimeout(function () {
@@ -159,7 +159,7 @@ function setBotResponse(response) {
 		}, delay_typing)
 		
 		//send remaining bot messages if there are more than 1
-		var summed_timeout = delay_typing
+		var summed_timeout = delay_typing;
 		for (var i = 1; i < response.length; i++){
 			
 			//Add delay based on the length of the next message
