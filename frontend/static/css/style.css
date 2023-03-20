@@ -413,7 +413,7 @@ div.content_data::-webkit-scrollbar {
 }
 
 .menuChips {
-	display: block;
+	display: inline-block;
 	background: #2c53af;
 	color: #fff;
 	text-align: center;
