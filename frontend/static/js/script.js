@@ -221,7 +221,7 @@ function setBotResponse(response) {
 			showBotTyping();
 		}
 		
-		}, 2000);
+		}, 1000);
 	}
 }
 
