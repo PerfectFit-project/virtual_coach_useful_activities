@@ -197,7 +197,8 @@ function setBotResponse(response) {
 		}, 500)
 	}
 	
-	for (k = 1; k < response.length; k++){
+	let k = 1;
+	for (; k < response.length; k++){
 		setTimeout(function () {
 		hideBotTyping();
 		
