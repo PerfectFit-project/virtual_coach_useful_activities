@@ -306,7 +306,7 @@ responses:
   - text: "Please let me know how I can call you. It does not need to be your real name."
   - text: "Kindly tell me how I can call you. This does not need to be your real name. A nickname works too."
   utter_purpose_1:
-  - text: "I have mentioned my name, but let me also tell you bit about what I do: My goal is to help people prepare for quitting smoking. And since becoming more physically active may make it easier to quit smoking, I also want to prepare people for becoming more physically active."
+  - text: "I have mentioned my name, but let me also tell you a bit about what I do: My goal is to help people prepare for quitting smoking. And since becoming more physically active may make it easier to quit smoking, I also want to prepare people for becoming more physically active."
   utter_purpose_2:
   - text: "Why prepare to quit? Because proper preparation can help to quit successfully."
   utter_purpose_3:
@@ -341,7 +341,7 @@ responses:
   - text: "Please note that doing your recommended activity after this session is voluntary and does not impact your payment."
   utter_intro_session1_7:
   - buttons:
-    - payload : /confirm_intro_session1
+    - payload: /confirm_intro_session1
       title: "Now"
     text: "Let me know when you've finished reading our plan for today's session."
     
@@ -470,7 +470,7 @@ responses:
   utter_intro_session_last_2:
   - text: "We are again going to look at your experience, if any, with your activity from last time."
   utter_intro_session_last_3:
-  - text: "And after asking you some questions about your situation again, I will suggest you one final preparatory activity for after this session."
+  - text: "And after asking you some questions about your situation again, I will suggest to you one final preparatory activity for after this session."
   utter_intro_session_last_4:
   - text: "Once you're done reading this, please let me know."
     buttons:
@@ -924,7 +924,7 @@ responses:
         - type: slot
           name: session_num
           value: "1"
-      text: "Nice, now we're more than halfway with the questions!"
+      text: "Nice, now we're more than halfway through the questions!"
     - condition:
         - type: slot
           name: session_num
@@ -1294,7 +1294,7 @@ responses:
         - type: slot
           name: session_num
           value: "2"
-      text: "Also watch out for the invitation to you next session with me."
+      text: "Also watch out for the invitation to your next session with me."
       buttons:
       - payload: /confirm_next_part
         title: "Alright!"
@@ -1401,7 +1401,7 @@ responses:
       text: "Looking forward to our next session already, bye for now!"
       buttons:
       - payload: /confirm_goodbye
-        title: "Until nex time!"
+        title: "Until next time!"
     - condition:
         - type: slot
           name: session_num
@@ -1759,7 +1759,7 @@ responses:
         - type: slot
           name: mood_quadrant
           value: "ha_hv"
-      text: "Great, I'm happy to hear that that you're feeling {mood}!"
+      text: "Great, I'm happy to hear that you're feeling {mood}!"
     - condition:
         - type: slot
           name: mood_quadrant
@@ -1991,7 +1991,7 @@ responses:
   
   
   utter_default:
-  - text: "There is a problem with this session."
+  - text: "THERE IS A PROBLEM WITH THIS SESSION."
   
   utter_default_close_session:
   - text: "PLEASE CLOSE THIS WINDOW AND CONTACT THE RESEARCHER ON PROLIFIC."
