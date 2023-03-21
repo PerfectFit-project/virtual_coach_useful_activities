@@ -129,8 +129,6 @@ function setBotResponse(response) {
 	}
 	setTimeout(function () {
 		hideBotTyping();
-		$('.usrInput').attr("disabled",false);
-		$(".usrInput").prop('placeholder', "Type a message...");
 		if (response.length < 1) {
 			//if there is no response from Rasa, send  fallback message to the user
 			var fallbackMsg = "I am facing some issues, please try again later!!!";
@@ -155,8 +153,14 @@ function setBotResponse(response) {
 			if (response[0].hasOwnProperty("buttons")) {
 				addSuggestion(response[i].buttons);
 			}
+			//If there are no buttons and there is a single response from the bot, enable the textfield for user input again.
+			else if(response.length == 1){
+				$('.usrInput').attr("disabled",false);
+				$(".usrInput").prop('placeholder', "Type a message...");
+			}
 
-		scrollToBottomOfResults();
+			scrollToBottomOfResults();
+		
 		}
 	}, delay_first_message);
 	
@@ -167,8 +171,6 @@ function setBotResponse(response) {
 		var delay_typing = 600 + delay_first_message;
 		setTimeout(function () {
 		showBotTyping();
-		$('.usrInput').attr("disabled",true);
-		$(".usrInput").prop('placeholder', "Wait for Mel's response.");
 		}, delay_typing)
 		
 		//send remaining bot messages if there are more than 1
@@ -205,8 +207,8 @@ function doScaledTimeout(i, response, summed_timeout) {
 		if (response[i].hasOwnProperty("buttons")) {
 			addSuggestion(response[i].buttons);
 		}
-		//only enable the text field again if the message does not have buttons.
-		else{
+		//only enable the text field again for user input if the message does not have buttons and is the last message from the bot
+		else if (i == response.length - 1){
 			$('.usrInput').attr("disabled",false);
 		    $(".usrInput").prop('placeholder', "Type a message...");
 		}
