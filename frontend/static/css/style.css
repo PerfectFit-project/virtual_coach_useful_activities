@@ -410,19 +410,18 @@ div.content_data::-webkit-scrollbar {
 	padding: 5px;
 	width: 200px;
 	display: flex;
+	flex-wrap: wrap;
 }
 
 .menuChips {
 	display: inline-block;
 	background: #2c53af;
 	color: #fff;
-	text-align: center;
 	padding: 5px;
 	margin-bottom: 5px;
 	cursor: pointer;
 	border-radius: 15px;
 	font-size: 14px;
-	word-wrap: break-word;
 }
 
 
