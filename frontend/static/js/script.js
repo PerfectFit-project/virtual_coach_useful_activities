@@ -1,9 +1,6 @@
 // ========================== start session ========================
 $(document).ready(function () {
 
-	//drop down menu
-	$('.dropdown-trigger').dropdown();
-
 	//get user ID
 	const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
@@ -13,8 +10,8 @@ $(document).ready(function () {
 	const session_num = urlParams.get('n');
 	
 	
+	// Make fullscreen
 	if ($('.widget').width() == 350) {
-		// This determines the width and height of the window when opened in browser on a laptop
 		$('.widget').css("width" , "98%");
 		$('.widget').css("height" , "100%");
 	} else {

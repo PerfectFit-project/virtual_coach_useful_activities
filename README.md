@@ -64,10 +64,6 @@ To run this project on a Google Compute Engine, I followed these steps:
    
    <img src = "Readme_images/chat.PNG" width = "250" title="Chat.">
    
-   - And you can also make the chat fullscreen:
-   
-   <img src = "Readme_images/chat_fullscreen.PNG" width = "250" title="Fullscreen chat.">
-   
    
 This project uses an SQLTrackerStore (https://rasa.com/docs/rasa/tracker-stores/) to store the conversation history in a database:
    - A nice way to see the contents of this database is using the program DBeaver.
@@ -116,11 +112,11 @@ Some errors I got during the setup:
 
 Check the file frontend/static/css/style.css to adapt the styling of the frontend:
    - .chats defines the chat area within the window in fullscreen mode. I tuned the height and width of this.
-   - .chat_header_title defines the chat header title. I set the color to #f7f7f7 so that the title is not visible in fullscreen mode. Change the margin-left to align the title to the center.
 
 The files in frontend/static/img are used to display the chatbot and the user inside the chat, as well as to display the chatbot when the chat is still closed at the start.
 
-You can use "\n" in your utterances in domain.yml to split an utterance into two separate messages.
+You can use "\n" in your utterances in domain.yml to display an utterance as two (or more) separate messages. These are not treated as separate messages though when it comes to displaying the typing symbol.
+
 
 ## License
 
