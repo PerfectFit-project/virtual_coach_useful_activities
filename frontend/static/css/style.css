@@ -397,7 +397,6 @@ div.content_data::-webkit-scrollbar {
 	width: 80%;
 	border-radius: 10px;
 	background: #f7f7f7;
-	box-shadow: 2px 5px 5px 1px #dbdade;
 }
 
 .menuTitle {
@@ -421,6 +420,7 @@ div.content_data::-webkit-scrollbar {
 	cursor: pointer;
 	border-radius: 15px;
 	font-size: 14px;
+	box-shadow: 2px 5px 5px 1px #dbdade;
 }
 
 
