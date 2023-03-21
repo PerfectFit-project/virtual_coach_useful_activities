@@ -127,6 +127,7 @@ function setBotResponse(response) {
 	}
 	setTimeout(function () {
 		hideBotTyping();
+		$('.usrInput').attr("disabled",false);
 		if (response.length < 1) {
 			//if there is no response from Rasa, send  fallback message to the user
 			var fallbackMsg = "I am facing some issues, please try again later!!!";
@@ -163,6 +164,7 @@ function setBotResponse(response) {
 		var delay_typing = 600 + delay_first_message;
 		setTimeout(function () {
 		showBotTyping();
+		$('.usrInput').attr("disabled",true);
 		}, delay_typing)
 		
 		//send remaining bot messages if there are more than 1
@@ -185,6 +187,7 @@ function doScaledTimeout(i, response, summed_timeout) {
 	
 	setTimeout(function() {
 		hideBotTyping();
+		$('.usrInput').attr("disabled",false);
 			
 		//check if the response contains "text"
 		if (response[i].hasOwnProperty("text")) {
@@ -204,6 +207,7 @@ function doScaledTimeout(i, response, summed_timeout) {
 		
 		if (i < response.length - 1){
 			showBotTyping();
+			$('.usrInput').attr("disabled",true);
 		}
 	}, summed_timeout);
 }
