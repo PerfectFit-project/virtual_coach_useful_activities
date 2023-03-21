@@ -399,6 +399,9 @@ class ActionSendEmail(Action):
         # TODO: remove this later
         prolific_id = "5f970a74069a250711aaa695"
         
+        activity_formulation_email = tracker.get_slot('activity_formulation_new_email')
+        session_num = tracker.get_slot('session_num')
+        
         ssl_port = 465
         with open('x.txt', 'r') as f:
             x = f.read()
@@ -421,16 +424,22 @@ class ActionSendEmail(Action):
         
             msg = MIMEMultipart() # create a message
             
+            # Have a different message template for the last session
+            # And also have no next session then
             template_file_name = "reminder_template_notlast.txt"
-            if tracker.get_slot('session_num') == 5:
+            if session_num == 5:
                 template_file_name = "reminder_template_last.txt"
+                activity_formulation_email = activity_formulation_email.replace(" before the next session,", "")
+                activity_formulation_email = activity_formulation_email.replace(" before the next session", "")
+                activity_formulation_email = activity_formulation_email.replace("Before the next session, I", "I")
+                
             
             with open(template_file_name, 'r', encoding='utf-8') as template_file:
                 message_template = Template(template_file.read())
         
             # add in the actual info to the message template
             message_text = message_template.substitute(PERSON_NAME ="Study Participant",
-                                                       ACTIVITY= tracker.get_slot('activity_formulation_new_email'))
+                                                       ACTIVITY= activity_formulation_email)
         
             # set up the parameters of the message
             msg['From'] = email
