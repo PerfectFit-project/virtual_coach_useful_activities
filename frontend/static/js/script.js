@@ -19,6 +19,10 @@ $(document).ready(function () {
 		$('.widget').css("height" , "100%");
 	}
 	
+	showBotTyping();
+	$('.usrInput').attr("disabled",true);
+	$(".usrInput").prop('placeholder', "Wait for Mel's message.");
+	
 	//start a session
 	if (session_num == "1"){
 		send('/start_session1{"session_num":"1"}');
