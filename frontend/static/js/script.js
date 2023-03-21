@@ -85,6 +85,7 @@ function setUserResponse(message) {
 	scrollToBottomOfResults();
 	showBotTyping();
 	$('.usrInput').attr("disabled",true);
+	$(".usrInput").prop('placeholder', "Wait for Mel's response.");
 	$(".suggestions").remove();
 }
 
@@ -190,8 +191,6 @@ function doScaledTimeout(i, response, summed_timeout) {
 	
 	setTimeout(function() {
 		hideBotTyping();
-		$('.usrInput').attr("disabled",false);
-		$(".usrInput").prop('placeholder', "Type a message...");
 			
 		//check if the response contains "text"
 		if (response[i].hasOwnProperty("text")) {
@@ -205,6 +204,11 @@ function doScaledTimeout(i, response, summed_timeout) {
 		//check if the response contains "buttons" 
 		if (response[i].hasOwnProperty("buttons")) {
 			addSuggestion(response[i].buttons);
+		}
+		//only enable the text field again if the message does not have buttons.
+		else{
+			$('.usrInput').attr("disabled",false);
+		    $(".usrInput").prop('placeholder', "Type a message...");
 		}
 		
 		scrollToBottomOfResults();
