@@ -110,7 +110,7 @@ Some errors I got during the setup:
 		 
 		 - Run `sudo docker-compose up –-build`. 
 		
-   - When running the project locally on Windows, I got an error for the SQLTrackerStore. Just removing the information on `volumes` in docker-compose.yml helped. This removes the persistence though.
+   - When running the project locally on Windows, I got an error for the SQLTrackerStore when running `docker-compose up –-build`. Just removing the information on `volumes` in docker-compose.yml helped. This removes the persistence though.
 		 
 		 
 ## Frontend Styling
