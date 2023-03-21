@@ -52,6 +52,7 @@ To run this project on a Google Compute Engine, I followed these steps:
    - Make sure you turn off your instance whenever you do not need it, as you are charged for the time that it is up.
    - Create your own branch/fork from this project.
    - In your branch, set the IP address of your Google Compute Engine instance in the function `send(message)` in the file frontend/static/js/script.js: `url: "http://<your_instance_IP>:5005/webhooks/rest/webhook"`. This is why it helps to have a static IP address.
+      - When you run the project locally, use `url: "http://localhost:5005/webhooks/rest/webhook"`.
    - Clone your project from Github on the Google Compute Engine instance.
    - Navigate to your project folder on the Compute Engine instance and start your project with `docker-compose up`.
    - Check if all your containers are running on your Google Compute Engine instance via `docker container ls`.
@@ -108,6 +109,8 @@ Some errors I got during the setup:
 		 <img src = "Readme_images/error_build.PNG" width = "500" title="docker-compose up --build error.">
 		 
 		 - Run `sudo docker-compose up –-build`. 
+		
+	- When running the project locally on Windows, I got an error for the SQLTrackerStore. Just removing the information on `volumes:` in docker-compose.yml helped. This removes the persistence though.
 		 
 		 
 ## Frontend Styling
@@ -118,6 +121,11 @@ Check the file frontend/static/css/style.css to adapt the styling of the fronten
 The files in frontend/static/img are used to display the chatbot and the user inside the chat, as well as to display the chatbot when the chat is still closed at the start.
 
 You can use "\n" in your utterances in domain.yml to display an utterance as two (or more) separate messages. These are not treated as separate messages though when it comes to displaying the typing symbol.
+
+
+## Other Notes
+
+- The Developer tools in Google Chrome show the logs from script.js if you access the frontend via Google Chrome.
 
 
 ## License

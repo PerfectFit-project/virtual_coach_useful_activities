@@ -155,10 +155,9 @@ function setBotResponse(response) {
 
 			//check if the response contains "buttons" 
 			if (response[0].hasOwnProperty("buttons")) {
-				addSuggestion(response[i].buttons);
-			}
+				addSuggestion(response[0].buttons);
 			//If there are no buttons and there is a single response from the bot, enable the textfield for user input again.
-			else if(response.length == 1){
+			} else if (response.length == 1){
 				$('.usrInput').attr("disabled",false);
 				$(".usrInput").prop('placeholder', "Type a message...");
 			}
