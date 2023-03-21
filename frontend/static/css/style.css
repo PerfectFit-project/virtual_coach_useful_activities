@@ -408,7 +408,6 @@ div.content_data::-webkit-scrollbar {
 
 .menu {
 	padding: 5px;
-	width: 200px;
 	display: flex;
 	flex-wrap: wrap;
 }
