@@ -1,7 +1,7 @@
 // Based on this post: https://adamtheautomator.com/https-nodejs/
 
 const https = require('https');
-const fs = request("fs");
+const fs = require("fs");
 
 // Import the express module
 var express = require('express');
