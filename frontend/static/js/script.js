@@ -105,7 +105,6 @@ function send(message) {
 	var url = document.location.protocol + "//" + document.location.hostname;
 	$.ajax({
 
-		//url: "http://34.159.190.156:5005/webhooks/rest/webhook",
 		url: url + "/rasa/webhooks/rest/webhook",
 		type: "POST",
 		contentType: "application/json",
