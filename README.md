@@ -118,7 +118,7 @@ Some errors I got during the setup:
 
 The project is set up to allow for https traffic:
    - The code is based on [this tutorial](https://datahive.ai/deploying-rasa-chatbot-on-google-cloud-with-docker/). Compared to allowing only http-traffic, I made changes in nginx.conf and docker-compose.yml and created a self-signed certificate.
-   - For example, this is what the entry for nginx in docker-compose.yml looks like when allowing https traffic:
+   - For example, this is what the entry for nginx in docker-compose.yml looks like when allowing https traffic in addition to http traffic:
      
 	 ```yml
 	 nginx:
@@ -136,28 +136,14 @@ The project is set up to allow for https traffic:
         - chatbotui
      ```
 	 
-   - And this is what the entry looks like when allowing only http traffic:
-   
-     ```yml
-     nginx:
-      container_name: "nginx"
-      image: nginx
-      volumes:
-        - ./nginx.conf:/etc/nginx/nginx.conf
-      ports:
-        - 80:80
-      depends_on: 
-        - rasa
-        - action-server
-        - chatbotui
-	 ```
-	 
    - See [this post](https://adamtheautomator.com/https-nodejs/) for how to create a self-signed SSL certificate.
    - If you use a self-signed SSL certificate and access the frontend via https, you may see a warning like this in your browser (here Google Chrome):
    
      <img src = "Readme_images/https.PNG" width = "250" title="https warning browser">
 
    - See [this page](https://cloud.google.com/load-balancing/docs/ssl-certificates/self-managed-certs) for more information on certificates on Google cloud.
+      - Info on registering a domain: https://cloud.google.com/dns/docs/tutorials/create-domain-tutorial#register-domain.
+      - Cloud DNS pricing info: https://cloud.google.com/dns/pricing. You need this if you get a domain.
  
 		 
 ## Frontend Styling
