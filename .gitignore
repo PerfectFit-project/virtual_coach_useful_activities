@@ -6,3 +6,6 @@ actions/__pycache__
 actions/email.txt
 actions/x.txt
 backend/.rasa
+frontend/cert.pem
+frontend/csr.pem
+frontend/key.pem
