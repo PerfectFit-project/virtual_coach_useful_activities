@@ -102,9 +102,11 @@ function scrollToBottomOfResults() {
 
 //============== send the user message to rasa server =============================================
 function send(message) {
+	var url = document.location.protocol + "//" + document.location.hostname;
 	$.ajax({
 
-		url: "http://34.159.190.156:5005/webhooks/rest/webhook",
+		//url: "http://34.159.190.156:5005/webhooks/rest/webhook",
+		url: url + "/rasa/webhooks/rest/webhook",
 		type: "POST",
 		contentType: "application/json",
 		data: JSON.stringify({ message: message, sender: user_id }),

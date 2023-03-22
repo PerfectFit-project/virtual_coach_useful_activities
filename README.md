@@ -64,7 +64,7 @@ To run this project on a Google Compute Engine, I followed these steps:
    
    - The chat should look something like this:
    
-   <img src = "Readme_images/chat.PNG" width = "250" title="Chat.">
+   <img src = "Readme_images/chat.PNG" width = "500" title="Chat.">
    
    
 This project uses an SQLTrackerStore (https://rasa.com/docs/rasa/tracker-stores/) to store the conversation history in a database:
@@ -99,7 +99,7 @@ The project further uses an mysql database to store specific data from the conve
    - To inspect the database content content with DBeaver, first open port 3306 on your instance for tcp. Again, there is no need to restart your instance after opening this port.
    - When setting up the connection, use "db" for "Database", "root" for "Username", and the password specified in docker-compose.yml. Keep "Port" to 3306. The "Server Host" is the IP address of your instance.
       - You might have to set "allowPublicKeyRetrieval" to "true" in "Driver properties." 
-   - To delete the database content, just delete the file "data_mysql" in your Google Compute Engine instance.
+   - To delete the database content, just delete the folder "data_mysql" on your Google Compute Engine instance.
 
 
 Some errors I got during the setup:
