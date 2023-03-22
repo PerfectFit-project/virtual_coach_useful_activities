@@ -113,6 +113,47 @@ Some errors I got during the setup:
 		
    - When running the project locally on Windows, I got an error for the SQLTrackerStore when running `docker-compose up –-build`. Just removing the information on `volumes` in docker-compose.yml helped. This removes the persistence though.
 		 
+
+## HTTPS
+
+The project is set up to allow for https traffic:
+   - The code is based on [this tutorial](https://datahive.ai/deploying-rasa-chatbot-on-google-cloud-with-docker/). Compared to allowing only http-traffic, I made changes in nginx.conf and docker-compose.yml and created a self-signed certificate.
+   - For example, this is what the entry for nginx in docker-compose.yml looks like when allowing https traffic:
+     
+	 ```yml
+	 nginx:
+      container_name: "nginx"
+      image: nginx
+      volumes:
+        - ./nginx.conf:/etc/nginx/nginx.conf
+        - ./certs:/etc/certs
+      ports:
+        - 80:80
+        - 443:443
+	  depends_on: 
+        - rasa
+        - action-server
+        - chatbotui
+     ```
+	 
+   - And this is what the entry looks like when allowing only http traffic:
+   
+     ```yml
+     nginx:
+      container_name: "nginx"
+      image: nginx
+      volumes:
+        - ./nginx.conf:/etc/nginx/nginx.conf
+      ports:
+        - 80:80
+      depends_on: 
+        - rasa
+        - action-server
+        - chatbotui
+	 ```
+	 
+   - See [this post](https://adamtheautomator.com/https-nodejs/) for how to create a self-signed SSL certificate.
+ 
 		 
 ## Frontend Styling
 
