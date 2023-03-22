@@ -153,6 +153,11 @@ The project is set up to allow for https traffic:
 	 ```
 	 
    - See [this post](https://adamtheautomator.com/https-nodejs/) for how to create a self-signed SSL certificate.
+   - If you use a self-signed SSL certificate and access the frontend via https, you may see a warning like this in your browser (here Google Chrome):
+   
+     <img src = "Readme_images/https.PNG" width = "250" title="https warning browser">
+
+   - See [this page](https://cloud.google.com/load-balancing/docs/ssl-certificates/self-managed-certs) for more information on certificates on Google cloud.
  
 		 
 ## Frontend Styling
