@@ -1,8 +1,3 @@
-// Based on this post: https://adamtheautomator.com/https-nodejs/
-
-const https = require('https');
-const fs = require("fs");
-
 // Import the express module
 var express = require('express');
 
@@ -11,15 +6,8 @@ const app = express();
 var path = require('path')
 
 // Create listener on port 3000 that points to the Express app
-const server = https.createServer(
-		// Provide the private and public key to the server by reading each
-		// file's content with the readFileSync() method.
-    {
-      key: fs.readFileSync("key.pem"),
-      cert: fs.readFileSync("cert.pem"),
-    },
-    app
-  )
+const http = require('http');
+const server = http.createServer(app);
 var cors = require('cors')
 const PORT = 3000;
 server.listen(PORT);
