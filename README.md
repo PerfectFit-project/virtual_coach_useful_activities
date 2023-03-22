@@ -7,7 +7,7 @@ Based on this Github repository (https://github.com/AmirStudy/Rasa_Deployment) a
 
 ## Components
 
-This virtual coach consists of a backend based on Rasa Open Source (backend), a custom action server (actions), a frontend (frontend), a database (db), and an SQLTrackerStore.
+This virtual coach consists of a backend based on Rasa Open Source (backend), a custom action server (actions), a frontend (frontend), a database (db), an SQLTrackerStore, and Nginx.
 
 
 ## Setup on Google Compute Engine
@@ -36,7 +36,6 @@ To run this project on a Google Compute Engine, I followed these steps:
    
    <img src = "Readme_images/firewall_rule_3.PNG" width = "250" title="Creating a firewall rule 3.">
 	
-   - Do the same with port 3000.
    - Follow the instructions from [here](https://github.com/AmirStudy/Rasa_Deployment) for installing Docker on the Google Compute Engine instance. You can do this via the command line that opens after you click on "SSH":
    
    <img src = "Readme_images/ssh.PNG" width = "250" title="Connect via SSH.">
@@ -56,7 +55,9 @@ To run this project on a Google Compute Engine, I followed these steps:
    - Clone your project from Github on the Google Compute Engine instance.
    - Navigate to your project folder on the Compute Engine instance and start your project with `docker-compose up`.
    - Check if all your containers are running on your Google Compute Engine instance via `docker container ls`.
-   - You can access the frontend from your browser via `http://<your_instance_IP>:3000/?userid=<some_user_id>&n=1`. `n` determines which session is started (1-5). Earlier sessions need to be completed by a user to be able to access later ones.
+   - You can access the frontend from your browser via `http://<your_instance_IP>/?userid=<some_user_id>&n=1`. `n` determines which session is started (1-5). Earlier sessions need to be completed by a user to be able to access later ones.
+      - If you are not using Nginx, you also need to specify the port number: `http://<your_instance_IP>:3000/?userid=<some_user_id>&n=1`.
+	  - And if you are not using Nginx, you also need to open port 3000 on your Google Compute Engine instance for tcp.
    - Open the chat here:
    
    <img src = "Readme_images/open_chat.PNG" width = "250" title="Open chat.">
