@@ -148,8 +148,10 @@ class ActionLoadSessionNotFirst(Action):
         
         prolific_id = tracker.current_state()['sender_id']
         session_num = tracker.get_slot("session_num")
+        
         session_loaded = True
         mood_prev = ""
+        activity_verb_prev = ""
         
         conn = mysql.connector.connect(
             user=DATABASE_USER,
@@ -169,6 +171,8 @@ class ActionLoadSessionNotFirst(Action):
             session_loaded = False
             
         else:
+            user_name_result = user_name_result[0]
+            
             # check if user has done previous session before '
             # (i.e., if session data is saved from previous session)
             query = ("SELECT * FROM sessiondata WHERE prolific_id = %s and session_num = %s and response_type = %s")
@@ -191,20 +195,21 @@ class ActionLoadSessionNotFirst(Action):
                     # Get mood from previous session
                     query = ("SELECT response_value FROM sessiondata WHERE prolific_id = %s and session_num = %s and response_type = %s")
                     cur.execute(query, [prolific_id, str(int(session_num) - 1), "mood"])
-                    mood_prev = cur.fetchone()
+                    mood_prev = cur.fetchone()[0]
                     # Get activity index from previous session
                     query = ("SELECT response_value FROM sessiondata WHERE prolific_id = %s and session_num = %s and response_type = %s")
                     cur.execute(query, [prolific_id, str(int(session_num) - 1), "activity_new_index"])
                     act_index = int(cur.fetchone()[0])
+                    activity_verb_prev = df_act.iloc[act_index]["Verb"]
                     
         
         conn.close()
 
         
-        return [SlotSet("user_name_slot_not_first", user_name_result[0]),
-                SlotSet("mood_prev_session", mood_prev[0]),
+        return [SlotSet("user_name_slot_not_first", user_name_result),
+                SlotSet("mood_prev_session", mood_prev),
                 SlotSet("session_loaded", session_loaded),
-                SlotSet("activity_prev_verb", df_act.iloc[act_index]["Verb"])]
+                SlotSet("activity_prev_verb", activity_verb_prev)]
         
         
     
