@@ -825,6 +825,9 @@ responses:
     
   - text: "I've prepared 11 questions that will help me get a clear understanding of your position."
   
+  utter_state_question_intro_3:
+  - text: "Please rate the first 10 questions on a scale from -5 to 5, where -5 indicates that quitting smoking is made a lot harder and 5 indicates that quitting smoking is made a lot easier. 0 indicates 'neutral'."
+  
   utter_state_question_1:
   - buttons:
     - payload: /confirm_state_1{"state_1":"-5"}
@@ -1105,6 +1108,32 @@ responses:
     - payload: /confirm_state_busy{"state_busy":"5"}
       title: "5 (much more)"
     text: "10) How busy are you compared to your normal situation?"
+  utter_intro_last_state_question:
+  - condition:
+      - type: slot
+        name: session_num
+        value: "1"
+    text: "Thanks! For the next question now please answer on a scale from 0 to 10, where 0 indicates 'none' and 10 'extremely much'."
+  - condition:
+      - type: slot
+        name: session_num
+        value: "2"
+    text: "Okay! For the next question now please answer on a scale from 0 to 10, where 0 indicates 'none' and 10 'extremely much'."
+  - condition:
+      - type: slot
+        name: session_num
+        value: "3"
+    text: "OK! For the next question now please answer on a scale from 0 to 10, where 0 indicates 'none' and 10 'extremely much'."
+  - condition:
+      - type: slot
+        name: session_num
+        value: "4"
+    text: "Thank you. For the next question now please answer on a scale from 0 to 10, where 0 indicates 'none' and 10 'extremely much'."
+  - condition:
+      - type: slot
+        name: session_num
+        value: "5"
+    text: "Okay. For the next question now please answer on a scale from 0 to 10, where 0 indicates 'none' and 10 'extremely much'."
   utter_state_question_energy:
   - buttons:
     - payload: /confirm_state_energy{"state_energy":"0"}
