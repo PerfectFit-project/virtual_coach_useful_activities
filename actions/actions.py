@@ -246,7 +246,6 @@ class ActionSaveActivityExperienc(Action):
         
         prolific_id = tracker.current_state()['sender_id']
         session_num = tracker.get_slot("session_num")
-        
         slots_to_save = ["effort", "activity_experience_slot",
                          "activity_experience_mod_slot",
                          "dropout_response"]
