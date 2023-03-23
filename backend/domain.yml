@@ -484,9 +484,9 @@ responses:
   - text: "Please rate the overall effort you put into doing this activity."
   utter_last_activity_effort:
   - buttons:
-    - payload: /effort_answer{"effort":"  0  ", "effort_level":"low"}
+    - payload: /effort_answer{"effort":"0", "effort_level":"low"}
       title: "0 (nothing)"
-    - payload: /effort_answer{"effort":"  1  ", "effort_level":"low"}
+    - payload: /effort_answer{"effort":"1", "effort_level":"low"}
       title: "1"
     - payload: /effort_answer{"effort":"2", "effort_level":"low"}
       title: "2"

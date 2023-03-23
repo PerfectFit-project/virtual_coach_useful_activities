@@ -415,7 +415,7 @@ div.content_data::-webkit-scrollbar {
 	display: inline-block;
 	background: #2c53af;
 	color: #fff;
-	padding: 5px;
+	padding: 15px;
 	margin-bottom: 5px;
 	cursor: pointer;
 	border-radius: 15px;
