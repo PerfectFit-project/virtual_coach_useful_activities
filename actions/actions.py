@@ -33,11 +33,13 @@ class ActionSessionStart(Action):
         
         session_num = tracker.get_slot("session_num")
         
+        # the session should begin with a `session_started` event
+        # in case of a timed-out session, we also need this so that rasa does not
+        # continue with uncompleted forms.
+        events = [SessionStarted()]
+        
         # New session
         if session_num == "":
-    
-            # the session should begin with a `session_started` event
-            events = [SessionStarted()]
             
             # an `action_listen` should be added at the end as a user message follows
             events.append(ActionExecuted("action_listen"))
@@ -45,7 +47,7 @@ class ActionSessionStart(Action):
         # timed out session
         else:
             dispatcher.utter_message(template="utter_timeout")
-            events= [SessionStarted(), FollowupAction('action_end_dialog')]
+            events.append(FollowupAction('action_end_dialog'))
 
         return events
 
