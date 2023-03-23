@@ -12,7 +12,8 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from rasa_sdk import Action, FormValidationAction, Tracker
 from rasa_sdk.executor import CollectingDispatcher
-from rasa_sdk.events import FollowupAction, SlotSet
+from rasa_sdk.events import (ActionExecuted, FollowupAction, 
+                             SessionStarted, SlotSet)
 from string import Template
 from typing import Any, Dict, List, Optional, Text
 
@@ -20,6 +21,33 @@ import logging
 import mysql.connector
 import random
 import smtplib, ssl
+
+
+class ActionSessionStart(Action):
+    def name(self) -> Text:
+        return "action_session_start"
+
+    async def run(
+      self, dispatcher, tracker: Tracker, domain: Dict[Text, Any]
+    ) -> List[Dict[Text, Any]]:
+        
+        session_num = tracker.get_slot("session_num")
+        
+        # New session
+        if session_num == "":
+    
+            # the session should begin with a `session_started` event
+            events = [SessionStarted()]
+            
+            # an `action_listen` should be added at the end as a user message follows
+            events.append(ActionExecuted("action_listen"))
+          
+        # timed out session
+        else:
+            dispatcher.utter_message(template="utter_timeout")
+            events= [FollowupAction('action_end_dialog')]
+
+        return events
 
 
 class ActionEndDialog(Action):
@@ -419,7 +447,7 @@ class ActionSendEmail(Action):
         prolific_id = "5f970a74069a250711aaa695"
         
         activity_formulation_email = tracker.get_slot('activity_formulation_new_email')
-        session_num = tracker.get_slot('session_num')
+        session_num = tracker.get_slot('session_num')  # this is a string
         
         ssl_port = 465
         with open('x.txt', 'r') as f:
@@ -446,7 +474,7 @@ class ActionSendEmail(Action):
             # Have a different message template for the last session
             # And also have no next session then
             template_file_name = "reminder_template_notlast.txt"
-            if session_num == 5:
+            if session_num == "5":
                 template_file_name = "reminder_template_last.txt"
                 activity_formulation_email = activity_formulation_email.replace(" before the next session,", "")
                 activity_formulation_email = activity_formulation_email.replace(" before the next session", "")

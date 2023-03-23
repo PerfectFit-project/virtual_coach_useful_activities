@@ -2209,6 +2209,9 @@ responses:
   
   utter_error_close_session:
   - text: "PLEASE CLOSE THIS WINDOW. ANY FURTHER TYPING IN THIS CHAT RENDERS THIS SESSION INVALID."
+  
+  utter_timeout:
+  - text: "THE SESSION HAS TIMED OUT. PLEASE CLOSE THIS WINDOW."
  
 
 session_config:
@@ -2249,3 +2252,4 @@ actions:
 
 - action_end_dialog
 - action_default_fallback_end_dialog
+- action_session_start
