@@ -317,7 +317,7 @@ responses:
   - buttons:
     - payload: /confirm_purpose
       title: "I'm ready"
-    text: "And this is why you are here, {user_name_slot}: I want to learn how an activity I propose helps you in your specific situation.\nLet me know when you have read what my purpose is and are ready to continue."
+    text: "And this is why you're here, {user_name_slot}: I want to learn how an activity I propose helps you in your specific situation.\nLet me know when you've read what my purpose is and are ready to continue."
   utter_prompt_usage:
   - text: "Okay! Before we start, let me explain how you can communicate with me."
   utter_explain_usage:
@@ -328,7 +328,7 @@ responses:
       title: "Nice, sounds easy enough!"
     text: "Most of the time, you can just click on one of the buttons like you already did. If no buttons appear, just make use of the text field below."
   utter_intro_session1_1:
-  - text: "Now, let me tell you what we will do in this session."
+  - text: "Now, let me tell you what we'll do in this session."
   utter_intro_session1_2:
   - text: "First, I'll ask you a few questions to learn about your current situation with regard to preparing for quitting smoking."
   utter_intro_session1_3:
@@ -468,9 +468,9 @@ responses:
   utter_intro_session_last_1:
   - text: "So what are we going to do in our last session?"
   utter_intro_session_last_2:
-  - text: "We are again going to look at your experience, if any, with your activity from last time."
+  - text: "We're again going to look at your experience, if any, with your activity from last time."
   utter_intro_session_last_3:
-  - text: "And after asking you some questions about your situation again, I will suggest to you one final preparatory activity for after this session."
+  - text: "And after asking you some questions about your situation again, I'll suggest to you one final preparatory activity for after this session."
   utter_intro_session_last_4:
   - text: "Once you're done reading this, please let me know."
     buttons:
@@ -768,7 +768,63 @@ responses:
     
   ### Ask state questions
   utter_state_question_intro:
-  - text: "Now I will ask you a few questions about your current situation regarding preparing for quitting smoking.\nIt's 11 questions overall so I can get a good grasp of where you stand."
+  - condition:
+      - type: slot
+        name: session_num
+        value: "1"
+    text: "Now I'll ask you a few questions about your current situation regarding preparing for quitting smoking."
+  - condition:
+      - type: slot
+        name: session_num
+        value: "2"
+    text: "Now I'd appreciate it if you could answer a few questions about your current preparation for quitting smoking."
+  - condition:
+      - type: slot
+        name: session_num
+        value: "3"
+    text: "Now I'd like to ask you some questions about your current preparation for quitting smoking."
+  - condition:
+      - type: slot
+        name: session_num
+        value: "4"
+    text: "Now I have a few questions about your current preparation for quitting smoking."
+  - condition:
+      - type: slot
+        name: session_num
+        value: "5"
+    text: "Now I'll again ask you a few questions to understand your current situation regarding preparing for quitting smoking."
+
+  - text: "I'll now ask you a few questions about your current situation when it comes to preparing for quitting smoking. I hope that's okay with you."
+  
+  utter_state_question_intro_2:
+  - condition:
+      - type: slot
+        name: session_num
+        value: "1"
+    text: "It's 11 questions overall so I can get a good grasp of where you stand."
+  - condition:
+      - type: slot
+        name: session_num
+        value: "2"
+    text: "The 11 questions I have for you'll give me a good sense of where you stand."
+  - condition:
+      - type: slot
+        name: session_num
+        value: "3"
+    text: "These 11 questions will give me a comprehensive view of where you are."
+  - condition:
+      - type: slot
+        name: session_num
+        value: "4"
+    text: "There are 11 questions in total, which will help me understand where you're at."
+  - condition:
+      - type: slot
+        name: session_num
+        value: "5"
+    text: "By answering these 11 questions, you help me assess where you're at."
+    
+  - text: "I've prepared 11 questions that will help me get a clear understanding of your position."
+  
   utter_state_question_1:
   - buttons:
     - payload: /confirm_state_1{"state_1":"-5"}
@@ -793,7 +849,7 @@ responses:
       title: "4"
     - payload: /confirm_state_1{"state_1":"5"}
       title: "5 (make it a lot easier)"
-    text: "How do you think do self-confidence and motivation affect quitting smoking?"
+    text: "1) How do you think do self-confidence and motivation affect quitting smoking?"
   utter_state_question_2:
   - buttons:
     - payload: /confirm_state_2{"state_2":"-5"}
@@ -818,7 +874,7 @@ responses:
       title: "4"
     - payload: /confirm_state_2{"state_2":"5"}
       title: "5 (make it a lot easier)"
-    text: "How do you think does practical preparation affect quitting smoking?"
+    text: "2) How do you think does practical preparation affect quitting smoking?"
   utter_state_question_3:
   - buttons:
     - payload: /confirm_state_3{"state_3":"-5"}
@@ -843,7 +899,7 @@ responses:
       title: "4"
     - payload: /confirm_state_3{"state_3":"5"}
       title: "5 (make it a lot easier)"
-    text: "How do you think does keeping a positive outlook and being aware of positive outcomes of one's behavior change affect quitting smoking?"
+    text: "3) How do you think does keeping a positive outlook and being aware of positive outcomes of one's behavior change affect quitting smoking?"
   utter_state_question_4:
   - buttons:
     - payload: /confirm_state_4{"state_4":"-5"}
@@ -868,7 +924,7 @@ responses:
       title: "4"
     - payload: /confirm_state_4{"state_4":"5"}
       title: "5 (make it a lot easier)"
-    text: "How do you think does thinking about 'negative' things affect quitting smoking?"
+    text: "4) How do you think does thinking about 'negative' things affect quitting smoking?"
   utter_state_question_5:
   - buttons:
     - payload: /confirm_state_5{"state_5":"-5"}
@@ -893,7 +949,7 @@ responses:
       title: "4"
     - payload: /confirm_state_5{"state_5":"5"}
       title: "5 (make it a lot easier)"
-    text: "How do you think does motivation affect quitting smoking?"
+    text: "5) How do you think does motivation affect quitting smoking?"
   utter_state_question_6:
   - buttons:
     - payload: /confirm_state_6{"state_6":"-5"}
@@ -918,7 +974,7 @@ responses:
       title: "4"
     - payload: /confirm_state_6{"state_6":"5"}
       title: "5 (make it a lot easier)"
-    text: "How do you think does knowledge of how to manage cravings and the resultant negative feelings affect quitting smoking?"
+    text: "6) How do you think does knowledge of how to manage cravings and the resultant negative feelings affect quitting smoking?"
   utter_state_questions_more_than_halfway:
     - condition:
         - type: slot
@@ -973,7 +1029,7 @@ responses:
       title: "4"
     - payload: /confirm_state_7{"state_7":"5"}
       title: "5 (make it a lot easier)"
-    text: "How do you think does knowledge of how physical activity helps to quit smoking affect quitting smoking?"
+    text: "7) How do you think does knowledge of how physical activity helps to quit smoking affect quitting smoking?"
   utter_state_question_8:
   - buttons:
     - payload: /confirm_state_8{"state_8":"-5"}
@@ -998,7 +1054,7 @@ responses:
       title: "4"
     - payload: /confirm_state_8{"state_8":"5"}
       title: "5 (make it a lot easier)"
-    text: "How do you think does thinking of possible obstacles affect quitting smoking?"
+    text: "8) How do you think does thinking of possible obstacles affect quitting smoking?"
   utter_state_question_9:
   - buttons:
     - payload: /confirm_state_9{"state_9":"-5"}
@@ -1023,7 +1079,7 @@ responses:
       title: "4"
     - payload: /confirm_state_9{"state_9":"5"}
       title: "5 (make it a lot easier)"
-    text: "How do you think does knowledge of steps to reduce possible short-term adverse effects on your mental and physical well-being affect quitting smoking?"
+    text: "9) How do you think does knowledge of steps to reduce possible short-term adverse effects on your mental and physical well-being affect quitting smoking?"
   utter_state_question_busy:
   - buttons:
     - payload: /confirm_state_busy{"state_busy":"-5"}
@@ -1048,7 +1104,7 @@ responses:
       title: "4"
     - payload: /confirm_state_busy{"state_busy":"5"}
       title: "5 (much more)"
-    text: "How busy are you compared to your normal situation?"
+    text: "10) How busy are you compared to your normal situation?"
   utter_state_question_energy:
   - buttons:
     - payload: /confirm_state_energy{"state_energy":"0"}
@@ -1073,7 +1129,7 @@ responses:
       title: "9"
     - payload: /confirm_state_energy{"state_energy":"10"}
       title: "10 (extremely much)"
-    text: "How much energy do you have?"
+    text: "11) How much energy do you have?"
   utter_thank_state_question_answering:
     - condition:
         - type: slot
@@ -1304,7 +1360,7 @@ responses:
         - type: slot
           name: session_num
           value: "3"
-      text: "And remember that there's another conversation with me that you'll get invited to."
+      text: "And remember that there's another conversation with me that you'll get invited to about 2 days from now."
       buttons:
       - payload: /confirm_next_part
         title: "Yes!"
@@ -1319,53 +1375,53 @@ responses:
       - payload: /confirm_next_part
         title: "Yes!"
       - payload: /confirm_next_part
-        title: "OK!"
+        title: "OK"
     - condition:
         - type: slot
           name: session_num
           value: "5" 
-      text: "Oh, and besides the activity reminder message, keep an eye out for the invitation to the post-questionnaire. Invitations will be sent about 2 days from now. Okay?"
+      text: "Oh, and besides the activity reminder message, keep an eye out for the invitation to the post-questionnaire. Invitations will be sent about 2 days from now."
       buttons:
       - payload: /confirm_next_part
         title: "Alright"
       - payload: /confirm_next_part
         title: "Yes!"
     
-    - text: "And remember to look out for the invitation to your next conversation with me. Alright?"
+    - text: "And remember to look out for the invitation to your next conversation with me."
       buttons:
       - payload: /confirm_next_part
         title: "Sure!"
       - payload: /confirm_next_part
-        title: "Okay!"
+        title: "Okay"
         
   utter_prolific_link:
     - condition:
         - type: slot
           name: session_num
           value: "1" 
-      text: "Cool! Here is your Prolific completion link: ... ."
+      text: "Cool! Here is your Prolific completion link: https://app.prolific.co/submissions/complete?cc=CBQIYE7E."
     - condition:
         - type: slot
           name: session_num
           value: "2" 
-      text: "Cool! And here is your completion link: ... ."
+      text: "Cool! And here is your completion link: https://app.prolific.co/submissions/complete?cc=CYGVKBY7."
     - condition:
         - type: slot
           name: session_num
           value: "3" 
-      text: "Perfect! And this is your Prolific completion link: ... ."
+      text: "Perfect! And this is your Prolific completion link: https://app.prolific.co/submissions/complete?cc=C17RURNZ."
     - condition:
         - type: slot
           name: session_num
           value: "4" 
-      text: "Nice! And here you have your completion link: ... ."
+      text: "Nice! And here you have your completion link: https://app.prolific.co/submissions/complete?cc=C10X5POS."
     - condition:
         - type: slot
           name: session_num
           value: "5" 
-      text: "Perfect! Here is your completion link for this session: ... ."
+      text: "Perfect! Here is your completion link for this session: https://app.prolific.co/submissions/complete?cc=CKJUD15J."
      
-    - text: "Alright! Then here is your completion link: ... ."
+    - text: "Alright!"
     
   utter_goodbye:
     - condition:
@@ -1968,20 +2024,91 @@ responses:
   
   ### General
   utter_great:
-  - text: Great!
-  - text: Perfect!
-  - text: Awesome!
+    - condition:
+        - type: slot
+          name: session_num
+          value: "1" 
+      text: "Great!"
+    - condition:
+        - type: slot
+          name: session_num
+          value: "2" 
+      text: "Awesome!"
+    - condition:
+        - type: slot
+          name: session_num
+          value: "3" 
+      text: "Okay, nice!"
+    - condition:
+        - type: slot
+          name: session_num
+          value: "4" 
+      text: "Perfect!"
+    - condition:
+        - type: slot
+          name: session_num
+          value: "5"
+      text: "Awesome!"
+    
+    - text: "Cool!"
   
   utter_cool:
-  - text: Nice!
-  - text: Cool!
-  - text: Perfect!
-  
+  - condition:
+      - type: slot
+        name: session_num
+        value: "1" 
+    text: "Nice!"
+  - condition:
+      - type: slot
+        name: session_num
+        value: "2" 
+    text: "Cool!"
+  - condition:
+      - type: slot
+        name: session_num
+        value: "3" 
+    text: "Perfect!"
+  - condition:
+      - type: slot
+        name: session_num
+        value: "4" 
+    text: "Okay!"
+  - condition:
+      - type: slot
+        name: session_num
+        value: "5" 
+    text: "Nice!"
+
+  - text: "OK!"
+
   utter_thanks:
-  - text: "Thanks!"
-  - text: "Thanks for letting me know!"
-  - text: "Okay thanks!"
-  - text: "Thanks for sharing that with me!"
+  - condition:
+    - type: slot
+      name: session_num
+      value: "1" 
+    text: "Thanks, that's good to know."
+  - condition:
+    - type: slot
+      name: session_num
+      value: "2" 
+    text: "I see, thanks for letting me know!"
+  - condition:
+    - type: slot
+      name: session_num
+      value: "3" 
+    text: "Okay thanks!"
+  - condition:
+    - type: slot
+      name: session_num
+      value: "4" 
+    text: "Thanks, that's very helpful."
+  - condition:
+    - type: slot
+      name: session_num
+      value: "5" 
+    text: "Okay, it's good to have that information. Thank you!"
+    
+  - text: "I see, that's good to know. Thanks!"
   
   utter_provide_more_detail:
   - text: "Hmm, can you describe this in a bit more detail?"
