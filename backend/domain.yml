@@ -389,7 +389,7 @@ responses:
         - type: slot
           name: session_num
           value: "4"
-      text: "Let me start by providing you with a quick summary of what you can expect in this session before we get started."
+      text: "Let me start by providing you with a quick summary of what you can expect in this session."
   utter_intro_session_mid_2:
     - condition:
         - type: slot
@@ -484,9 +484,9 @@ responses:
   - text: "Please rate the overall effort you put into doing this activity."
   utter_last_activity_effort:
   - buttons:
-    - payload: /effort_answer{"effort":"0", "effort_level":"low"}
+    - payload: /effort_answer{"effort":"  0  ", "effort_level":"low"}
       title: "0 (nothing)"
-    - payload: /effort_answer{"effort":"1", "effort_level":"low"}
+    - payload: /effort_answer{"effort":"  1  ", "effort_level":"low"}
       title: "1"
     - payload: /effort_answer{"effort":"2", "effort_level":"low"}
       title: "2"
@@ -1209,7 +1209,7 @@ responses:
         - type: slot
           name: session_num
           value: "3"
-      text: "Here is the new activity that I think would help you prepare for quitting smoking:"
+      text: "Here it is:"
     - condition:
         - type: slot
           name: session_num
@@ -2101,7 +2101,7 @@ responses:
     - type: slot
       name: session_num
       value: "4" 
-    text: "Thanks, that's very helpful."
+    text: "Thanks, that's very helpful to know for me."
   - condition:
     - type: slot
       name: session_num
