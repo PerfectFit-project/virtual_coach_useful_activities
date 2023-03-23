@@ -683,7 +683,7 @@ responses:
       - payload: /deny_activity_experience
         title: No
 
-  utter_ask_experience_mod_slot:
+  utter_ask_activity_experience_mod_slot:
     - condition:
         - type: slot
           name: session_num
