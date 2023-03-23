@@ -84,7 +84,7 @@ def check_session_not_done_before(cur, prolific_id, session_num):
     # check if there is some data already saved about this session. This happens
     # as soon as the user has already answered the dropout question for this
     # session
-    if session_num > 1:
+    if int(session_num) > 1:
     
         query = ("SELECT * FROM sessiondata WHERE prolific_id = %s and session_num = %s")
         cur.execute(query, [prolific_id, session_num])
