@@ -531,7 +531,7 @@ class ValidateActivityExperienceModForm(FormValidationAction):
         last_utterance = get_latest_bot_utterance(tracker.events)
 
         if last_utterance != 'utter_ask_activity_experience_mod_slot':
-            return {"activity_experience_slot": None}
+            return {"activity_experience_mod_slot": None}
 
         # people should either type "none" or say a bit more
         if not (len(value) >= 5 or "none" in value.lower()):
