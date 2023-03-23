@@ -641,9 +641,9 @@ responses:
           value: "2"
       text: "This is what I got: {activity_experience_slot}\nWould you like to add or change anything?"
       buttons:
-      - payload: /confirm_activity_experience
-        title: Yes
       - payload: /deny_activity_experience
+        title: Yes
+      - payload: /confirm_activity_experience
         title: No
     - condition:
         - type: slot
@@ -651,9 +651,9 @@ responses:
           value: "3"
       text: "I got this: {activity_experience_slot}\nDo you want to add or modify anything?"
       buttons:
-      - payload: /confirm_activity_experience
-        title: Yes
       - payload: /deny_activity_experience
+        title: Yes
+      - payload: /confirm_activity_experience
         title: No
     - condition:
         - type: slot
@@ -661,9 +661,9 @@ responses:
           value: "4"
       text: "I received this: {activity_experience_slot}\nIs there something that you'd like to add or change?"
       buttons:
-      - payload: /confirm_activity_experience
-        title: Yes
       - payload: /deny_activity_experience
+        title: Yes
+      - payload: /confirm_activity_experience
         title: No
     - condition:
         - type: slot
@@ -671,9 +671,9 @@ responses:
           value: "5"
       text: "I got this from you: {activity_experience_slot}\nIs there anything that I should add or modify about your response?"
       buttons:
-      - payload: /confirm_activity_experience
-        title: Yes
       - payload: /deny_activity_experience
+        title: Yes
+      - payload: /confirm_activity_experience
         title: No
         
     - text: "This is the response I got: {activity_experience_slot}\nDo you want to add or change anything?"
