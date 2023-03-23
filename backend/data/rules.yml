@@ -239,6 +239,7 @@ rules:
 - rule: state busy
   steps:
   - intent: confirm_state_9
+  - action: utter_intro_busy_state_question
   - action: utter_state_question_busy
   
 - rule: state energy

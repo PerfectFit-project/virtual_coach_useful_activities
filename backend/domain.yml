@@ -296,12 +296,20 @@ slots:
 responses:
 
   ### Intro first session
+  # Have some alternative formulations for the greetings in case people 
+  # re-load the first session.
   utter_greet_first_time:
   - text: "Hey there, I'm your virtual coach Mel."
+  - text: "Hi there, I'm Mel, your virtual coach."
+  - text: "Hello, my name is Mel and I'll be your virtual coach."
+  - text: "Welcome, I'm Mel, your virtual coach."
+  - text: "Greetings, I'm Mel, your virtual coach."
   utter_ask_user_name_slot:
   - text: "How may I call you?"
   utter_confirm_name:
   - text: "Hi {user_name_slot}, it's nice to meet you."
+  - text: "Hello {user_name_slot}, it's a pleasure to meet you."
+  - text: "Hi {user_name_slot}, it's wonderful to be meeting you."
   utter_longer_name:
   - text: "Please let me know how I can call you. It does not need to be your real name."
   - text: "Kindly tell me how I can call you. This does not need to be your real name. A nickname works too."
@@ -347,6 +355,7 @@ responses:
     
 
   ### Greeting later sessions
+  # Have more than 1 formulation per session in case people re-load a session.
   utter_greet_repeat:
     - condition:
         - type: slot
@@ -356,8 +365,18 @@ responses:
     - condition:
         - type: slot
           name: session_num
+          value: "2"
+      text: "Welcome back {user_name_slot_not_first}! It's good to see you again."
+    - condition:
+        - type: slot
+          name: session_num
           value: "3"
       text: "Hello {user_name_slot_not_first}, welcome back!"
+    - condition:
+         - type: slot
+           name: session_num
+           value: "3"
+      text: "Hey there, good to see you again {user_name_slot_not_first}!"
     - condition:
         - type: slot
           name: session_num
@@ -366,8 +385,18 @@ responses:
     - condition:
         - type: slot
           name: session_num
+          value: "4"
+      text: "Hello {user_name_slot_not_first}, nice to see you've returned!"
+    - condition:
+        - type: slot
+          name: session_num
           value: "5"
       text: "Hi {user_name_slot_not_first}, I'm happy to see you again!"
+    - condition:
+        - type: slot
+          name: session_num
+          value: "5"
+      text: "Hello again, it's great to have you here again {user_name_slot_not_first}!"
 
     - text: "Hey there, good to see you again!"
     - text: "Welcome back! It's good to see you again."
@@ -826,7 +855,7 @@ responses:
   - text: "I've prepared 11 questions that will help me get a clear understanding of your position."
   
   utter_state_question_intro_3:
-  - text: "Please rate the first 10 questions on a scale from -5 to 5, where -5 indicates that quitting smoking is made a lot harder and 5 indicates that quitting smoking is made a lot easier. 0 indicates 'neutral'."
+  - text: "Please rate the first 9 questions on a scale from -5 to 5, where -5 indicates that quitting smoking is made a lot harder and 5 indicates that quitting smoking is made a lot easier. 0 indicates 'neutral'."
   
   utter_state_question_1:
   - buttons:
@@ -1083,6 +1112,32 @@ responses:
     - payload: /confirm_state_9{"state_9":"5"}
       title: "5 (make it a lot easier)"
     text: "9) How do you think does knowledge of steps to reduce possible short-term adverse effects on your mental and physical well-being affect quitting smoking?"
+  utter_intro_busy_state_question:
+  - condition:
+      - type: slot
+        name: session_num
+        value: "1"
+    text: "Just 2 more questions to go. Please answer the next question on a scale from -5 to 5, where -5 is 'much less' and 5 is 'much more'. 0 indicates 'neutral'."
+  - condition:
+      - type: slot
+        name: session_num
+        value: "2"
+    text: "We're almost done, just 2 questions left. Please answer the next question on a scale from -5 to 5, where -5 is 'much less' and 5 is 'much more'. 0 indicates 'neutral'."
+  - condition:
+      - type: slot
+        name: session_num
+        value: "3"
+    text: "The end is in sight, only 2 questions left to answer. Please answer the next question on a scale from -5 to 5, where -5 is 'much less' and 5 is 'much more'. 0 indicates 'neutral'."
+  - condition:
+      - type: slot
+        name: session_num
+        value: "4"
+    text: "Just 2 more questions and we're finished. Please answer the next question on a scale from -5 to 5, where -5 is 'much less' and 5 is 'much more'. 0 indicates 'neutral'."
+  - condition:
+      - type: slot
+        name: session_num
+        value: "5"
+    text: "Only 2 questions left! Please answer the next question on a scale from -5 to 5, where -5 is 'much less' and 5 is 'much more'. 0 indicates 'neutral'."
   utter_state_question_busy:
   - buttons:
     - payload: /confirm_state_busy{"state_busy":"-5"}
@@ -2157,7 +2212,7 @@ responses:
  
 
 session_config:
-  session_expiration_time: 5  # these are minutes
+  session_expiration_time: 1  # these are minutes
   carry_over_slots_to_new_session: false
 
 
