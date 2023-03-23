@@ -2211,11 +2211,11 @@ responses:
   - text: "PLEASE CLOSE THIS WINDOW. ANY FURTHER TYPING IN THIS CHAT RENDERS THIS SESSION INVALID."
   
   utter_timeout:
-  - text: "THE SESSION HAS TIMED OUT. PLEASE CLOSE THIS WINDOW."
+  - text: "THE SESSION HAS TIMED OUT."
  
 
 session_config:
-  session_expiration_time: 1  # these are minutes
+  session_expiration_time: 5  # these are minutes
   carry_over_slots_to_new_session: false
 
 

@@ -45,7 +45,7 @@ class ActionSessionStart(Action):
         # timed out session
         else:
             dispatcher.utter_message(template="utter_timeout")
-            events= [FollowupAction('action_end_dialog')]
+            events= [SessionStarted(), FollowupAction('action_end_dialog')]
 
         return events
 
