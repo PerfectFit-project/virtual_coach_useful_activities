@@ -855,8 +855,9 @@ responses:
   - text: "I've prepared 11 questions that will help me get a clear understanding of your position."
   
   utter_state_question_intro_3:
-  - text: "Please rate the first 9 questions on a scale from -5 to 5, where -5 indicates that quitting smoking is made a lot harder and 5 indicates that quitting smoking is made a lot easier. 0 indicates 'neutral'."
-  
+  - text: "Please rate how the following 9 factors affect quitting smoking."
+  utter_state_question_intro_4:
+  - text: "Answer on a scale from -5 to 5, where -5 indicates that quitting smoking is made a lot harder and 5 indicates that quitting smoking is made a lot easier. 0 indicates 'neutral'."
   utter_state_question_1:
   - buttons:
     - payload: /confirm_state_1{"state_1":"-5"}
@@ -881,7 +882,7 @@ responses:
       title: "4"
     - payload: /confirm_state_1{"state_1":"5"}
       title: "5 (make it a lot easier)"
-    text: "1) How do you think do self-confidence and motivation affect quitting smoking?"
+    text: "1) Self-confidence and motivation (e.g., right mindset, 'Yes, I can do it'-attitude, building motivation)."
   utter_state_question_2:
   - buttons:
     - payload: /confirm_state_2{"state_2":"-5"}
@@ -906,7 +907,7 @@ responses:
       title: "4"
     - payload: /confirm_state_2{"state_2":"5"}
       title: "5 (make it a lot easier)"
-    text: "2) How do you think does practical preparation affect quitting smoking?"
+    text: "2) Practical preparation (e.g., learning how to relieve stress, knowing effects of nicotine, getting organized)."
   utter_state_question_3:
   - buttons:
     - payload: /confirm_state_3{"state_3":"-5"}
@@ -931,7 +932,7 @@ responses:
       title: "4"
     - payload: /confirm_state_3{"state_3":"5"}
       title: "5 (make it a lot easier)"
-    text: "3) How do you think does keeping a positive outlook and being aware of positive outcomes of one's behavior change affect quitting smoking?"
+    text: "3) Keeping a positive outlook and being aware of positive outcomes (e.g., positive thinking, positive mindset, knowing benefits of quitting)."
   utter_state_question_4:
   - buttons:
     - payload: /confirm_state_4{"state_4":"-5"}
@@ -956,7 +957,7 @@ responses:
       title: "4"
     - payload: /confirm_state_4{"state_4":"5"}
       title: "5 (make it a lot easier)"
-    text: "4) How do you think does thinking about 'negative' things affect quitting smoking?"
+    text: "4) Thinking about 'negative' things (e.g., obstacles and how to deal with them, negative consequences of smoking, what life first looks like without smoking)."
   utter_state_question_5:
   - buttons:
     - payload: /confirm_state_5{"state_5":"-5"}
@@ -981,7 +982,7 @@ responses:
       title: "4"
     - payload: /confirm_state_5{"state_5":"5"}
       title: "5 (make it a lot easier)"
-    text: "5) How do you think does motivation affect quitting smoking?"
+    text: "5) Motivation (e.g., awareness of future non-smoker life, being motivated to quit, thinking of what you fear to happen when not quitting)?"
   utter_state_question_6:
   - buttons:
     - payload: /confirm_state_6{"state_6":"-5"}
@@ -1006,7 +1007,7 @@ responses:
       title: "4"
     - payload: /confirm_state_6{"state_6":"5"}
       title: "5 (make it a lot easier)"
-    text: "6) How do you think does knowledge of how to manage cravings and the resultant negative feelings affect quitting smoking?"
+    text: "6) Knowledge of how to manage cravings and the resultant negative feelings (e.g., improving one's mental health and well-being after quitting)?"
   utter_state_questions_more_than_halfway:
     - condition:
         - type: slot
@@ -1061,7 +1062,7 @@ responses:
       title: "4"
     - payload: /confirm_state_7{"state_7":"5"}
       title: "5 (make it a lot easier)"
-    text: "7) How do you think does knowledge of how physical activity helps to quit smoking affect quitting smoking?"
+    text: "7) Knowledge of how physical activity helps to quit smoking?"
   utter_state_question_8:
   - buttons:
     - payload: /confirm_state_8{"state_8":"-5"}
@@ -1086,7 +1087,7 @@ responses:
       title: "4"
     - payload: /confirm_state_8{"state_8":"5"}
       title: "5 (make it a lot easier)"
-    text: "8) How do you think does thinking of possible obstacles affect quitting smoking?"
+    text: "8) Thinking of possible obstacles (e.g., recognizing possible obstacles, envisioning ideas to overcome them, planning how to deal with them)."
   utter_state_question_9:
   - buttons:
     - payload: /confirm_state_9{"state_9":"-5"}
@@ -1111,7 +1112,7 @@ responses:
       title: "4"
     - payload: /confirm_state_9{"state_9":"5"}
       title: "5 (make it a lot easier)"
-    text: "9) How do you think does knowledge of steps to reduce possible short-term adverse effects on your mental and physical well-being affect quitting smoking?"
+    text: "9) Knowing how to maintain one's mental and physical well-being (e.g., knowing how to get good sleep and stay inspired)?"
   utter_intro_busy_state_question:
   - condition:
       - type: slot

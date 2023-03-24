@@ -143,7 +143,8 @@ The project is set up to allow for https traffic:
 
    - See [this page](https://cloud.google.com/load-balancing/docs/ssl-certificates/self-managed-certs) for more information on certificates on Google cloud.
       - Info on registering a domain: https://cloud.google.com/dns/docs/tutorials/create-domain-tutorial#register-domain.
-      - Cloud DNS pricing info: https://cloud.google.com/dns/pricing. You need this if you get a domain.
+	     - Registering a domain for a year is quite cheap (you can get one for 8 euros).
+      - Cloud DNS pricing info: https://cloud.google.com/dns/pricing. You need this if you get a domain and want to use it.
  
 		 
 ## Frontend Styling
