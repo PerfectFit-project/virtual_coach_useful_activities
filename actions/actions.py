@@ -448,19 +448,19 @@ class ActionChooseActivity(Action):
         if curr_act_ind_list is None:
             curr_act_ind_list = []
             
-        logging.info("previous activities:" + str(curr_act_ind_list))
+        #logging.info("previous activities:" + str(curr_act_ind_list))
         
         # check excluded activities for previously assigned activities
         excluded = []
         for i in curr_act_ind_list:
             excluded += df_act.loc[int(i), 'Exclusion']
             
-        logging.info("excluded based on previous: " + str(excluded))
+        #logging.info("excluded based on previous: " + str(excluded))
             
         # get eligible activities (not done before and not excluded)
         remaining_indices = [i for i in range(NUM_ACTIVITIES) if not str(i) in curr_act_ind_list and not str(i) in excluded]
         
-        logging.info("remaining after not done before and not excluded: " + str(remaining_indices))
+        #logging.info("remaining after not done before and not excluded: " + str(remaining_indices))
             
         # Check if prerequisites for remaining activities are met
         for i in remaining_indices:
@@ -474,7 +474,7 @@ class ActionChooseActivity(Action):
         # Get activities that also meet the prerequisites
         remaining_indices = [i for i in remaining_indices if not str(i) in excluded]
         
-        logging.info("remaining after prerequsites: " + str(remaining_indices))
+        #logging.info("remaining after prerequsites: " + str(remaining_indices))
         
         # Check which clusters the remaining activities belong to -> possible clusters
         possible_clusters = list(set([df_act.iloc[i]["Cluster"] for i in remaining_indices]))
@@ -482,8 +482,6 @@ class ActionChooseActivity(Action):
         # Compute how often each cluster has already been chosen in the past
         cluster_counts = get_activity_cluster_counts_from_db()
         
-        # reset random seed
-        random.seed(datetime.now())
         # chose random new activity cluster
         # probability to be chosen is higher if cluster has been chosen less often so far
         # weights are relative
@@ -493,7 +491,7 @@ class ActionChooseActivity(Action):
                                            weights=[1/cluster_counts[i-1] if cluster_counts[i-1] > 0 else 1 for i in possible_clusters],
                                            k = 1)[0]
         
-        logging.info("Cluster selection weights:" + str([1/cluster_counts[i-1] if cluster_counts[i-1] > 0 else 1 for i in possible_clusters]))
+        #logging.info("Cluster selection weights:" + str([1/cluster_counts[i-1] if cluster_counts[i-1] > 0 else 1 for i in possible_clusters]))
         
         # Compute how often each activity has already been chosen in the past
         activity_counts = get_activity_counts_from_db()
@@ -504,16 +502,16 @@ class ActionChooseActivity(Action):
         # If the count is 0, we set the weight to 1 (i.e., same weight as a count of 1)
         activities_in_cluster = [i for i in remaining_indices if df_act.iloc[i]["Cluster"] == new_cluster_index]
         
-        logging.info("Activities in cluster:" + str(activities_in_cluster))
+        #logging.info("Activities in cluster:" + str(activities_in_cluster))
         
         new_act_index = random.choices(activities_in_cluster,
                                        weights = [1/activity_counts[i] if activity_counts[i] > 0 else 1 for i in activities_in_cluster],
                                        k = 1)[0]
         
-        logging.info("Activity selection weights:" + str([1/activity_counts[i] if activity_counts[i] > 0 else 1 for i in activities_in_cluster]))
+        #logging.info("Activity selection weights:" + str([1/activity_counts[i] if activity_counts[i] > 0 else 1 for i in activities_in_cluster]))
         
-        logging.info("New cluster index: " + str(new_cluster_index))
-        logging.info("New activity index: " + str(new_act_index))
+        #logging.info("New cluster index: " + str(new_cluster_index))
+        #logging.info("New activity index: " + str(new_act_index))
         
         return [SlotSet("activity_formulation_new_session", df_act.loc[new_act_index, 'Formulation Session']), 
                 SlotSet("activity_formulation_new_email", df_act.loc[new_act_index, 'Formulation Email']),
@@ -550,8 +548,6 @@ class ActionSendEmail(Action):
         user_email = prolific_id + "@email.prolific.co"
         
         logging.info("user_email: " + user_email)
-        logging.info("x: " + x + "bb")
-        logging.info("email: " + email + "bb")
         
         context = ssl.create_default_context()
     
