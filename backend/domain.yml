@@ -292,7 +292,7 @@ slots:
     mappings:
     - type: custom
   # Index of new cluster
-  activity_new_index:
+  cluster_new_index:
     type: text
     initial_value: ''
     influence_conversation: false
