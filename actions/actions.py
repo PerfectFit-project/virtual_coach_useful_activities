@@ -6,8 +6,10 @@
 
 
 from datetime import datetime
-from definitions import (DATABASE_HOST, DATABASE_PASSWORD, 
-                         DATABASE_PORT, DATABASE_USER, df_act)
+from definitions import (ACTIVITY_CLUSTERS, 
+                         DATABASE_HOST, DATABASE_PASSWORD, 
+                         DATABASE_PORT, DATABASE_USER, df_act,
+                         NUM_ACTIVITIES)
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from rasa_sdk import Action, FormValidationAction, Tracker
@@ -342,7 +344,7 @@ class ActionSaveSession(Action):
         slots_to_save = ["mood", "state_1", "state_2", "state_3",
                          "state_4", "state_5", "state_6", "state_7",
                          "state_8", "state_9", "state_busy", "state_energy",
-                         "activity_new_index"]
+                         "activity_new_index", "cluster_new_index"]
         for slot in slots_to_save:
         
             save_sessiondata_entry(cur, conn, prolific_id, session_num,
@@ -378,6 +380,58 @@ def get_previous_activity_indices_from_db(prolific_id):
     return result
 
 
+def get_activity_cluster_counts_from_db():
+    "Compute how many times each activity cluster has already been chosen."
+
+    conn = mysql.connector.connect(
+        user=DATABASE_USER,
+        password=DATABASE_PASSWORD,
+        host=DATABASE_HOST,
+        port=DATABASE_PORT,
+        database='db'
+    )
+    cur = conn.cursor(prepared=True)
+    
+    # Get cluster indices from database
+    query = ("SELECT response_value FROM sessiondata WHERE response_type = %s")
+    cur.execute(query, ["cluster_new_index"])
+    result = cur.fetchall()
+    
+    cluster_indices = [i[0] for i in result]
+    
+    logging.info("Cluster indices db:" + str(cluster_indices))
+    
+    cluster_counts = [cluster_indices.count(i) for i in ACTIVITY_CLUSTERS]
+    
+    return cluster_counts
+
+
+def get_activity_counts_from_db():
+    "Compute how many times each activity has already been chosen."
+
+    conn = mysql.connector.connect(
+        user=DATABASE_USER,
+        password=DATABASE_PASSWORD,
+        host=DATABASE_HOST,
+        port=DATABASE_PORT,
+        database='db'
+    )
+    cur = conn.cursor(prepared=True)
+    
+    # Get cluster indices from database
+    query = ("SELECT response_value FROM sessiondata WHERE response_type = %s")
+    cur.execute(query, ["activity_new_index"])
+    result = cur.fetchall()
+    
+    activity_indices = [i[0] for i in result]
+    
+    logging.info("Activity indices db:" + str(activity_indices))
+    
+    activity_counts = [activity_indices.count(i) for i in range(0, NUM_ACTIVITIES)]
+    
+    return activity_counts
+
+
 class ActionChooseActivity(Action):
     def name(self):
         return "action_choose_activity"
@@ -385,27 +439,28 @@ class ActionChooseActivity(Action):
     async def run(self, dispatcher, tracker, domain):
         
         prolific_id = tracker.current_state()['sender_id']
-        num_act = len(df_act)
+        
         
         # get indices of previously assigned activities
+        # this returns a list of strings
         curr_act_ind_list = get_previous_activity_indices_from_db(prolific_id)
         
         if curr_act_ind_list is None:
             curr_act_ind_list = []
             
-        logging.info(str(curr_act_ind_list))
+        logging.info("previous activities:" + str(curr_act_ind_list))
         
         # check excluded activities for previously assigned activities
         excluded = []
         for i in curr_act_ind_list:
             excluded += df_act.loc[int(i), 'Exclusion']
             
-        logging.info(str(excluded))
+        logging.info("excluded based on previous: " + str(excluded))
             
         # get eligible activities (not done before and not excluded)
-        remaining_indices = [i for i in range(num_act) if not str(i) in curr_act_ind_list and not str(i) in excluded]
+        remaining_indices = [i for i in range(NUM_ACTIVITIES) if not str(i) in curr_act_ind_list and not str(i) in excluded]
         
-        logging.info("remaining 1: " + str(remaining_indices))
+        logging.info("remaining after not done before and not excluded: " + str(remaining_indices))
             
         # Check if prerequisites for remaining activities are met
         for i in remaining_indices:
@@ -419,19 +474,49 @@ class ActionChooseActivity(Action):
         # Get activities that also meet the prerequisites
         remaining_indices = [i for i in remaining_indices if not str(i) in excluded]
         
-        logging.info("remaining 2: " + str(remaining_indices))
+        logging.info("remaining after prerequsites: " + str(remaining_indices))
+        
+        # Check which clusters the remaining activities belong to -> possible clusters
+        possible_clusters = list(set([df_act.iloc[i]["Cluster"] for i in remaining_indices]))
+        
+        # Compute how often each cluster has already been chosen in the past
+        cluster_counts = get_activity_cluster_counts_from_db()
         
         # reset random seed
         random.seed(datetime.now())
-        # chose random new activity
-        act_index = random.choice([i for i in remaining_indices])
+        # chose random new activity cluster
+        # probability to be chosen is higher if cluster has been chosen less often so far
+        # weights are relative
+        # cluster indices are from 1 to 14
+        # if the count is 0, we set the weight to 1 (i.e., same weight as a count of 1)
+        new_cluster_index = random.choice(possible_clusters, weights=[1/cluster_counts[i-1] if cluster_counts[i-1] > 0 else 1 for i in possible_clusters])
         
-        logging.info("act index: " + str(act_index))
+        logging.info("Cluster selection weights:" + str([1/cluster_counts[i-1] if cluster_counts[i-1] > 0 else 1 for i in possible_clusters]))
         
-        return [SlotSet("activity_formulation_new_session", df_act.loc[act_index, 'Formulation Session']), 
-                SlotSet("activity_formulation_new_email", df_act.loc[act_index, 'Formulation Email']),
-                SlotSet("activity_new_index", act_index),
-                SlotSet("activity_new_verb", df_act.loc[act_index, "Verb"])]
+        # Compute how often each activity has already been chosen in the past
+        activity_counts = get_activity_counts_from_db()
+        
+        # choose random new activity inside cluster
+        # probability to be chosen is higher if activity has been chosen less often so far
+        # Activity indices start at 0
+        # If the count is 0, we set the weight to 1 (i.e., same weight as a count of 1)
+        activities_in_cluster = [i for i in remaining_indices if df_act.iloc[i]["Cluster"] == new_cluster_index]
+        
+        logging.info("Activities in cluster:" + str(activities_in_cluster))
+        
+        new_act_index = random.choice(activities_in_cluster,
+                                      weights = [1/activity_counts[i] if activity_counts[i] > 0 else 1 for i in activities_in_cluster])
+        
+        logging.info("Activity selection weights:" + str([1/activity_counts[i] if activity_counts[i] > 0 else 1 for i in activities_in_cluster]))
+        
+        logging.info("New cluster index: " + str(new_cluster_index))
+        logging.info("New activity index: " + str(new_act_index))
+        
+        return [SlotSet("activity_formulation_new_session", df_act.loc[new_act_index, 'Formulation Session']), 
+                SlotSet("activity_formulation_new_email", df_act.loc[new_act_index, 'Formulation Email']),
+                SlotSet("activity_new_index", str(new_act_index)),
+                SlotSet("activity_new_verb", df_act.loc[new_act_index, "Verb"]),
+                SlotSet("cluster_new_index", str(new_cluster_index))]
     
     
 # Send reminder email with activity
