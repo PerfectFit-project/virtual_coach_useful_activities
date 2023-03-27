@@ -2183,12 +2183,12 @@ responses:
     - type: slot
       name: session_num
       value: "2" 
-    text: "I see, thanks for letting me know!"
+    text: "Okay thanks!"
   - condition:
     - type: slot
       name: session_num
       value: "3" 
-    text: "Okay thanks!"
+    text: "I see, thanks for letting me know!"
   - condition:
     - type: slot
       name: session_num

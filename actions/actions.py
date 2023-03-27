@@ -397,7 +397,7 @@ def get_activity_cluster_counts_from_db():
     cur.execute(query, ["cluster_new_index"])
     result = cur.fetchall()
     
-    cluster_indices = [i[0] for i in result]
+    cluster_indices = [int(i[0]) for i in result]
     
     logging.info("Cluster indices db:" + str(cluster_indices))
     
@@ -423,7 +423,7 @@ def get_activity_counts_from_db():
     cur.execute(query, ["activity_new_index"])
     result = cur.fetchall()
     
-    activity_indices = [i[0] for i in result]
+    activity_indices = [int(i[0]) for i in result]
     
     logging.info("Activity indices db:" + str(activity_indices))
     
