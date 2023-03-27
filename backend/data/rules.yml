@@ -75,6 +75,7 @@ rules:
   - action: utter_state_question_intro
   - action: utter_state_question_intro_2
   - action: utter_state_question_intro_3
+  - action: utter_state_question_intro_4
   - action: utter_state_question_1
   
 
@@ -175,6 +176,7 @@ rules:
   - action: utter_state_question_intro
   - action: utter_state_question_intro_2
   - action: utter_state_question_intro_3
+  - action: utter_state_question_intro_4
   - action: utter_state_question_1
   
 - rule: activity experience denied

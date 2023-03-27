@@ -489,7 +489,9 @@ class ActionChooseActivity(Action):
         # weights are relative
         # cluster indices are from 1 to 14
         # if the count is 0, we set the weight to 1 (i.e., same weight as a count of 1)
-        new_cluster_index = random.choice(possible_clusters, weights=[1/cluster_counts[i-1] if cluster_counts[i-1] > 0 else 1 for i in possible_clusters])
+        new_cluster_index = random.choices(possible_clusters, 
+                                           weights=[1/cluster_counts[i-1] if cluster_counts[i-1] > 0 else 1 for i in possible_clusters],
+                                           k = 1)[0]
         
         logging.info("Cluster selection weights:" + str([1/cluster_counts[i-1] if cluster_counts[i-1] > 0 else 1 for i in possible_clusters]))
         
@@ -504,8 +506,9 @@ class ActionChooseActivity(Action):
         
         logging.info("Activities in cluster:" + str(activities_in_cluster))
         
-        new_act_index = random.choice(activities_in_cluster,
-                                      weights = [1/activity_counts[i] if activity_counts[i] > 0 else 1 for i in activities_in_cluster])
+        new_act_index = random.choices(activities_in_cluster,
+                                       weights = [1/activity_counts[i] if activity_counts[i] > 0 else 1 for i in activities_in_cluster],
+                                       k = 1)[0]
         
         logging.info("Activity selection weights:" + str([1/activity_counts[i] if activity_counts[i] > 0 else 1 for i in activities_in_cluster]))
         

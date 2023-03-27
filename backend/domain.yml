@@ -989,7 +989,7 @@ responses:
       title: "4"
     - payload: /confirm_state_5{"state_5":"5"}
       title: "5 (make it a lot easier)"
-    text: "5) Motivation (e.g., awareness of future non-smoker life, being motivated to quit, thinking of what you fear to happen when not quitting)?"
+    text: "5) Motivation (e.g., awareness of future non-smoker life, being motivated to quit, thinking of what you fear to happen when not quitting)."
   utter_state_question_6:
   - buttons:
     - payload: /confirm_state_6{"state_6":"-5"}
@@ -1014,7 +1014,7 @@ responses:
       title: "4"
     - payload: /confirm_state_6{"state_6":"5"}
       title: "5 (make it a lot easier)"
-    text: "6) Knowledge of how to manage cravings and the resultant negative feelings (e.g., improving one's mental health and well-being after quitting)?"
+    text: "6) Knowledge of how to manage cravings and the resultant negative feelings (e.g., improving one's mental health and well-being after quitting)."
   utter_state_questions_more_than_halfway:
     - condition:
         - type: slot
@@ -1069,7 +1069,7 @@ responses:
       title: "4"
     - payload: /confirm_state_7{"state_7":"5"}
       title: "5 (make it a lot easier)"
-    text: "7) Knowledge of how physical activity helps to quit smoking?"
+    text: "7) Knowledge of how physical activity helps to quit smoking."
   utter_state_question_8:
   - buttons:
     - payload: /confirm_state_8{"state_8":"-5"}
@@ -1119,7 +1119,7 @@ responses:
       title: "4"
     - payload: /confirm_state_9{"state_9":"5"}
       title: "5 (make it a lot easier)"
-    text: "9) Knowing how to maintain one's mental and physical well-being (e.g., knowing how to get good sleep and stay inspired)?"
+    text: "9) Knowing how to maintain one's mental and physical well-being (e.g., knowing how to get good sleep and stay inspired)."
   utter_intro_busy_state_question:
   - condition:
       - type: slot
