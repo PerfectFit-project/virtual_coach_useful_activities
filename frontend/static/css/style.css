@@ -7,10 +7,10 @@ body {
 
 .widget {
 	display: none;
-	width: 350px;
-	right: 15px;
-	height: 500px;
-	bottom: 5%;
+	width: 98%;
+	right: 2%;
+	height: 98%;
+	bottom: 2%;
 	position: fixed;
 	background: #f7f7f7;
 	border-radius: 10px 10px 10px 10px;

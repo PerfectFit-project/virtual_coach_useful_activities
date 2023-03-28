@@ -2208,6 +2208,8 @@ responses:
   - text: "I'd like to understand better, can you give me more details on this?"
   - text: "I'm not quite following, could you provide more details?"
   
+  utter_multiple_open_chats:
+  - text: "IT SEEMS LIKE THE CHAT IS OPEN MULTIPLE TIMES."
   
   utter_default:
   - text: "THERE IS A PROBLEM WITH THIS SESSION."
@@ -2258,6 +2260,7 @@ actions:
 - validate_activity_experience_form
 - validate_activity_experience_mod_form
 
+- action_check_nameslot
 - action_end_dialog
 - action_default_fallback_end_dialog
 - action_session_start

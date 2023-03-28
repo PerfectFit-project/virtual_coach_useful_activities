@@ -38,6 +38,7 @@ rules:
   steps:
   - action: user_name_form
   - active_loop: null
+  - action: action_check_nameslot
   - action: utter_confirm_name
   - action: utter_ask_for_mood_session1
   

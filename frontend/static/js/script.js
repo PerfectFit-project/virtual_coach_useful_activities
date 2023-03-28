@@ -36,8 +36,6 @@ $(document).ready(function () {
 	} else if (session_num == "5"){
 		send('/start_session_last{"session_num":"5"}');
 	}
-	
-
 })
 
 //=====================================	user enter or sends the message =====================
@@ -227,13 +225,6 @@ function doScaledTimeout(i, response, summed_timeout) {
 		}
 	}, summed_timeout);
 }
-
-
-//====================================== Toggle chatbot =======================================
-$("#profile_div").click(function () {
-	$(".profile_div").toggle();
-	$(".widget").toggle();
-});
 
 
 //====================================== Suggestions ===========================================

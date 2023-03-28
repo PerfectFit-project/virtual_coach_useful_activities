@@ -52,6 +52,27 @@ class ActionSessionStart(Action):
             events.append(FollowupAction('action_end_dialog'))
 
         return events
+    
+
+# When people open the chat twice in different browsers, the user name in the
+# second browser may be set to the first intent the frontend sends to rasa.
+# In that case we want to end the dialog.
+class ActionCheckNameslot(Action):
+    def name(self) -> Text:
+        return "action_check_nameslot"
+
+    async def run(
+      self, dispatcher, tracker: Tracker, domain: Dict[Text, Any]
+    ) -> List[Dict[Text, Any]]:
+        
+        user_name = tracker.get_slot("user_name_slot")
+        
+        if "start_session" in user_name:
+            
+            dispatcher.utter_message(template="utter_multiple_open_chats")
+            return [FollowupAction('action_end_dialog')]
+        
+        return []
 
 
 class ActionEndDialog(Action):

@@ -58,9 +58,6 @@ To run this project on a Google Compute Engine, I followed these steps:
    - You can access the frontend from your browser via `http://<your_instance_IP>/?userid=<some_user_id>&n=1`. `n` determines which session is started (1-5). Earlier sessions need to be completed by a user to be able to access later ones.
       - If you are not using Nginx, you also need to specify the port number: `http://<your_instance_IP>:3000/?userid=<some_user_id>&n=1`.
 	  - And if you are not using Nginx, you also need to open port 3000 on your Google Compute Engine instance for tcp.
-   - Open the chat here:
-   
-   <img src = "Readme_images/open_chat.PNG" width = "250" title="Open chat.">
    
    - The chat should look something like this:
    
@@ -150,9 +147,9 @@ The project is set up to allow for https traffic:
 ## Frontend Styling
 
 Check the file frontend/static/css/style.css to adapt the styling of the frontend:
-   - .chats defines the chat area within the window in fullscreen mode. I tuned the height and width of this.
+   - .chats defines the chat area within the window. I tuned the height and width of this.
 
-The files in frontend/static/img are used to display the chatbot and the user inside the chat, as well as to display the chatbot when the chat is still closed at the start.
+The files in frontend/static/img are used to display the chatbot and the user inside the chat.
 
 You can use "\n" in your utterances in domain.yml to display an utterance as two (or more) separate messages. These are not treated as separate messages though when it comes to displaying the typing symbol.
 
