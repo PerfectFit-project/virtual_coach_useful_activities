@@ -9,7 +9,7 @@ $(document).ready(function () {
 	//get session number
 	const session_num = urlParams.get('n');
 	
-	$(".profile_div").toggle();
+	//$(".profile_div").toggle();
 	$(".widget").toggle();
 	
 	// Make fullscreen
