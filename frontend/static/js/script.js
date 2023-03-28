@@ -18,22 +18,27 @@ $(document).ready(function () {
 		$('.widget').css("height" , "100%");
 	}
 	
+	$(".widget").toggle();
+	
 	showBotTyping();
 	$('.usrInput').attr("disabled",true);
 	$(".usrInput").prop('placeholder', "Wait for Mel's message.");
 	
-	//start a session
-	if (session_num == "1"){
-		send('/start_session1{"session_num":"1"}');
-	} else if (session_num == "2"){
-		send('/start_session_mid{"session_num":"2"}');
-    } else if (session_num == "3"){
-		send('/start_session_mid{"session_num":"3"}');
-    } else if (session_num == "4"){
-		send('/start_session_mid{"session_num":"4"}');
-    } else if (session_num == "5"){
-		send('/start_session_last{"session_num":"5"}');
-	}
+	setTimeout(function () {
+		//start a session
+		if (session_num == "1"){
+			send('/start_session1{"session_num":"1"}');
+		} else if (session_num == "2"){
+			send('/start_session_mid{"session_num":"2"}');
+		} else if (session_num == "3"){
+			send('/start_session_mid{"session_num":"3"}');
+		} else if (session_num == "4"){
+			send('/start_session_mid{"session_num":"4"}');
+		} else if (session_num == "5"){
+			send('/start_session_last{"session_num":"5"}');
+		}
+	
+	}, 500);
 	
 
 })
