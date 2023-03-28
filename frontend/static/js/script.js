@@ -24,10 +24,9 @@ $(document).ready(function () {
 	$('.usrInput').attr("disabled",true);
 	$(".usrInput").prop('placeholder', "Wait for Mel's message.");
 	
-	setTimeout(function () {
-		sendfirstintent(session_num);
-	}, 500);
+	sendfirstintent(session_num);
 	
+	$(".widget").toggle();
 
 })
 
