@@ -19,7 +19,7 @@ body {
 }
 
 .chat_header {
-	height: 60px;
+	height: 40px;
 	background: rgb(69,222,225);
 	border-radius: 10px 10px 0px 0px;
 	padding: 5px;
