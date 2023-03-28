@@ -9,9 +9,6 @@ $(document).ready(function () {
 	//get session number
 	const session_num = urlParams.get('n');
 	
-	//$(".profile_div").toggle();
-	$(".widget").toggle();
-	
 	// Make fullscreen
 	if ($('.widget').width() == 350) {
 		$('.widget').css("width" , "98%");
