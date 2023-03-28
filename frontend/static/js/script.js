@@ -22,14 +22,6 @@ $(document).ready(function () {
 	$('.usrInput').attr("disabled",true);
 	$(".usrInput").prop('placeholder', "Wait for Mel's message.");
 	
-	sendfirstintent(session_num);
-	
-	$(".widget").toggle();
-
-})
-
-
-function sendfirstintent(session_num) {
 	//start a session
 	if (session_num == "1"){
 		send('/start_session1{"session_num":"1"}');
@@ -42,7 +34,9 @@ function sendfirstintent(session_num) {
 	} else if (session_num == "5"){
 		send('/start_session_last{"session_num":"5"}');
 	}
-}
+	
+
+})
 
 //=====================================	user enter or sends the message =====================
 $(".usrInput").on("keyup keypress", function (e) {
