@@ -25,23 +25,27 @@ $(document).ready(function () {
 	$(".usrInput").prop('placeholder', "Wait for Mel's message.");
 	
 	setTimeout(function () {
-		//start a session
-		if (session_num == "1"){
-			send('/start_session1{"session_num":"1"}');
-		} else if (session_num == "2"){
-			send('/start_session_mid{"session_num":"2"}');
-		} else if (session_num == "3"){
-			send('/start_session_mid{"session_num":"3"}');
-		} else if (session_num == "4"){
-			send('/start_session_mid{"session_num":"4"}');
-		} else if (session_num == "5"){
-			send('/start_session_last{"session_num":"5"}');
-		}
-	
+		sendfirstintent(session_num);
 	}, 500);
 	
 
 })
+
+
+function sendfirstintent(session_num) {
+	//start a session
+	if (session_num == "1"){
+		send('/start_session1{"session_num":"1"}');
+	} else if (session_num == "2"){
+		send('/start_session_mid{"session_num":"2"}');
+	} else if (session_num == "3"){
+		send('/start_session_mid{"session_num":"3"}');
+	} else if (session_num == "4"){
+		send('/start_session_mid{"session_num":"4"}');
+	} else if (session_num == "5"){
+		send('/start_session_last{"session_num":"5"}');
+	}
+}
 
 //=====================================	user enter or sends the message =====================
 $(".usrInput").on("keyup keypress", function (e) {
