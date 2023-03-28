@@ -399,7 +399,7 @@ def get_activity_cluster_counts_from_db():
     
     cluster_indices = [int(i[0]) for i in result]
     
-    logging.info("Cluster indices db:" + str(cluster_indices))
+    #logging.info("Cluster indices db:" + str(cluster_indices))
     
     cluster_counts = [cluster_indices.count(i) for i in ACTIVITY_CLUSTERS]
     
@@ -425,7 +425,7 @@ def get_activity_counts_from_db():
     
     activity_indices = [int(i[0]) for i in result]
     
-    logging.info("Activity indices db:" + str(activity_indices))
+    #logging.info("Activity indices db:" + str(activity_indices))
     
     activity_counts = [activity_indices.count(i) for i in range(0, NUM_ACTIVITIES)]
     
@@ -439,7 +439,6 @@ class ActionChooseActivity(Action):
     async def run(self, dispatcher, tracker, domain):
         
         prolific_id = tracker.current_state()['sender_id']
-        
         
         # get indices of previously assigned activities
         # this returns a list of strings
@@ -501,9 +500,6 @@ class ActionChooseActivity(Action):
         # Activity indices start at 0
         # If the count is 0, we set the weight to 1 (i.e., same weight as a count of 1)
         activities_in_cluster = [i for i in remaining_indices if df_act.iloc[i]["Cluster"] == new_cluster_index]
-        
-        #logging.info("Activities in cluster:" + str(activities_in_cluster))
-        
         new_act_index = random.choices(activities_in_cluster,
                                        weights = [1/activity_counts[i] if activity_counts[i] > 0 else 1 for i in activities_in_cluster],
                                        k = 1)[0]
