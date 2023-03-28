@@ -176,8 +176,8 @@ textarea-webkit-scrollbar {
 	position: fixed;
 	padding: 5px;
 	width: 40%;
-	bottom: 0;
-	right: 0;
+	bottom: 20;
+	right: 20;
 	cursor: pointer;
 }
 
