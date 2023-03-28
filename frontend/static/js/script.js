@@ -18,6 +18,8 @@ $(document).ready(function () {
 		$('.widget').css("height" , "100%");
 	}
 	
+	$(".widget").toggle();
+	
 	showBotTyping();
 	$('.usrInput').attr("disabled",true);
 	$(".usrInput").prop('placeholder', "Wait for Mel's message.");
