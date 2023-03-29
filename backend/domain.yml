@@ -1286,34 +1286,34 @@ responses:
     - text: "Now let's turn our attention to an activity that can benefit your current situation."
     - text: "Let's move on to an activity that can support you in your efforts to prepare for quitting smoking."
     - text: "Next, we'll take a closer look at an activity that can assist you in preparing to quit smoking."
-  utter_propose_new_activity_intro:
+  utter_advise_activity:
     - condition:
         - type: slot
           name: session_num
           value: "1"
-      text: "I think that this activity would be beneficial for you:"
+      text: "I think that it will be beneficial for you to {activity_new_verb}."
     - condition:
         - type: slot
           name: session_num
           value: "2"
-      text: "This is the new activity that I think would help you:"
+      text: "I think it will help you to {activity_new_verb}."
     - condition:
         - type: slot
           name: session_num
           value: "3"
-      text: "Here it is:"
+      text: "I believe it will benefit you to {activity_new_verb}."
     - condition:
         - type: slot
           name: session_num
           value: "4"
-      text: "I believe this new activity would help you:"
+      text: "I believe it will help you to {activity_new_verb}."
     - condition:
         - type: slot
           name: session_num
           value: "5"
-      text: "I expect that this new activity is helpful for you:"
+      text: "I expect that it is helpful for you to {activity_new_verb}."
       
-    - text: "I think that this activity would be useful for you:"
+    - text: "I think that it will be useful for you to {activity_new_verb}."
   utter_activity:
     - text: "{activity_formulation_new_session}"
   utter_activity_read:
@@ -1367,34 +1367,34 @@ responses:
       - payload: /confirm_activity_read
         title: "Let's continue"
 
-  utter_advise_activity:
+  utter_propose_new_activity_intro:
     - condition:
         - type: slot
           name: session_num
           value: "1"
-      text: "So after this and before the next session, I suggest that you {activity_new_verb}."
+      text: "After this and before the next session, I suggest that you do this activity:"
     - condition:
         - type: slot
           name: session_num
           value: "2"
-      text: "So after this and before the next session, I advise you to {activity_new_verb}."
+      text: "After this and before the next session, I advise you to do this activity:"
     - condition:
         - type: slot
           name: session_num
           value: "3"
-      text: "So I suggest you {activity_new_verb} after this and before the next session."
+      text: "I suggest you do this activity after this and before the next session:"
     - condition:
         - type: slot
           name: session_num
           value: "4"
-      text: "So I recommend you {activity_new_verb} after this and before the next session."
+      text: "I recommend you do this activity after this and before the next session:"
     - condition:
         - type: slot
           name: session_num
           value: "5"
-      text: "So after this session, I advise you to {activity_new_verb}."
+      text: "After this session, I advise you to do this activity:"
       
-    - text: "So I recommend you {activity_new_verb} after this session."
+    - text: "I recommend you do this activity after this session:"
     
     
   ### End session
