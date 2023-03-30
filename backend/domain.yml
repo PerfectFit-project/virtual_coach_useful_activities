@@ -862,7 +862,7 @@ responses:
   - text: "I've prepared 11 questions that will help me get a clear understanding of your position."
   
   utter_state_question_intro_3:
-  - text: "Please rate how the following 9 factors affect quitting smoking."
+  - text: "Please rate how you think the following 9 factors affect quitting smoking."
   utter_state_question_intro_4:
   - text: "Answer on a scale from -5 to 5, where -5 indicates that quitting smoking is made a lot harder and 5 indicates that quitting smoking is made a lot easier. 0 indicates 'neutral'."
   utter_state_question_1:
