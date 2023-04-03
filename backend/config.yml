@@ -4,7 +4,6 @@ pipeline:
 - name: RegexFeaturizer
 - name: LexicalSyntacticFeaturizer
 - name: CountVectorsFeaturizer
-- name: CountVectorsFeaturizer
   analyzer: char_wb
   min_ngram: 1
   max_ngram: 4
@@ -15,12 +14,12 @@ pipeline:
   epochs: 100
   constrain_similarities: true
 - name: FallbackClassifier
-  threshold: 0.3
+  threshold: 0.3  # Threshold for low NLU confidence
 policies:
 - name: MemoizationPolicy
   max_history: 8
 - name: RulePolicy
   core_fallback_threshold: 0.1
-  core_fallback_action_name: action_default_fallback_end_dialog
+  core_fallback_action_name: action_default_fallback_end_dialog  # will be called when confidence below above value
   enable_fallback_prediction: true
 assistant_id: 20230403-115225-navy-arbor
