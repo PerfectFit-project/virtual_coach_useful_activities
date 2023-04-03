@@ -2,6 +2,7 @@ version: "3.1"
 
 intents:
 ### Session 1
+- user_name_intent
 - mood_curr_session1
 - start_session1
 - confirm_purpose
@@ -47,6 +48,9 @@ intents:
 
 entities:
 - session_num:
+    influence_conversation: false
+    
+- user_name_entity:
     influence_conversation: false
 
 - mood:
@@ -124,13 +128,20 @@ slots:
     initial_value: ''
     influence_conversation: false
     mappings:
-    - type: from_text
+    - type: from_entity
+      entity: user_name_entity
       conditions:
-        - active_loop: user_name_form
+   	  - active_loop: user_name_form
   # User name in later sessions
   user_name_slot_not_first:
     type: text
     initial_value: ''
+    influence_conversation: false
+    mappings:
+    - type: custom
+  # Whether we have successfully extracted a user name
+  user_name_exists:
+    type: bool
     influence_conversation: false
     mappings:
     - type: custom
@@ -314,9 +325,36 @@ responses:
   utter_ask_user_name_slot:
   - text: "How may I call you?"
   utter_confirm_name:
-  - text: "Hi {user_name_slot}, it's nice to meet you."
-  - text: "Hello {user_name_slot}, it's a pleasure to meet you."
-  - text: "Hi {user_name_slot}, it's wonderful to be meeting you."
+    - condition:
+        - type: slot
+          name: user_name_exists
+          value: true
+      text: "Hi {user_name_slot}, it's nice to meet you."
+    - condition:
+        - type: slot
+          name: user_name_exists
+          value: true
+      text: "Hello {user_name_slot}, it's a pleasure to meet you."
+    - condition:
+        - type: slot
+          name: user_name_exists
+          value: true
+      text: "Hi {user_name_slot}, it's wonderful to be meeting you."
+    - condition:
+        - type: slot
+          name: user_name_exists
+          value: false
+      text: "It's nice to meet you."
+    - condition:
+        - type: slot
+          name: user_name_exists
+          value: false
+      text: "It's a pleasure to meet you."
+    - condition:
+        - type: slot
+          name: user_name_exists
+          value: false
+      text: "It's wonderful to be meeting you."
   utter_longer_name:
   - text: "Please let me know how I can call you. It does not need to be your real name."
   - text: "Kindly tell me how I can call you. This does not need to be your real name. A nickname works too."
@@ -363,47 +401,137 @@ responses:
 
   ### Greeting later sessions
   # Have more than 1 formulation per session in case people re-load a session.
+  # Have one version with and one version without name
   utter_greet_repeat:
     - condition:
         - type: slot
           name: session_num
           value: "2"
+        - type: slot
+          name: user_name_exists
+          value: true
       text: "Hi {user_name_slot_not_first}, nice to see you again!"
     - condition:
         - type: slot
           name: session_num
           value: "2"
+        - type: slot
+          name: user_name_exists
+          value: true
       text: "Welcome back {user_name_slot_not_first}! It's good to see you again."
     - condition:
         - type: slot
           name: session_num
           value: "3"
+        - type: slot
+          name: user_name_exists
+          value: true
       text: "Hello {user_name_slot_not_first}, welcome back!"
     - condition:
          - type: slot
            name: session_num
            value: "3"
+         - type: slot
+           name: user_name_exists
+           value: true
       text: "Hey there, good to see you again {user_name_slot_not_first}!"
     - condition:
         - type: slot
           name: session_num
           value: "4"
+        - type: slot
+          name: user_name_exists
+          value: true
       text: "Hello, it's great to see you again {user_name_slot_not_first}!"
     - condition:
         - type: slot
           name: session_num
           value: "4"
+        - type: slot
+          name: user_name_exists
+          value: true
       text: "Hello {user_name_slot_not_first}, nice to see you've returned!"
     - condition:
         - type: slot
           name: session_num
           value: "5"
+        - type: slot
+          name: user_name_exists
+          value: true
       text: "Hi {user_name_slot_not_first}, I'm happy to see you again!"
     - condition:
         - type: slot
           name: session_num
           value: "5"
+        - type: slot
+          name: user_name_exists
+          value: true
       text: "Hello again, it's great to have you here again {user_name_slot_not_first}!"
+    
+    - condition:
+        - type: slot
+          name: session_num
+          value: "2"
+        - type: slot
+          name: user_name_exists
+          value: false
+      text: "Hi, nice to see you again!"
+    - condition:
+        - type: slot
+          name: session_num
+          value: "2"
+        - type: slot
+          name: user_name_exists
+          value: false
+      text: "Welcome back! It's good to see you again."
+    - condition:
+        - type: slot
+          name: session_num
+          value: "3"
+        - type: slot
+          name: user_name_exists
+          value: false
+      text: "Hello, welcome back!"
+    - condition:
+         - type: slot
+           name: session_num
+           value: "3"
+         - type: slot
+           name: user_name_exists
+           value: false
+      text: "Hey there, good to see you again!"
+    - condition:
+        - type: slot
+          name: session_num
+          value: "4"
+        - type: slot
+          name: user_name_exists
+          value: false
+      text: "Hello, it's great to see you again!"
+    - condition:
+        - type: slot
+          name: session_num
+          value: "4"
+        - type: slot
+          name: user_name_exists
+          value: false
+      text: "Hello, nice to see you've returned!"
+    - condition:
+        - type: slot
+          name: session_num
+          value: "5"
+        - type: slot
+          name: user_name_exists
+          value: false
+      text: "Hi, I'm happy to see you again!"
+    - condition:
+        - type: slot
+          name: session_num
+          value: "5"
+        - type: slot
+          name: user_name_exists
+          value: false
+      text: "Hello again, it's great to have you here again!"
 
     - text: "Hey there, good to see you again!"
     - text: "Welcome back! It's good to see you again."
@@ -842,7 +970,7 @@ responses:
       - type: slot
         name: session_num
         value: "2"
-    text: "The 11 questions I have for you'll give me a good sense of where you stand."
+    text: "The 11 questions I have for you will give me a good sense of where you stand."
   - condition:
       - type: slot
         name: session_num
@@ -2258,6 +2386,7 @@ actions:
 - validate_activity_experience_mod_form
 
 - action_check_nameslot
-- action_end_dialog
 - action_default_fallback_end_dialog
+- action_end_dialog
+- action_get_name_from_last_utterance
 - action_session_start

@@ -1,3 +1,28 @@
+# See here: https://forum.rasa.com/t/spacy-and-name-entity-in-intent/50790/2
+
 version: "3.1"
 
 nlu:
+
+- intent: user_name_intent
+  examples: |
+    - "Hi Mel, I'm [PERSON](user_name_entity)"
+    - "My name is [PERSON](user_name_entity)"
+    - "I'm [PERSON](user_name_entity)"
+    - "[PERSON](user_name_entity)"
+    - "Hello Mel, I am [PERSON](user_name_entity)"
+    - "You can call me [PERSON](user_name_entity)"
+    - "Hi Mel, I go by [PERSON](user_name_entity)"
+    - "[PERSON](user_name_entity) works"
+    - "Nice to meet you Mel, you can call me [PERSON](user_name_entity)"
+    - "Hi I'm [PERSON](user_name_entity)"
+    - "Hello I am [PERSON](user_name_entity)"
+    - "Hi Mel, I am [PERSON](user_name_entity)"
+    - "Hi Mel, you can call me [PERSON](user_name_entity)"
+    - "[PERSON](user_name_entity) please"
+    - "Hi Mel, nice to meet you. I'm [PERSON](user_name_entity)"
+    - "I'm [PERSON](user_name_entity), nice to meet you"
+    - "Hi, this is [PERSON](user_name_entity)"
+    - "Hello, this is [PERSON](user_name_entity)"
+    - "Hello there, you may call me [PERSON](user_name_entity)"
+    

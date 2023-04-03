@@ -57,6 +57,7 @@ class ActionSessionStart(Action):
 # When people open the chat twice in different browsers, the user name in the
 # second browser may be set to the first intent the frontend sends to rasa.
 # In that case we want to end the dialog.
+# And we also want to check if the user name has been extracted
 class ActionCheckNameslot(Action):
     def name(self) -> Text:
         return "action_check_nameslot"
@@ -72,7 +73,11 @@ class ActionCheckNameslot(Action):
             dispatcher.utter_message(template="utter_multiple_open_chats")
             return [FollowupAction('action_end_dialog')]
         
-        return []
+        # This is the value we set when we could not extract the user name.
+        if user_name == " ":
+            return[SlotSet("user_name_exists", False)]
+        
+        return [SlotSet("user_name_exists", True)]
 
 
 class ActionEndDialog(Action):
@@ -101,8 +106,7 @@ class ActionDefaultFallbackEndDialog(Action):
         tracker: Tracker,
         domain: Dict[Text, Any],
     ) -> List[Dict[Text, Any]]:
-        
-        # Ask to close the window
+        #dispatcher.utter_message(template="utter_default")
         dispatcher.utter_message(template="utter_default_close_session")
 
         # End the dialog, which leads to a restart.
@@ -163,6 +167,29 @@ def check_session_not_done_before(cur, prolific_id, session_num):
     return not_done_before
     
 
+class ActionGetNameFromLastUtterance(Action):
+    
+    def name(self) -> Text:
+        return "action_get_name_from_last_utterance"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+    
+        last_user_utterance = tracker.latest_message['text']
+        
+        # Only set the user name to the last utterance if the last
+        # utterance had only 1 word
+        # Default separator is any whitespace.
+        if len(last_user_utterance.split) == 1:
+            return [SlotSet("user_name_slot", last_user_utterance),
+                    SlotSet("user_name_exists", True)]
+        
+        else:
+            return [SlotSet("user_name_slot", " "),
+                    SlotSet("user_name_exists", False)]
+            
+
 
 class ActionLoadSessionFirst(Action):
     
@@ -206,6 +233,7 @@ class ActionLoadSessionNotFirst(Action):
         session_loaded = True
         mood_prev = ""
         activity_verb_prev = ""
+        user_name_exists = False
         
         conn = mysql.connector.connect(
             user=DATABASE_USER,
@@ -226,6 +254,10 @@ class ActionLoadSessionNotFirst(Action):
             
         else:
             user_name_result = user_name_result[0]
+            # Check if the user name is not our default value (which means that
+            # we could not extract the user name)
+            if user_name_result != " ":
+                user_name_exists = True
             
             # check if user has done previous session before '
             # (i.e., if session data is saved from previous session)
@@ -263,7 +295,8 @@ class ActionLoadSessionNotFirst(Action):
         return [SlotSet("user_name_slot_not_first", user_name_result),
                 SlotSet("mood_prev_session", mood_prev),
                 SlotSet("session_loaded", session_loaded),
-                SlotSet("activity_prev_verb", activity_verb_prev)]
+                SlotSet("activity_prev_verb", activity_verb_prev),
+                SlotSet("user_name_exists", user_name_exists)]
         
         
     

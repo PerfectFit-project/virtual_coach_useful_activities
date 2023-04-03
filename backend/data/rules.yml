@@ -42,6 +42,17 @@ rules:
   - action: utter_confirm_name
   - action: utter_ask_for_mood_session1
   
+- rule: name session 1 failed fallback
+  condition:
+    - active_loop: user_name_form
+  steps:
+  - intent: nlu_fallback
+  - action: action_get_name_from_last_utterance
+  - action: utter_confirm_name
+  - action: action_deactivate_loop
+  - active_loop: null
+  - action: utter_ask_for_mood_session1
+  
 - rule: mood session 1 
   steps:
   - intent: mood_curr_session1
