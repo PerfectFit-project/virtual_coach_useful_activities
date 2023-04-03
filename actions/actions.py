@@ -101,7 +101,8 @@ class ActionDefaultFallbackEndDialog(Action):
         tracker: Tracker,
         domain: Dict[Text, Any],
     ) -> List[Dict[Text, Any]]:
-        dispatcher.utter_message(template="utter_default")
+        
+        # Ask to close the window
         dispatcher.utter_message(template="utter_default_close_session")
 
         # End the dialog, which leads to a restart.
