@@ -57,7 +57,7 @@ class ActionSessionStart(Action):
 # When people open the chat twice in different browsers, the user name in the
 # second browser may be set to the first intent the frontend sends to rasa.
 # In that case we want to end the dialog.
-# And we also want to check if the user name has been extracted
+# And we also want to check if the user name has been extracted correctly.
 class ActionCheckNameslot(Action):
     def name(self) -> Text:
         return "action_check_nameslot"
@@ -69,16 +69,18 @@ class ActionCheckNameslot(Action):
         user_name = tracker.get_slot("user_name_slot")
         
         if "start_session" in user_name:
-            
             dispatcher.utter_message(template="utter_multiple_open_chats")
             return [FollowupAction('action_end_dialog')]
         
-        # This is the value we set when we could not extract the user name.
-        if user_name == " ":
-            return[SlotSet("user_name_exists", False)]
+       # For safety we want only one word for the name
+       # Splits at whitespace
+        if len(user_name.split()) == 1:
+            return[SlotSet("user_name_exists", True)]
         
-        return [SlotSet("user_name_exists", True)]
-
+        else:
+            return[SlotSet("user_name_exists", False),
+                   SlotSet("user_name_slot", "default")]
+                
 
 class ActionEndDialog(Action):
     """Action to cleanly terminate the dialog."""
@@ -106,7 +108,8 @@ class ActionDefaultFallbackEndDialog(Action):
         tracker: Tracker,
         domain: Dict[Text, Any],
     ) -> List[Dict[Text, Any]]:
-        #dispatcher.utter_message(template="utter_default")
+        
+        # Ask to close the window
         dispatcher.utter_message(template="utter_default_close_session")
 
         # End the dialog, which leads to a restart.
@@ -165,30 +168,6 @@ def check_session_not_done_before(cur, prolific_id, session_num):
         not_done_before = False
         
     return not_done_before
-    
-
-class ActionGetNameFromLastUtterance(Action):
-    
-    def name(self) -> Text:
-        return "action_get_name_from_last_utterance"
-
-    def run(self, dispatcher: CollectingDispatcher,
-            tracker: Tracker,
-            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-    
-        last_user_utterance = tracker.latest_message['text']
-        
-        # Only set the user name to the last utterance if the last
-        # utterance had only 1 word
-        # Default separator is any whitespace.
-        if len(last_user_utterance.split) == 1:
-            return [SlotSet("user_name_slot", last_user_utterance),
-                    SlotSet("user_name_exists", True)]
-        
-        else:
-            return [SlotSet("user_name_slot", " "),
-                    SlotSet("user_name_exists", False)]
-            
 
 
 class ActionLoadSessionFirst(Action):
@@ -256,7 +235,7 @@ class ActionLoadSessionNotFirst(Action):
             user_name_result = user_name_result[0]
             # Check if the user name is not our default value (which means that
             # we could not extract the user name)
-            if user_name_result != " ":
+            if user_name_result != "default":
                 user_name_exists = True
             
             # check if user has done previous session before '
