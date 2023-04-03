@@ -362,10 +362,22 @@ responses:
   utter_purpose_4:
   - text: "Ultimately, I want to be able to propose activities that match the situation a person is in."
   utter_purpose_5:
-  - buttons:
-    - payload: /confirm_purpose
-      title: "I'm ready"
-    text: "And this is why you're here, {user_name_slot}: I want to learn how an activity I propose helps you in your specific situation.\nLet me know when you've read what my purpose is and are ready to continue."
+    - condition:
+        - type: slot
+          name: user_name_exists
+          value: true
+      text: "And this is why you're here, {user_name_slot}: I want to learn how an activity I propose helps you in your specific situation.\nLet me know when you've read what my purpose is and are ready to continue."
+      buttons:
+      - payload: /confirm_purpose
+        title: "I'm ready"
+    - condition:
+        - type: slot
+          name: user_name_exists
+          value: false
+      text: "And this is why you're here: I want to learn how an activity I propose helps you in your specific situation.\nLet me know when you've read what my purpose is and are ready to continue."
+      buttons:
+      - payload: /confirm_purpose
+        title: "I'm ready"
   utter_prompt_usage:
   - text: "Okay! Before we start, let me explain how you can communicate with me."
   utter_explain_usage:
