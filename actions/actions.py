@@ -154,7 +154,8 @@ def check_session_not_done_before(cur, prolific_id, session_num):
     # For session 1, sessiondata is only saved at the very end of the session.
     # But we do not want people to be able to do the entire session twice.
     # So instead we check if there is already data on the person in the users table.
-    # This means that the person has previously entered their name.
+    # This means that the person has previously entered their name and their mood,
+    # as we save the name after the mood has been entered.
     else:
         query = ("SELECT * FROM users WHERE prolific_id = %s")
         cur.execute(query, [prolific_id])
@@ -278,7 +279,6 @@ class ActionLoadSessionNotFirst(Action):
                 SlotSet("user_name_exists", user_name_exists)]
         
         
-    
 class ActionSaveNameToDB(Action):
 
     def name(self) -> Text:
