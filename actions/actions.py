@@ -182,18 +182,25 @@ class ActionLoadSessionFirst(Action):
     
         prolific_id = tracker.current_state()['sender_id']
         
-        conn = mysql.connector.connect(
-            user=DATABASE_USER,
-            password=DATABASE_PASSWORD,
-            host=DATABASE_HOST,
-            port=DATABASE_PORT,
-            database='db'
-        )
-        cur = conn.cursor(prepared=True)
+        try:
+            conn = mysql.connector.connect(
+                user=DATABASE_USER,
+                password=DATABASE_PASSWORD,
+                host=DATABASE_HOST,
+                port=DATABASE_PORT,
+                database='db'
+            )
+            cur = conn.cursor(prepared=True)
+            
+            session_loaded = check_session_not_done_before(cur, prolific_id, 1)
         
-        session_loaded = check_session_not_done_before(cur, prolific_id, 1)
-        
-        conn.close()
+        except mysql.connector.Error as error:
+            logging.info("Error in loading first session: " + str(error))
+
+        finally:
+            if conn.is_connected():
+                cur.close()
+                conn.close()
 
         return [SlotSet("session_loaded", session_loaded)]
 
@@ -215,69 +222,70 @@ class ActionLoadSessionNotFirst(Action):
         activity_verb_prev = ""
         user_name_exists = False
         
-        conn = mysql.connector.connect(
-            user=DATABASE_USER,
-            password=DATABASE_PASSWORD,
-            host=DATABASE_HOST,
-            port=DATABASE_PORT,
-            database='db'
-        )
-        cur = conn.cursor(prepared=True)
-        
-        # get user name from database
-        query = ("SELECT name FROM users WHERE prolific_id = %s")
-        cur.execute(query, [prolific_id])
-        user_name_result = cur.fetchone()
-        
-        logging.info("user name result:" + str(user_name_result))
-        
-        if user_name_result is None:
-            session_loaded = False
+        try:
+            conn = mysql.connector.connect(
+                user=DATABASE_USER,
+                password=DATABASE_PASSWORD,
+                host=DATABASE_HOST,
+                port=DATABASE_PORT,
+                database='db'
+            )
+            cur = conn.cursor(prepared=True)
             
-            logging.info("session not loaded user name")
+            # get user name from database
+            query = ("SELECT name FROM users WHERE prolific_id = %s")
+            cur.execute(query, [prolific_id])
+            user_name_result = cur.fetchone()
             
-        else:
-            user_name_result = user_name_result[0]
-            # Check if the user name is not our default value (which means that
-            # we could not extract the user name)
-            if user_name_result != "default":
-                user_name_exists = True
-            
-            # check if user has done previous session before '
-            # (i.e., if session data is saved from previous session)
-            query = ("SELECT * FROM sessiondata WHERE prolific_id = %s and session_num = %s and response_type = %s")
-            cur.execute(query, [prolific_id, str(int(session_num) - 1), "state_5"])
-            done_previous_result = cur.fetchone()
-            
-            logging.info("done previous result:" + str(done_previous_result))
-            
-            if done_previous_result is None:
+            if user_name_result is None:
                 session_loaded = False
                 
-                logging.info("session not loaded done previous result")
-                
             else:
-                # check if user has not done this session before
-                # checks if some data on this session is already saved in database
-                # this basically means that it checks whether the user has already 
-                # completed the session part until the dropout question before,
-                # since that is when we first save something to the database
-                session_loaded = check_session_not_done_before(cur, prolific_id, 
-                                                               session_num)
+                user_name_result = user_name_result[0]
+                # Check if the user name is not our default value (which means that
+                # we could not extract the user name)
+                if user_name_result != "default":
+                    user_name_exists = True
                 
-                if session_loaded:
-                    # Get mood from previous session
-                    query = ("SELECT response_value FROM sessiondata WHERE prolific_id = %s and session_num = %s and response_type = %s")
-                    cur.execute(query, [prolific_id, str(int(session_num) - 1), "mood"])
-                    mood_prev = cur.fetchone()[0]
-                    # Get activity index from previous session
-                    query = ("SELECT response_value FROM sessiondata WHERE prolific_id = %s and session_num = %s and response_type = %s")
-                    cur.execute(query, [prolific_id, str(int(session_num) - 1), "activity_new_index"])
-                    act_index = int(cur.fetchone()[0])
-                    activity_verb_prev = df_act.iloc[act_index]["Verb"]
+                # check if user has done previous session before '
+                # (i.e., if session data is saved from previous session)
+                query = ("SELECT * FROM sessiondata WHERE prolific_id = %s and session_num = %s and response_type = %s")
+                cur.execute(query, [prolific_id, str(int(session_num) - 1), "state_5"])
+                done_previous_result = cur.fetchone()
+                
+                if done_previous_result is None:
+                    session_loaded = False
+                    
+                else:
+                    # check if user has not done this session before
+                    # checks if some data on this session is already saved in database
+                    # this basically means that it checks whether the user has already 
+                    # completed the session part until the dropout question before,
+                    # since that is when we first save something to the database
+                    session_loaded = check_session_not_done_before(cur, prolific_id, 
+                                                                   session_num)
+                    
+                    logging.info("session_loaded: " + str(session_loaded))
+                    
+                    if session_loaded:
+                        # Get mood from previous session
+                        query = ("SELECT response_value FROM sessiondata WHERE prolific_id = %s and session_num = %s and response_type = %s")
+                        cur.execute(query, [prolific_id, str(int(session_num) - 1), "mood"])
+                        mood_prev = cur.fetchone()[0]
+                        # Get activity index from previous session
+                        query = ("SELECT response_value FROM sessiondata WHERE prolific_id = %s and session_num = %s and response_type = %s")
+                        cur.execute(query, [prolific_id, str(int(session_num) - 1), "activity_new_index"])
+                        act_index = int(cur.fetchone()[0])
+                        activity_verb_prev = df_act.iloc[act_index]["Verb"]
                     
         
-        conn.close()
+        except mysql.connector.Error as error:
+            logging.info("Error in loading session not first: " + str(error))
+
+        finally:
+            if conn.is_connected():
+                cur.close()
+                conn.close()
 
         
         return [SlotSet("user_name_slot_not_first", user_name_result),
@@ -298,23 +306,31 @@ class ActionSaveNameToDB(Action):
         
         now = datetime.now()
         formatted_date = now.strftime('%Y-%m-%d %H:%M:%S')
+        
+        try:
+            conn = mysql.connector.connect(
+                user=DATABASE_USER,
+                password=DATABASE_PASSWORD,
+                host=DATABASE_HOST,
+                port=DATABASE_PORT,
+                database='db'
+            )
+            cur = conn.cursor(prepared=True)
+            query = "INSERT INTO users(prolific_id, name, time) VALUES(%s, %s, %s)"
+            queryMatch = [tracker.current_state()['sender_id'], 
+                          tracker.get_slot("user_name_slot"),
+                          formatted_date]
+            cur.execute(query, queryMatch)
+            conn.commit()
+            
+        except mysql.connector.Error as error:
+            logging.info("Error in saving name to db: " + str(error))
 
-        conn = mysql.connector.connect(
-            user=DATABASE_USER,
-            password=DATABASE_PASSWORD,
-            host=DATABASE_HOST,
-            port=DATABASE_PORT,
-            database='db'
-        )
-        cur = conn.cursor(prepared=True)
-        query = "INSERT INTO users(prolific_id, name, time) VALUES(%s, %s, %s)"
-        queryMatch = [tracker.current_state()['sender_id'], 
-                      tracker.get_slot("user_name_slot"),
-                      formatted_date]
-        cur.execute(query, queryMatch)
-        conn.commit()
-        conn.close()
-
+        finally:
+            if conn.is_connected():
+                cur.close()
+                conn.close()
+        
         return []
     
 
@@ -328,28 +344,37 @@ class ActionSaveActivityExperienc(Action):
         
         now = datetime.now()
         formatted_date = now.strftime('%Y-%m-%d %H:%M:%S')
-
-        conn = mysql.connector.connect(
-            user=DATABASE_USER,
-            password=DATABASE_PASSWORD,
-            host=DATABASE_HOST,
-            port=DATABASE_PORT,
-            database='db'
-        )
-        cur = conn.cursor(prepared=True)
         
-        prolific_id = tracker.current_state()['sender_id']
-        session_num = tracker.get_slot("session_num")
-        slots_to_save = ["effort", "activity_experience_slot",
-                         "activity_experience_mod_slot",
-                         "dropout_response"]
-        for slot in slots_to_save:
-        
-            save_sessiondata_entry(cur, conn, prolific_id, session_num,
-                                   slot, tracker.get_slot(slot),
-                                   formatted_date)
+        try:
+            conn = mysql.connector.connect(
+                user=DATABASE_USER,
+                password=DATABASE_PASSWORD,
+                host=DATABASE_HOST,
+                port=DATABASE_PORT,
+                database='db'
+            )
+            cur = conn.cursor(prepared=True)
+            
+            prolific_id = tracker.current_state()['sender_id']
+            session_num = tracker.get_slot("session_num")
+            slots_to_save = ["effort", "activity_experience_slot",
+                             "activity_experience_mod_slot",
+                             "dropout_response"]
+            for slot in slots_to_save:
+            
+                save_sessiondata_entry(cur, conn, prolific_id, session_num,
+                                       slot, tracker.get_slot(slot),
+                                       formatted_date)
 
-        conn.close()
+        except mysql.connector.Error as error:
+            logging.info("Error in saving activity experience to db: " + str(error))
+
+        finally:
+            if conn.is_connected():
+                cur.close()
+                conn.close()
+        
+        return []
     
     
 def save_sessiondata_entry(cur, conn, prolific_id, session_num, response_type,
@@ -370,7 +395,45 @@ class ActionSaveSession(Action):
         
         now = datetime.now()
         formatted_date = now.strftime('%Y-%m-%d %H:%M:%S')
+        
+        try:
+            conn = mysql.connector.connect(
+                user=DATABASE_USER,
+                password=DATABASE_PASSWORD,
+                host=DATABASE_HOST,
+                port=DATABASE_PORT,
+                database='db'
+            )
+            cur = conn.cursor(prepared=True)
+            
+            prolific_id = tracker.current_state()['sender_id']
+            session_num = tracker.get_slot("session_num")
+            
+            slots_to_save = ["mood", "state_1", "state_2", "state_3",
+                             "state_4", "state_5", "state_6", "state_7",
+                             "state_8", "state_9", "state_busy", "state_energy",
+                             "activity_new_index", "cluster_new_index"]
+            for slot in slots_to_save:
+            
+                save_sessiondata_entry(cur, conn, prolific_id, session_num,
+                                       slot, tracker.get_slot(slot),
+                                       formatted_date)
+                
+        except mysql.connector.Error as error:
+            logging.info("Error in save session: " + str(error))
 
+        finally:
+            if conn.is_connected():
+                cur.close()
+                conn.close()
+        
+        return []
+        
+
+def get_previous_activity_indices_from_db(prolific_id):
+    "Get indices of the activities previously done by the user from the db."
+    
+    try:
         conn = mysql.connector.connect(
             user=DATABASE_USER,
             password=DATABASE_PASSWORD,
@@ -380,96 +443,85 @@ class ActionSaveSession(Action):
         )
         cur = conn.cursor(prepared=True)
         
-        prolific_id = tracker.current_state()['sender_id']
-        session_num = tracker.get_slot("session_num")
+        # Get previous activity indices from db
+        query = ("SELECT response_value FROM sessiondata WHERE prolific_id = %s and response_type = %s")
+        cur.execute(query, [prolific_id, "activity_new_index"])
+        result = cur.fetchall()
         
-        slots_to_save = ["mood", "state_1", "state_2", "state_3",
-                         "state_4", "state_5", "state_6", "state_7",
-                         "state_8", "state_9", "state_busy", "state_energy",
-                         "activity_new_index", "cluster_new_index"]
-        for slot in slots_to_save:
+        # So far, we have sth. like [('49',), ('44',)]
+        result = [i[0] for i in result]
         
-            save_sessiondata_entry(cur, conn, prolific_id, session_num,
-                                   slot, tracker.get_slot(slot),
-                                   formatted_date)
+    except mysql.connector.Error as error:
+        logging.info("Error in getting previous activity indices from db: " + str(error))
 
-        conn.close()
-        
-        return []
-        
-
-def get_previous_activity_indices_from_db(prolific_id):
-    
-    conn = mysql.connector.connect(
-        user=DATABASE_USER,
-        password=DATABASE_PASSWORD,
-        host=DATABASE_HOST,
-        port=DATABASE_PORT,
-        database='db'
-    )
-    cur = conn.cursor(prepared=True)
-    
-    # get previous activity index from db
-    query = ("SELECT response_value FROM sessiondata WHERE prolific_id = %s and response_type = %s")
-    cur.execute(query, [prolific_id, "activity_new_index"])
-    result = cur.fetchall()
-    
-    # So far, we have sth. like [('49',), ('44',)]
-    result = [i[0] for i in result]
-    
-    conn.close()
+    finally:
+        if conn.is_connected():
+            cur.close()
+            conn.close()
     
     return result
 
 
 def get_activity_cluster_counts_from_db():
     "Compute how many times each activity cluster has already been chosen."
+    
+    try:
+        conn = mysql.connector.connect(
+            user=DATABASE_USER,
+            password=DATABASE_PASSWORD,
+            host=DATABASE_HOST,
+            port=DATABASE_PORT,
+            database='db'
+        )
+        cur = conn.cursor(prepared=True)
+        
+        # Get cluster indices from database
+        query = ("SELECT response_value FROM sessiondata WHERE response_type = %s")
+        cur.execute(query, ["cluster_new_index"])
+        result = cur.fetchall()
+        
+        cluster_indices = [int(i[0]) for i in result]
+        cluster_counts = [cluster_indices.count(i) for i in ACTIVITY_CLUSTERS]
+    
+    except mysql.connector.Error as error:
+        logging.info("Error in getting act cluster counts from db: " + str(error))
 
-    conn = mysql.connector.connect(
-        user=DATABASE_USER,
-        password=DATABASE_PASSWORD,
-        host=DATABASE_HOST,
-        port=DATABASE_PORT,
-        database='db'
-    )
-    cur = conn.cursor(prepared=True)
-    
-    # Get cluster indices from database
-    query = ("SELECT response_value FROM sessiondata WHERE response_type = %s")
-    cur.execute(query, ["cluster_new_index"])
-    result = cur.fetchall()
-    
-    cluster_indices = [int(i[0]) for i in result]
-    
-    #logging.info("Cluster indices db:" + str(cluster_indices))
-    
-    cluster_counts = [cluster_indices.count(i) for i in ACTIVITY_CLUSTERS]
+    finally:
+        if conn.is_connected():
+            cur.close()
+            conn.close()
     
     return cluster_counts
 
 
 def get_activity_counts_from_db():
-    "Compute how many times each activity has already been chosen."
+    "Compute how many times each activity has already been chosen overall."
+    
+    try:
+        conn = mysql.connector.connect(
+            user=DATABASE_USER,
+            password=DATABASE_PASSWORD,
+            host=DATABASE_HOST,
+            port=DATABASE_PORT,
+            database='db'
+        )
+        cur = conn.cursor(prepared=True)
+        
+        # Get activity indices from database
+        query = ("SELECT response_value FROM sessiondata WHERE response_type = %s")
+        cur.execute(query, ["activity_new_index"])
+        result = cur.fetchall()
+        
+        activity_indices = [int(i[0]) for i in result]
+        activity_counts = [activity_indices.count(i) for i in range(0, NUM_ACTIVITIES)]
+    
+    except mysql.connector.Error as error:
+        logging.info("Error in getting activity counts from db: " + str(error))
 
-    conn = mysql.connector.connect(
-        user=DATABASE_USER,
-        password=DATABASE_PASSWORD,
-        host=DATABASE_HOST,
-        port=DATABASE_PORT,
-        database='db'
-    )
-    cur = conn.cursor(prepared=True)
-    
-    # Get cluster indices from database
-    query = ("SELECT response_value FROM sessiondata WHERE response_type = %s")
-    cur.execute(query, ["activity_new_index"])
-    result = cur.fetchall()
-    
-    activity_indices = [int(i[0]) for i in result]
-    
-    #logging.info("Activity indices db:" + str(activity_indices))
-    
-    activity_counts = [activity_indices.count(i) for i in range(0, NUM_ACTIVITIES)]
+    finally:
+        if conn.is_connected():
+            cur.close()
+            conn.close()
     
     return activity_counts
 
