@@ -229,8 +229,12 @@ class ActionLoadSessionNotFirst(Action):
         cur.execute(query, [prolific_id])
         user_name_result = cur.fetchone()
         
+        logging.info("user name result:" + str(user_name_result))
+        
         if user_name_result is None:
             session_loaded = False
+            
+            logging.info("session not loaded user name")
             
         else:
             user_name_result = user_name_result[0]
@@ -245,8 +249,12 @@ class ActionLoadSessionNotFirst(Action):
             cur.execute(query, [prolific_id, str(int(session_num) - 1), "state_5"])
             done_previous_result = cur.fetchone()
             
+            logging.info("done previous result:" + str(done_previous_result))
+            
             if done_previous_result is None:
                 session_loaded = False
+                
+                logging.info("session not loaded done previous result")
                 
             else:
                 # check if user has not done this session before
