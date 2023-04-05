@@ -6,7 +6,7 @@ The project is based on [this Github repository](https://github.com/AmirStudy/Ra
 
 ## Components
 
-This virtual coach consists of a backend based on Rasa Open Source (backend), a custom action server (actions), a frontend (frontend), a database (db), an SQLTrackerStore, and Nginx.
+This virtual coach consists of a backend based on Rasa Open Source 3.2.8 (backend), a custom action server (actions), a frontend (frontend), a database (db), an SQLTrackerStore, and Nginx.
 
 
 ## Setup on Google Compute Engine
