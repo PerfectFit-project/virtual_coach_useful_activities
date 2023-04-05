@@ -190,7 +190,7 @@ class ActionLoadSessionFirst(Action):
                 port=DATABASE_PORT,
                 database='db'
             )
-            cur = conn.cursor(prepared=True, buffered=True)
+            cur = conn.cursor(buffered=True)
             
             session_loaded = check_session_not_done_before(cur, prolific_id, 1)
         
@@ -230,7 +230,7 @@ class ActionLoadSessionNotFirst(Action):
                 port=DATABASE_PORT,
                 database='db'
             )
-            cur = conn.cursor(prepared=True, buffered=True)
+            cur = conn.cursor(buffered=True)
             
             # get user name from database
             query = ("SELECT name FROM users WHERE prolific_id = %s")
@@ -315,7 +315,7 @@ class ActionSaveNameToDB(Action):
                 port=DATABASE_PORT,
                 database='db'
             )
-            cur = conn.cursor(prepared=True, buffered=True)
+            cur = conn.cursor(buffered=True)
             query = "INSERT INTO users(prolific_id, name, time) VALUES(%s, %s, %s)"
             queryMatch = [tracker.current_state()['sender_id'], 
                           tracker.get_slot("user_name_slot"),
@@ -353,7 +353,7 @@ class ActionSaveActivityExperienc(Action):
                 port=DATABASE_PORT,
                 database='db'
             )
-            cur = conn.cursor(prepared=True, buffered=True)
+            cur = conn.cursor(buffered=True)
             
             prolific_id = tracker.current_state()['sender_id']
             session_num = tracker.get_slot("session_num")
@@ -404,7 +404,7 @@ class ActionSaveSession(Action):
                 port=DATABASE_PORT,
                 database='db'
             )
-            cur = conn.cursor(prepared=True, buffered=True)
+            cur = conn.cursor(buffered=True)
             
             prolific_id = tracker.current_state()['sender_id']
             session_num = tracker.get_slot("session_num")
@@ -441,7 +441,7 @@ def get_previous_activity_indices_from_db(prolific_id):
             port=DATABASE_PORT,
             database='db'
         )
-        cur = conn.cursor(prepared=True, buffered=True)
+        cur = conn.cursor(buffered=True)
         
         # Get previous activity indices from db
         query = ("SELECT response_value FROM sessiondata WHERE prolific_id = %s and response_type = %s")
@@ -473,7 +473,7 @@ def get_activity_cluster_counts_from_db():
             port=DATABASE_PORT,
             database='db'
         )
-        cur = conn.cursor(prepared=True, buffered=True)
+        cur = conn.cursor(buffered=True)
         
         # Get cluster indices from database
         query = ("SELECT response_value FROM sessiondata WHERE response_type = %s")
@@ -505,7 +505,7 @@ def get_activity_counts_from_db():
             port=DATABASE_PORT,
             database='db'
         )
-        cur = conn.cursor(prepared=True, buffered=True)
+        cur = conn.cursor(buffered=True)
         
         # Get activity indices from database
         query = ("SELECT response_value FROM sessiondata WHERE response_type = %s")
