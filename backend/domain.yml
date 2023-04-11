@@ -2357,7 +2357,7 @@ responses:
  
 
 session_config:
-  session_expiration_time: 18  # these are minutes (3 times the estimated dialog duration)
+  session_expiration_time: 33  # these are minutes (max. time for 6-minute study on Prolific)
   carry_over_slots_to_new_session: false
 
 
