@@ -30,7 +30,7 @@ services:
       restart: always
       environment:
         MYSQL_DATABASE: "db"
-        MYSQL_ROOT_PASSWORD: 'password'
+        MYSQL_ROOT_PASSWORD: 'treelisbonmaijanuar445599!!!!!22333'
       ports:
         - "3306:3306"
       volumes:
