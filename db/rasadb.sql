@@ -1,6 +1,6 @@
 use db;
 
-CREATE TABLE users(prolific_id TEXT, name TEXT, time DATETIME);
+CREATE TABLE users(idx INT NOT NULL AUTO_INCREMENT, prolific_id TEXT, name TEXT, time DATETIME, CONSTRAINT users_pk PRIMARY KEY (idx));
 
 CREATE TABLE sessiondata(prolific_id TEXT, session_num TEXT, response_type TEXT,
 response_value TEXT, time DATETIME);
