@@ -1630,7 +1630,7 @@ responses:
       
     - text: "I think that it will be useful for you to {activity_new_verb}."
   utter_activity:
-    - text: "{activity_formulation_new_session}"
+    - text: "📌 {activity_formulation_new_session}"
   utter_activity_read:
     - condition:
         - type: slot
