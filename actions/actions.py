@@ -478,7 +478,7 @@ def get_activity_cluster_counts_from_db():
         cur = conn.cursor(buffered=True)
 
         # Get cluster indices from database
-        query = ("SELECT response_value FROM sessiondata WHERE response_type = %s")
+        query = ("SELECT response_value FROM sessiondata WHERE response_type = %s AND response_value IS NOT NULL")
         cur.execute(query, ["cluster_new_index"])
         result = cur.fetchall()
 
@@ -510,7 +510,7 @@ def get_activity_counts_from_db():
         cur = conn.cursor(buffered=True)
 
         # Get activity indices from database
-        query = ("SELECT response_value FROM sessiondata WHERE response_type = %s")
+        query = ("SELECT response_value FROM sessiondata WHERE response_type = %s AND response_value IS NOT NULL")
         cur.execute(query, ["activity_new_index"])
         result = cur.fetchall()
 
