@@ -482,6 +482,7 @@ def get_activity_cluster_counts_from_db():
         cur.execute(query, ["cluster_new_index"])
         result = cur.fetchall()
 
+        logging.info([i[0] for i in result])
         cluster_indices = [int(i[0]) for i in result]
         cluster_counts = [cluster_indices.count(i) for i in ACTIVITY_CLUSTERS]
 
@@ -513,6 +514,8 @@ def get_activity_counts_from_db():
         query = ("SELECT response_value FROM sessiondata WHERE response_type = %s AND response_value IS NOT NULL")
         cur.execute(query, ["activity_new_index"])
         result = cur.fetchall()
+        
+        logging.info([i[0] for i in result])
 
         activity_indices = [int(i[0]) for i in result]
         activity_counts = [activity_indices.count(i) for i in range(0, NUM_ACTIVITIES)]
