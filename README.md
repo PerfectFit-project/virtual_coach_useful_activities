@@ -9,7 +9,7 @@ The code is based on [this Github repository](https://github.com/AmirStudy/Rasa_
 
 Each user can have up to 5 conversational sessions with Mel. These sessions have this structure:
 
-<img src = "Readme_images/conversation_structure.PNG" width = "500" title="Conversation structure.">
+<img src = "Readme_images/conversation_structure.png" width = "500" title="Conversation structure.">
 
 A demo of the second conversational session can be found [here](https://youtu.be/RywcZSHOs_g).
 
