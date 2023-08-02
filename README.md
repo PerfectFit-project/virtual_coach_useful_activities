@@ -72,38 +72,17 @@ To run this project on a Google Compute Engine, I followed these steps:
    
    
 This project uses an [SQLTrackerStore](https://rasa.com/docs/rasa/tracker-stores/) to store the conversation history in a database:
-   - A nice way to see the contents of this database is using the program DBeaver.
-      - First also open port 5432 on your Google Compute Engine instance for tcp. There is no need to restart the instance after opening the port.
-      - To configure DBeaver, add a new database connection:
-   
-      <img src = "Readme_images/dbeaver_1.PNG" width = "250" title="DBeaver 1.">
-   
-      - Select a "PostgresSQL" connection.
-      - Enter your instance's IP address as the "Host", keep the "Port" set to 5432, enter the username and password used in docker-compose.yml, and set the "Database" to "rasa".
-      - After connecting, you can inspect the database content by clicking on the "events" table:
-   
-      <img src = "Readme_images/dbeaver_2.PNG" width = "500" title="DBeaver 2.">
-   
-      - After clicking on "Data," you can see the table content. The "sender_id" is the "<some_user_id>" you used when accessing your frontend:
-   
-      <img src = "Readme_images/dbeaver_3.PNG" width = "500" title="DBeaver 3.">
-   
-      - To refresh the view, you can click on File > Refresh in DBeaver.
-	  - You can also export the data in the database:
-	  
-	  <img src = "Readme_images/dbeaver_4.PNG" width = "500" title="DBeaver 4.">
-
    - The database is persistent because of the "volumes" we specified in docker-compose.yml for postgres. Read more about this [here](https://medium.com/codex/how-to-persist-and-backup-data-of-a-postgresql-docker-container-9fe269ff4334).
       - So you can run `docker-compose down --volumes` and `docker-compose up --build` and the database content is still there. Check for yourself using DBeaver.
-	  - To delete the database content, just remove the "data"-folder.
+	  - To delete the database content, just remove the "data"-folder on your Google Compute Engine instance.
 
 
 The project further uses an mysql database to store specific data from the conversations:
    - The database is also persistent. The folder "data_mysql" is used for this, as set up in docker-compose.yml.
-   - To inspect the database content content with DBeaver, first open port 3306 on your instance for tcp. Again, there is no need to restart your instance after opening this port.
-   - When setting up the connection, use "db" for "Database", "root" for "Username", and the password specified in docker-compose.yml. Keep "Port" to 3306. The "Server Host" is the IP address of your instance.
-      - You might have to set "allowPublicKeyRetrieval" to "true" in "Driver properties." 
    - To delete the database content, just delete the folder "data_mysql" on your Google Compute Engine instance.
+   - There are two tables:
+      - sessiondata: stores data from the sessions that we want to save (e.g., mood, experience with previous activity).
+      - users: stores the username for each user (set in session 1).
 
 
 Some errors I got during the setup:
