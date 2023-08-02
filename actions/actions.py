@@ -84,9 +84,7 @@ class ActionCheckNameslot(Action):
 
 class ActionEndDialog(Action):
     """Action to cleanly terminate the dialog."""
-    # ATM this action just call the default restart action
-    # but this can be used to perform actions that might be needed
-    # at the end of each dialog
+    # This action just calla the default restart action
     def name(self):
         return "action_end_dialog"
 
@@ -542,20 +540,14 @@ class ActionChooseActivity(Action):
 
         if curr_act_ind_list is None:
             curr_act_ind_list = []
- 
-        #logging.info("previous activities:" + str(curr_act_ind_list))
 
         # check excluded activities for previously assigned activities
         excluded = []
         for i in curr_act_ind_list:
             excluded += df_act.loc[int(i), 'Exclusion']
 
-        #logging.info("excluded based on previous: " + str(excluded))
-
         # get eligible activities (not done before and not excluded)
         remaining_indices = [i for i in range(NUM_ACTIVITIES) if not str(i) in curr_act_ind_list and not str(i) in excluded]
-
-        #logging.info("remaining after not done before and not excluded: " + str(remaining_indices))
 
         # Check if prerequisites for remaining activities are met
         for i in remaining_indices:
@@ -568,8 +560,6 @@ class ActionChooseActivity(Action):
 
         # Get activities that also meet the prerequisites
         remaining_indices = [i for i in remaining_indices if not str(i) in excluded]
-
-        #logging.info("remaining after prerequsites: " + str(remaining_indices))
 
         # Check which clusters the remaining activities belong to -> possible clusters
         possible_clusters = list(set([df_act.iloc[i]["Cluster"] for i in remaining_indices]))
@@ -586,8 +576,6 @@ class ActionChooseActivity(Action):
                                            weights=[1/cluster_counts[i-1] if cluster_counts[i-1] > 0 else 1 for i in possible_clusters],
                                            k = 1)[0]
 
-        #logging.info("Cluster selection weights:" + str([1/cluster_counts[i-1] if cluster_counts[i-1] > 0 else 1 for i in possible_clusters]))
-
         # Compute how often each activity has already been chosen in the past
         activity_counts = get_activity_counts_from_db()
 
@@ -599,11 +587,6 @@ class ActionChooseActivity(Action):
         new_act_index = random.choices(activities_in_cluster,
                                        weights = [1/activity_counts[i] if activity_counts[i] > 0 else 1 for i in activities_in_cluster],
                                        k = 1)[0]
-
-        #logging.info("Activity selection weights:" + str([1/activity_counts[i] if activity_counts[i] > 0 else 1 for i in activities_in_cluster]))
-
-        #logging.info("New cluster index: " + str(new_cluster_index))
-        #logging.info("New activity index: " + str(new_act_index))
 
         return [SlotSet("activity_formulation_new_session", df_act.loc[new_act_index, 'Formulation Session']), 
                 SlotSet("activity_formulation_new_email", df_act.loc[new_act_index, 'Formulation Email']),
@@ -623,8 +606,6 @@ class ActionSendEmail(Action):
 
         # get user ID
         prolific_id = tracker.current_state()['sender_id']
-        # TODO: remove this later
-        # prolific_id = "5f970a74069a250711aaa695"
 
         activity_formulation_email = tracker.get_slot('activity_formulation_new_email')
         session_num = tracker.get_slot('session_num')  # this is a string
@@ -633,13 +614,11 @@ class ActionSendEmail(Action):
         with open('x.txt', 'r') as f:
             x = f.read()
             x = x.rstrip()
-        smtp = "smtp.web.de" # for web.de: smtp.web.de
+        smtp = "smtp.web.de"
         with open('email.txt', 'r') as f:
             email = f.read()
             email = email.rstrip()
         user_email = prolific_id + "@email.prolific.co"
-
-        logging.info("user_email: " + user_email)
 
         context = ssl.create_default_context()
 

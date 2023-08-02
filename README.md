@@ -11,7 +11,7 @@ Each user can have up to 5 conversational sessions with Mel. These sessions have
 
 <img src = "Readme_images/conversation_structure.png" width = "500" title="Conversation structure.">
 
-A demo of the second conversational session can be found [here](https://youtu.be/RywcZSHOs_g).
+A demo video of the second conversational session can be found [here](https://youtu.be/RywcZSHOs_g).
 
 
 ## Components
