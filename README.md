@@ -1,4 +1,4 @@
-# virtual_coach_useful_activities
+# Virtual Coach Mel for Proposing Useful Preparatory Activities for Quitting Smoking
 
 This is the implementation of the virtual coach Mel that proposes preparatory activities for quitting smoking and becoming more physically active in up to 5 conversational sessions. Besides proposing preparatory activities, Mel also proposes activities that are meant to persuade people of the usefulness of certain competencies for quitting smoking.
 
