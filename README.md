@@ -1,7 +1,17 @@
 # virtual_coach_useful_activities
-Virtual coach that proposes preparatory activities for quitting smoking and becoming more physically active.
 
-The project is based on [this Github repository](https://github.com/AmirStudy/Rasa_Deployment) as well as [the work by Tom Jacobs](https://github.com/TomJ-EU/rasa/tree/dev).
+This is the implementation of the virtual coach Mel that proposes preparatory activities for quitting smoking and becoming more physically active in up to 5 conversational sessions. Besides proposing preparatory activities, Mel also proposes activities that are meant to persuade people of the usefulness of certain competencies for quitting smoking.
+
+The code is based on [this Github repository](https://github.com/AmirStudy/Rasa_Deployment), [the work by Tom Jacobs](https://github.com/TomJ-EU/rasa/tree/dev), as well as [the implementation of the virtual coach Sam](https://github.com/PerfectFit-project/virtual_coach_rl_persuasion_algorithm).
+
+
+## Conversation Structure
+
+Each user can have up to 5 conversational sessions with Mel. These sessions have this structure:
+
+<img src = "Readme_images/conversation_structure.PNG" width = "500" title="Conversation structure.">
+
+A demo of the second conversational session can be found [here](https://youtu.be/RywcZSHOs_g).
 
 
 ## Components
@@ -48,7 +58,6 @@ To run this project on a Google Compute Engine, I followed these steps:
       - Follow the instructions here: https://cloud.google.com/compute/docs/ip-addresses/reserve-static-external-ip-address.
 	  - You have to pay for every month, but it is rather cheap.
    - Make sure you turn off your instance whenever you do not need it, as you are charged for the time that it is up.
-   - Create your own branch/fork from this project.
    - If you are NOT using Nginx, set the IP address of your Google Compute Engine instance in the function `send(message)` in the file frontend/static/js/script.js: `url: "http://<your_instance_IP>:5005/webhooks/rest/webhook"`.
       - When you run the project locally, use `url: "http://localhost:5005/webhooks/rest/webhook"`.
    - Clone your project from Github on the Google Compute Engine instance.
@@ -56,7 +65,6 @@ To run this project on a Google Compute Engine, I followed these steps:
    - Check if all your containers are running on your Google Compute Engine instance via `docker container ls`.
    - You can access the frontend from your browser via `http://<your_instance_IP>/?userid=<some_user_id>&n=1`. `n` determines which session is started (1-5). Earlier sessions need to be completed by a user to be able to access later ones.
       - If you are not using Nginx, you also need to specify the port number: `http://<your_instance_IP>:3000/?userid=<some_user_id>&n=1`.
-	  - And if you are not using Nginx, you also need to open port 3000 on your Google Compute Engine instance for tcp.
    
    - The chat should look something like this:
    
@@ -108,54 +116,6 @@ Some errors I got during the setup:
 		 - Run `sudo docker-compose up –-build`. 
 		
    - When running the project locally on Windows, I got an error for the SQLTrackerStore when running `docker-compose up –-build`. Just removing the information on `volumes` in docker-compose.yml helped. This removes the persistence though.
-		 
-
-## HTTPS
-
-The project is set up to allow for https traffic:
-   - The code is based on [this tutorial](https://datahive.ai/deploying-rasa-chatbot-on-google-cloud-with-docker/). Compared to allowing only http-traffic, I made changes in nginx.conf and docker-compose.yml and created a self-signed certificate.
-   - For example, this is what the entry for nginx in docker-compose.yml looks like when allowing https traffic in addition to http traffic:
-     
-	 ```yml
-	 nginx:
-      container_name: "nginx"
-      image: nginx
-      volumes:
-        - ./nginx.conf:/etc/nginx/nginx.conf
-        - ./certs:/etc/certs
-      ports:
-        - 80:80
-        - 443:443
-	  depends_on: 
-        - rasa
-        - action-server
-        - chatbotui
-     ```
-	 
-   - See [this post](https://adamtheautomator.com/https-nodejs/) for how to create a self-signed SSL certificate.
-   - If you use a self-signed SSL certificate and access the frontend via https, you may see a warning like this in your browser (here Google Chrome):
-   
-     <img src = "Readme_images/https.PNG" width = "250" title="https warning browser">
-
-   - See [this page](https://cloud.google.com/load-balancing/docs/ssl-certificates/self-managed-certs) for more information on certificates on Google cloud.
-      - Info on registering a domain: https://cloud.google.com/dns/docs/tutorials/create-domain-tutorial#register-domain.
-	     - Registering a domain for a year is quite cheap (you can get one for 8 euros).
-      - Cloud DNS pricing info: https://cloud.google.com/dns/pricing. You need this if you get a domain and want to use it.
- 
-		 
-## Frontend Styling
-
-Check the file frontend/static/css/style.css to adapt the styling of the frontend:
-   - .chats defines the chat area within the window. I tuned the height and width of this.
-
-The files in frontend/static/img are used to display the chatbot and the user inside the chat.
-
-You can use "\n" in your utterances in domain.yml to display an utterance as two (or more) separate messages. These are not treated as separate messages though when it comes to displaying the typing symbol.
-
-
-## Other Notes
-
-- The Developer tools in Google Chrome show the logs from script.js if you access the frontend via Google Chrome.
 
 
 ## License
