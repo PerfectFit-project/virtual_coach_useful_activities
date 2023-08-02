@@ -55,7 +55,7 @@ To run this project on a Google Compute Engine, I followed these steps:
 	     - `chmod +x /usr/local/bin/docker-compose`
 	     - You might need to add `sudo` in front of the commands to make them work.
    - I suggest getting a static IP address for your Google Compute Engine instance:
-      - Follow the instructions here: https://cloud.google.com/compute/docs/ip-addresses/reserve-static-external-ip-address.
+      - Follow the instructions [here](https://cloud.google.com/compute/docs/ip-addresses/reserve-static-external-ip-address).
 	  - You have to pay for every month, but it is rather cheap.
    - Make sure you turn off your instance whenever you do not need it, as you are charged for the time that it is up.
    - If you are NOT using Nginx, set the IP address of your Google Compute Engine instance in the function `send(message)` in the file frontend/static/js/script.js: `url: "http://<your_instance_IP>:5005/webhooks/rest/webhook"`.
@@ -71,7 +71,7 @@ To run this project on a Google Compute Engine, I followed these steps:
    <img src = "Readme_images/chat.PNG" width = "500" title="Chat.">
    
    
-This project uses an SQLTrackerStore (https://rasa.com/docs/rasa/tracker-stores/) to store the conversation history in a database:
+This project uses an [SQLTrackerStore](https://rasa.com/docs/rasa/tracker-stores/) to store the conversation history in a database:
    - A nice way to see the contents of this database is using the program DBeaver.
       - First also open port 5432 on your Google Compute Engine instance for tcp. There is no need to restart the instance after opening the port.
       - To configure DBeaver, add a new database connection:
@@ -93,7 +93,7 @@ This project uses an SQLTrackerStore (https://rasa.com/docs/rasa/tracker-stores/
 	  
 	  <img src = "Readme_images/dbeaver_4.PNG" width = "500" title="DBeaver 4.">
 
-   - The database is persistent because of the "volumes" we specified in docker-compose.yml for postgres. Read more about this here: https://medium.com/codex/how-to-persist-and-backup-data-of-a-postgresql-docker-container-9fe269ff4334.
+   - The database is persistent because of the "volumes" we specified in docker-compose.yml for postgres. Read more about this [here](https://medium.com/codex/how-to-persist-and-backup-data-of-a-postgresql-docker-container-9fe269ff4334).
       - So you can run `docker-compose down --volumes` and `docker-compose up --build` and the database content is still there. Check for yourself using DBeaver.
 	  - To delete the database content, just remove the "data"-folder.
 
@@ -108,7 +108,7 @@ The project further uses an mysql database to store specific data from the conve
 
 Some errors I got during the setup:
    - "Couldn't connect to Docker daemon at http+docker://localhost - is it running? If it's at a non-standard location, specify the URL with the DOCKER_HOST environment variable“ when running `docker-compose up –-build`.
-      - I followed the steps suggested here: https://forums.docker.com/t/couldnt-connect-to-docker-daemon-at-http-docker-localhost-is-it-running/87257/2.
+      - I followed the steps suggested [here](https://forums.docker.com/t/couldnt-connect-to-docker-daemon-at-http-docker-localhost-is-it-running/87257/2).
 	  - These 2 steps fixed the issue for me:
 	     
 		 <img src = "Readme_images/error_build.PNG" width = "500" title="docker-compose up --build error.">
