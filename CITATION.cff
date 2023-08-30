@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+- family-names: "Albers"
+  given-names: "Nele"
+title: "Virtual Coach Mel for Proposing Useful Preparatory Activities for Quitting Smoking"
+version: 1.0
+doi: https://doi.org/10.5281/zenodo.8302492
+date-released: 2023
+url: "https://github.com/PerfectFit-project/virtual_coach_useful_activities"
