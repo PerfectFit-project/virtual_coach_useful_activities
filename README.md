@@ -63,7 +63,8 @@ To run this project on a Google Compute Engine, I followed these steps:
    - Clone your project from Github on the Google Compute Engine instance.
    - Navigate to your project folder on the Compute Engine instance and start your project with `docker-compose up`.
    - Check if all your containers are running on your Google Compute Engine instance via `docker container ls`.
-   - You can access the frontend from your browser via `http://<your_instance_IP>/?userid=<some_user_id>&n=1`. `n` determines which session is started (1-5). Earlier sessions need to be completed by a user to be able to access later ones.
+   - You can access the frontend from your browser via `http://<your_instance_IP>/?userid=<some_user_id>&n=1`.
+      - `n` determines which session is started (1-5). Earlier sessions need to be completed by a user to be able to access later ones.
       - If you are not using Nginx, you also need to specify the port number: `http://<your_instance_IP>:3000/?userid=<some_user_id>&n=1`.
    
    - The chat should look something like this:
@@ -72,13 +73,13 @@ To run this project on a Google Compute Engine, I followed these steps:
    
    
 This project uses an [SQLTrackerStore](https://rasa.com/docs/rasa/tracker-stores/) to store the conversation history in a database:
-   - The database is persistent because of the "volumes" we specified in docker-compose.yml for postgres. Read more about this [here](https://medium.com/codex/how-to-persist-and-backup-data-of-a-postgresql-docker-container-9fe269ff4334).
-      - So you can run `docker-compose down --volumes` and `docker-compose up --build` and the database content is still there. Check for yourself using DBeaver.
+   - The database is persistent because of the "volumes" we specified in `docker-compose.yml` for postgres. Read more about this [here](https://medium.com/codex/how-to-persist-and-backup-data-of-a-postgresql-docker-container-9fe269ff4334).
+      - So you can run `docker-compose down --volumes` and `docker-compose up --build` and the database content is still there.
 	  - To delete the database content, just remove the "data"-folder on your Google Compute Engine instance.
 
 
 The project further uses an mysql database to store specific data from the conversations:
-   - The database is also persistent. The folder "data_mysql" is used for this, as set up in docker-compose.yml.
+   - The database is also persistent. The folder "data_mysql" is used for this, as set up in `docker-compose.yml`.
    - To delete the database content, just delete the folder "data_mysql" on your Google Compute Engine instance.
    - There are two tables:
       - sessiondata: stores data from the sessions that we want to save (e.g., mood, experience with previous activity).
